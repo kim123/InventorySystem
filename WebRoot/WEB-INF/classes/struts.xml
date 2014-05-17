@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.3.dtd">
+   
+<struts>
+	<constant name="struts.action.extension" value="htm" />
+	<constant name="struts.custom.i18n.resources" value="messages"/>
+	<package name="main" namespace="/" extends="struts-default,tiles-default">
+		<!-- 
+		
+		 -->
+		 <global-results>
+		 	<result name="login" type="tiles">login</result>
+			<result name="home" type="tiles">home</result>
+			<result name="error">/WEB-INF/error.jsp</result>	 	
+		 </global-results>
+	</package>
+	
+	<package name="unsecured" extends="main">
+		<action name="loginAction" class="com.is.action.LoginAction">
+			<result name="input" type="tiles">login</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">home</param>
+            	<param name="namespace">/</param>
+			</result>
+		</action>
+		<action name="login"><result type="tiles">login</result></action> 
+	</package>	
+	
+	<package name="secured" extends="main">
+		<action name="home"><result type="tiles">home</result></action> 
+		<action name="logout" class="com.is.action.LoginAction" method="logout">
+			<result name="success" type="tiles">login</result>
+		</action>
+		<action name="users" class="com.is.action.UserAction">
+			<result name="success" type="tiles">users</result>
+		</action>
+		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
+			<result name="success" type="tiles">users</result>
+		</action>
+		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
+			<result name="success" type="tiles">users</result>
+		</action>
+	</package>
+	
+</struts>

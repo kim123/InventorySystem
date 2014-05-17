@@ -1,0 +1,20 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+ "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+ 
+<tiles-definitions>
+ 	<definition name="template" template="/WEB-INF/jsp/common/template.jsp">
+ 		<put-attribute name="menu" value="/WEB-INF/jsp/common/menu.jsp" />
+ 		<put-attribute name="content" value=""/>
+ 	</definition>
+ 	<definition name="login" template="/WEB-INF/jsp/unsecured/login.jsp">
+ 	</definition>
+ 	<definition name="home" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/home.jsp" />
+ 	</definition>
+ 	<definition name="users" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/users.jsp" />
+ 	</definition>
+ 	<definition name="roles" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/roles.jsp" />
+ 	</definition>
+</tiles-definitions>
