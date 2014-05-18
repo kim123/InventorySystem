@@ -10,6 +10,7 @@ public interface UserService {
 	String addUser(User user);
 	Page viewUsers();
 	String modifyRole(Role role);
+	String modifyOwnPassword(User user, String oldPassword);
 	String modifyPassword(User user);
 	String modifyStatus(User user);
 	User getUser(int userId);

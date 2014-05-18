@@ -38,6 +38,13 @@
 				</c:if>
 			}
 			
+			function onKeyEnter(e){
+				e.which = e.which || e.keyCode;
+			    if(e.which == 13) {
+			    	submitForm();
+			    }
+			}
+			
 		</script>
 		
 	</head>
@@ -83,7 +90,7 @@
 									<b><s:text name="user.name" />:&nbsp;&nbsp;</b>
 								</td>
 								<td>
-									<input type="text" id="user.userName" name="user.userName" maxlength="20" placeholder="Enter user name"/>
+									<input type="text" id="user.userName" name="user.userName" maxlength="20" placeholder="Enter user name" onkeypress="onKeyEnter();"/>
 								</td>
 							</tr>
 							<tr><td colspan="2">&nbsp;</td></tr>
@@ -92,7 +99,7 @@
 									<b><s:text name="password" />:&nbsp;&nbsp;</b>
 								</td>
 								<td>
-									<input type="password" id="user.password" name="user.password" maxlength="20" placeholder="Enter password"/>
+									<input type="password" id="user.password" name="user.password" maxlength="20" placeholder="Enter password" onkeypress="onKeyEnter();"/>
 								</td>
 							</tr>
 							<tr><td colspan="2">&nbsp;</td></tr>

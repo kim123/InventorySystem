@@ -24,7 +24,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
 												.append("FROM user u ")
 												.append("JOIN rank r on r.rank_id=u.rank_id ")
-												.append("WHERE u.user_name = :userName ");
+												.append("WHERE u.user_name collate utf8_bin = :userName ");
 		Query query = getSession().createSQLQuery(hql.toString());
 		query.setParameter("userName", user.getUserName());
 		Object[] object = (Object[]) query.list().get(0);
@@ -69,10 +69,46 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String modifyOwnPassword(User user, String oldPassword){
+		String hql = "SELECT ModifyOwnPassword(:userId, :oldPassword)";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("userId", user.getUserId());
+		query.setParameter("oldPassword", oldPassword);
+		LoggingUtility.log(getClass(), "Check Password: Params["+user.getUserId()+","+user.getPassword()+"]");
+		
+		List<?> list = query.list();
+		String result = (String) list.get(0);
+		if (result.equals("0")) {
+			hql = "UPDATE user SET pasword=:newPassword,created_date=CURRENT_TIMESTAMP,created_by=:createdBy WHERE user_id=:userId";
+			getSession().beginTransaction();
+			query = getSession().createSQLQuery(hql);
+			query.setParameter("newPassword", user.getPassword());
+			query.setParameter("createdBy", user.getCreatedBy());
+			query.setParameter("userId", user.getUserId());
+			int temp = query.executeUpdate();
+			getSession().getTransaction().commit();
+			System.out.println("temp: "+temp);
+		}
+		
+		LoggingUtility.log(getClass(), "Modify Own Password Attempt Result: "+result);
+		return result;
+	}
 
 	public String modifyPassword(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "SELECT ModifyPassword(:userId, :password, :updatedBy)";
+		Query query = getSession().createSQLQuery(hql.toString());
+		query.setParameter("userId", user.getUserId());
+		query.setParameter("password", user.getPassword());
+		query.setParameter("updatedBy", user.getCreatedBy());
+		LoggingUtility.log(getClass(), "Modify Password Attempt: Params["+user.getUserId()+","+user.getPassword()+","+user.getCreatedBy()+"]");
+		getSession().getTransaction().commit();
+		getSession().flush();
+		List<?> list = query.list();
+		String result = (String) list.get(0);
+		
+		LoggingUtility.log(getClass(), "Modify Password Attempt Result: "+result);
+		return result;
 	}
 
 	public String modifyStatus(User user) {

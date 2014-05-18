@@ -9,6 +9,7 @@ public class Role {
 	private String permission;
 	private Timestamp createdDate;
 	private String createdBy;
+	
 	public int getRankId() {
 		return rankId;
 	}

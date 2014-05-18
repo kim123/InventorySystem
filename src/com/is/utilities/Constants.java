@@ -12,7 +12,8 @@ public class Constants {
 	public static final String LOGIN_FAILED_INCORRECT_PASSWORD = "incorrect.password";
 	public static final String LOGIN_FAILED_ACCOUNT_DISABLED = "account.disabled";
 	
-	
+	public static final String CHANGE_PASSWORD_ENTER_NEW_PASSWORD = "new.password.must.not.be.empty";
+	public static final String CHANGE_PASSWORD_ENTER_OLD_PASSWORD = "old.password.must.not.be.empty";
 	
 	
 

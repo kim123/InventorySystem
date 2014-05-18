@@ -1,5 +1,7 @@
 package com.is.service.interfaze;
 
+import java.util.List;
+
 import com.is.model.Role;
 
 public interface RoleService {
@@ -9,5 +11,6 @@ public interface RoleService {
 	Role getRole(int roleId);
 	Role getRole(String role);
 	String modifyRolePermission(Role role);
+	List<Role> getRoles();
 	
 }

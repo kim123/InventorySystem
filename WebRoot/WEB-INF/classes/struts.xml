@@ -36,11 +36,21 @@
 		<action name="users" class="com.is.action.UserAction">
 			<result name="success" type="tiles">users</result>
 		</action>
-		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
+		<action name="addUserAction" class="com.is.action.UserAction" method="addUser">
 			<result name="success" type="tiles">users</result>
 		</action>
+		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
+			<result name="success" type="redirectAction">
+				<param name="actionName">home</param>
+            	<param name="namespace">/</param>
+            	<param name="message">${message}</param>
+			</result>
+		</action>
 		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
-			<result name="success" type="tiles">users</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">home</param>
+            	<param name="namespace">/</param>
+			</result>
 		</action>
 	</package>
 	
