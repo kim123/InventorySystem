@@ -71,42 +71,33 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 	
 	public String modifyOwnPassword(User user, String oldPassword){
-		String hql = "SELECT ModifyOwnPassword(:userId, :oldPassword)";
+		String hql = "CALL ModifyOwnPassword(:userId, :oldPassword, :newPassword, :updatedBy)";
 		Query query = getSession().createSQLQuery(hql);
 		query.setParameter("userId", user.getUserId());
 		query.setParameter("oldPassword", oldPassword);
-		LoggingUtility.log(getClass(), "Check Password: Params["+user.getUserId()+","+user.getPassword()+"]");
+		query.setParameter("newPassword", user.getPassword());
+		query.setParameter("updatedBy", user.getCreatedBy());
+		LoggingUtility.log(getClass(), "Check Password: Params["+user.getUserId()+","+oldPassword
+																+","+user.getPassword()+","+user.getCreatedBy()+"]");
 		
 		List<?> list = query.list();
 		String result = (String) list.get(0);
-		if (result.equals("0")) {
-			hql = "UPDATE user SET pasword=:newPassword,created_date=CURRENT_TIMESTAMP,created_by=:createdBy WHERE user_id=:userId";
-			getSession().beginTransaction();
-			query = getSession().createSQLQuery(hql);
-			query.setParameter("newPassword", user.getPassword());
-			query.setParameter("createdBy", user.getCreatedBy());
-			query.setParameter("userId", user.getUserId());
-			int temp = query.executeUpdate();
-			getSession().getTransaction().commit();
-			System.out.println("temp: "+temp);
-		}
-		
+
 		LoggingUtility.log(getClass(), "Modify Own Password Attempt Result: "+result);
 		return result;
 	}
 
 	public String modifyPassword(User user) {
-		String hql = "SELECT ModifyPassword(:userId, :password, :updatedBy)";
+		String hql = "CALL ModifyPassword(:userId, :password, :updatedBy)";
 		Query query = getSession().createSQLQuery(hql.toString());
 		query.setParameter("userId", user.getUserId());
 		query.setParameter("password", user.getPassword());
 		query.setParameter("updatedBy", user.getCreatedBy());
-		LoggingUtility.log(getClass(), "Modify Password Attempt: Params["+user.getUserId()+","+user.getPassword()+","+user.getCreatedBy()+"]");
-		getSession().getTransaction().commit();
-		getSession().flush();
+		LoggingUtility.log(getClass(), "Modify Password Attempt: Params["+user.getUserId()+","+user.getPassword()
+																			+","+user.getCreatedBy()+"]");
 		List<?> list = query.list();
 		String result = (String) list.get(0);
-		
+
 		LoggingUtility.log(getClass(), "Modify Password Attempt Result: "+result);
 		return result;
 	}

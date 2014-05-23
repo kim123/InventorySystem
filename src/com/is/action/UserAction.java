@@ -81,5 +81,18 @@ public class UserAction extends BaseAction{
 		
 		return SUCCESS;
 	}
+	
+	public String modifyPassword(){
+		if (StringUtils.isBlank(user.getPassword())) {
+			setMessage(Constants.CHANGE_PASSWORD_ENTER_NEW_PASSWORD);
+		} else {
+			user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
+			user.setCreatedBy(SessionUtility.getUser().getUserName());
+			String result = userService.modifyPassword(user);
+			setMessage(result);
+		}
+		
+		return SUCCESS;
+	}
 
 }

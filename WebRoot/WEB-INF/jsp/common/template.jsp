@@ -38,6 +38,10 @@
 				}
 				document.getElementById('submitForm').submit();
 			}
+			
+			function testing(){
+				document.getElement('oldPassword').focus();
+			}
 		</script>
 	</head>
 	<body onLoad="promptMessage();">
@@ -54,7 +58,7 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#" data-toggle="modal" data-target="#myModal">${sessionScope.userSession.user.userName } (${sessionScope.userSession.role.rank })</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#myModal" onclick="testing()">${sessionScope.userSession.user.userName } (${sessionScope.userSession.role.rank })</a></li>
 						<li><a href="logout.htm">Logout</a></li>
 					</ul>
 				</div>

@@ -33,6 +33,7 @@
 			}
 			
 			function promptMessage(){
+				document.getElementById('user.userName').focus();
 				<c:if test="${not empty message}" >
 					alert("<s:text name='%{getText(message)}' />");
 				</c:if>
