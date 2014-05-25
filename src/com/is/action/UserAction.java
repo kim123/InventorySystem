@@ -1,8 +1,13 @@
 package com.is.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.is.model.Role;
 import com.is.model.User;
@@ -61,9 +66,31 @@ public class UserAction extends BaseAction{
 	
 	public String addUser(){
 		setMenuActive("1");
+		PrintWriter out = null;
+		try {
+			out = ServletActionContext.getResponse().getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JSONObject json = new JSONObject();
+		user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
+		user.setCreatedBy(SessionUtility.getUser().getUserName());
+		String result = userService.addUser(user);
+		try {
+			if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+			} else {
+				json.put(Constants.SUCCESS, false);
+			}
+			json.put("message", result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		out.println(json.toString());
+		out.close();
 		
-		
-		return SUCCESS;
+		return null;
 	}
 	
 	public String modifyOwnPassword(){
@@ -83,6 +110,7 @@ public class UserAction extends BaseAction{
 	}
 	
 	public String modifyPassword(){
+		setMenuActive("1");
 		if (StringUtils.isBlank(user.getPassword())) {
 			setMessage(Constants.CHANGE_PASSWORD_ENTER_NEW_PASSWORD);
 		} else {

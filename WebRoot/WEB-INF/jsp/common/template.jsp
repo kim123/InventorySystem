@@ -4,6 +4,10 @@
 <html lang="en">
 	<head>
 		<title>JFI Inventory System</title>
+		<script src="<c:url value='/js/jquery-2.1.1.min.js' />"></script>
+		<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/bootstrap.min.js'/>"></script>
+		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/docs.min.js' />"></script>
 		<!-- Bootstrap core CSS -->
 		<link href="<c:url value='/js/bootstrap-3.1.1-dist/css/bootstrap.min.css'/>" rel="stylesheet"/>
 		<!-- Custom styles for this template -->
@@ -116,8 +120,6 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="<c:url value='/js/jquery-2.1.1.min.js' />"></script>
-		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/bootstrap.min.js'/>"></script>
-		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/docs.min.js' />"></script>
+		
 	</body>
 </html>

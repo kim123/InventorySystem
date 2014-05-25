@@ -33,6 +33,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		user2.setUserName((String) object[1]);
 		user2.setFullName((String) object[2]);
 		user2.setStatus((int) object[4]);
+		
 		Role role = new Role();
 		role.setRankId((int) object[3]);
 		role.setRank((String) object[5]);
@@ -40,6 +41,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		LoginDetail loginDetail = new LoginDetail();
 		loginDetail.setUser(user2);
 		loginDetail.setRole(role);
+		
 		SessionUtility.setUserSession(loginDetail);
 	}
 
@@ -61,8 +63,22 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 
 	public String addUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "CALL AddUser(:username, :fullname, :password, :rankid, :createdby, :bankaccountnum)";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("username", user.getUserName());
+		query.setParameter("fullname", user.getFullName());
+		query.setParameter("password", user.getPassword());
+		query.setParameter("rankid", user.getRankId());
+		query.setParameter("createdby", user.getCreatedBy());
+		query.setParameter("bankaccountnum", "");
+		LoggingUtility.log(getClass(), "Add User: Params["+user.getUserName()+","+user.getFullName()
+										+","+user.getPassword()+","+user.getRankId()+","+user.getCreatedBy()+"]");
+		List<?> list = query.list();
+		String result = (String) list.get(0);
+
+		LoggingUtility.log(getClass(), "Add User Attempt Result: "+result);
+		
+		return result;
 	}
 
 	public String modifyRole(Role role) {
