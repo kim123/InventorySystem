@@ -4,21 +4,39 @@
 $(document).ready(function(){
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
-		var dataString = "roleId="+rankid;
-		$.ajax({
-			type: "POST",
-			url: "getRolePermissionById.htm",
-			data: dataString,
-			dataType: "json",
-			success: function(data){
-				if (data.success) {
-					var permission = data.permission; alert(permission);
+		for (var i = 1; i < 9; i++) {
+			document.getElementById(i).checked=false;
+		}
+		if (rankid!='') {
+			var dataString = "roleId="+rankid;
+			$.ajax({
+				type: "POST",
+				url: "getRolePermissionById.htm",
+				data: dataString,
+				dataType: "json",
+				success: function(data){
+					if (data.success) {
+						var permission = data.permission;
+						for (var i = 1; i < 9; i++) {
+							var checkBox = document.getElementById(i).value; 
+							for (var s = 0; s < permission.length; s++) {
+								var strChar = permission.charAt(s);
+								if (checkBox==strChar) {
+									document.getElementById(i).checked=true;
+								}
+							}
+						}
+					}
+				},
+				error: function(errorThrown){
+					alert("Error occurred in server: "+errorThrown);
 				}
-			},
-			error: function(errorThrown){
-				alert("Error occurred in server: "+errorThrown);
-			}
-		});
+			});
+		}
+	});
+	
+	$('#cancelButton').click(function(e){
+		window.location.href='users.htm';
 	});
 	
 	$('#submitButton').click(function(e){
@@ -29,10 +47,25 @@ $(document).ready(function(){
 				permission = permission+document.getElementById(i).value;
 			}
 		}
-		alert(permission);
 		var rankid = document.getElementById('name.rankId').value;
-		
-		
+		var dataString = "role.rankId="+rankid+"&role.permission="+permission;
+		$.ajax({
+			type: "POST",
+			url: "modifyRankPermission.htm",
+			data: dataString,
+			dataType: "json",
+			success: function(data){
+				if (data.success) {
+					alert(data.message);
+	           		location.reload();
+				} else {
+					alert(data.message);
+				}
+			},
+			error: function(errorThrown){
+				alert("Error occurred in server: "+errorThrown);
+			}
+		});		
 	});
 	
 	$('#addRoleButton').click(function(e){
@@ -105,7 +138,7 @@ $(document).ready(function(){
 	<h4 class="sub-header">Roles</h4>
 	<div class="row placeholders">
 		<div class="col-xs-6 col-sm-3 placeholder">
-			<s:form action="modifyAccessRights" name="submitForm" id="submitForm" method="post" theme="simple">
+			<%-- <s:form action="modifyAccessRights" name="submitForm" id="submitForm" method="post" theme="simple"> --%>
 			<h5>Role: <s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="name.rankId" id="name.rankId" style="width: 155px"/></h5>
 			<br/>
 			<table border="0" style="width:450px">
@@ -137,7 +170,7 @@ $(document).ready(function(){
 			<br/>
 				<button type="button" class="btn btn-default" id="cancelButton">Cancel</button>
         		<button type="button" class="btn btn-primary" id="submitButton">Submit</button>
-			</s:form>
+			<%-- </s:form> --%>
 		</div>
 	</div>
 </div>

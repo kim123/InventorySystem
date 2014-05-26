@@ -1,10 +1,8 @@
 package com.is.action;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.apache.struts2.ServletActionContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,12 +52,7 @@ public class RoleAction extends BaseAction{
 	
 	public String addRole(){
 		setMenuActive("2");
-		PrintWriter out = null;
-		try {
-			out = ServletActionContext.getResponse().getWriter();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PrintWriter out = getPrintWriter();
 		JSONObject json = new JSONObject();
 		role.setCreatedBy(SessionUtility.getUser().getUserName());
 		String result = roleService.addRole(role);
@@ -73,20 +66,13 @@ public class RoleAction extends BaseAction{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		out.println(json.toString());
-		out.close();
+		printJsonAndCloseWriter(out, json);
 		
 		return null;
 	}
 	
 	public String getRolePermissionById(){
-		PrintWriter out = null;
-		try {
-			out = ServletActionContext.getResponse().getWriter();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PrintWriter out = getPrintWriter();
 		JSONObject json = new JSONObject();
 		Role retrievedRole = roleService.getRole(roleId);
 		try {
@@ -95,11 +81,31 @@ public class RoleAction extends BaseAction{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		out.println(json.toString());
-		out.close();
+		printJsonAndCloseWriter(out, json);
+				
+		return null;
+	}
+	
+	public String modifyRankPermission(){
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		role.setCreatedBy(SessionUtility.getUser().getUserName());
+		String result = roleService.modifyRolePermission(role);
+		try {
+			if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+			} else {
+				json.put(Constants.SUCCESS, false);
+			}
+			json.put("message", result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);
 		
 		return null;
 	}
+	
+	
 	
 }

@@ -54,6 +54,8 @@
 		</action>
 		<action name="getRolePermissionById" class="com.is.action.RoleAction" method="getRolePermissionById">
 		</action>
+		<action name="modifyRankPermission" class="com.is.action.RoleAction" method="modifyRankPermission">
+		</action>
 	</package>
 	
 </struts>

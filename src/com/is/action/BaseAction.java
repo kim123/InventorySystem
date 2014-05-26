@@ -1,5 +1,11 @@
 package com.is.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import org.apache.struts2.ServletActionContext;
+import org.json.JSONObject;
+
 import com.is.model.Page;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -54,6 +60,19 @@ public class BaseAction extends ActionSupport{
 		this.message = message;
 	}
 	
+	protected PrintWriter getPrintWriter(){
+		PrintWriter out = null;
+		try {
+			out = ServletActionContext.getResponse().getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
 	
+	protected void printJsonAndCloseWriter(PrintWriter out,JSONObject json){
+		out.println(json.toString());
+		out.close();
+	}
 
 }

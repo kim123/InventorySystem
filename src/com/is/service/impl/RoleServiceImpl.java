@@ -23,6 +23,7 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService{
 		
 		List<?> list = query.list();
 		String result = (String) list.get(0);
+		LoggingUtility.log(getClass(), "Add Role Attempt Result: "+result);
 
 		return result;
 	}
@@ -38,6 +39,27 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService{
 		query.setParameter("rankid", roleId);
 		
 		List<?> list = query.list();
+		Role role = new Role();
+		if (list.get(0) instanceof String) {
+			role.setPermission((String) list.get(0));
+		} else {
+			Object[] object = (Object[]) list.get(0);
+			
+			if (object!=null) {
+				role.setPermission((String)object[0]);
+			} else {
+				role.setPermission("");
+			}
+		}				
+		return role;
+	}
+
+	public Role getRole(String roleStr) {
+		String hql = "SELECT permission FROM rank WHERE rank=:rank";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("rank", roleStr);
+		
+		List<?> list = query.list();
 		Object[] object = (Object[]) list.get(0);
 		Role role = new Role();
 		if (object!=null) {
@@ -49,14 +71,18 @@ public class RoleServiceImpl extends BaseServiceImpl implements RoleService{
 		return role;
 	}
 
-	public Role getRole(String role) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String modifyRolePermission(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "CALL ModifyRankPermission(:rankId, :permission, :createdBy)";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("rankId", role.getRankId());
+		query.setParameter("permission", role.getPermission());
+		query.setParameter("createdBy", role.getCreatedBy());
+		LoggingUtility.log(getClass(), "Modify Role Permission: Params["+role.getRankId()+","+role.getPermission()+","+role.getCreatedBy()+"]");
+		
+		String result = (String) query.list().get(0);
+		LoggingUtility.log(getClass(), "Modify Role Permission Attempt Result: "+result);
+	
+		return result;
 	}
 
 	public List<Role> getRoles() {

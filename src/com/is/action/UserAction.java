@@ -1,11 +1,9 @@
 package com.is.action;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,12 +64,7 @@ public class UserAction extends BaseAction{
 	
 	public String addUser(){
 		setMenuActive("1");
-		PrintWriter out = null;
-		try {
-			out = ServletActionContext.getResponse().getWriter();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		PrintWriter out = getPrintWriter();
 		JSONObject json = new JSONObject();
 		user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
 		user.setCreatedBy(SessionUtility.getUser().getUserName());
@@ -86,9 +79,7 @@ public class UserAction extends BaseAction{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		out.println(json.toString());
-		out.close();
+		printJsonAndCloseWriter(out, json);
 		
 		return null;
 	}
