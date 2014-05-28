@@ -125,11 +125,10 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Role</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="addUserAction" method="post" theme="simple" id="submitFormRole">
        		<table border=1 align="center">
        			<tr>
        				<td>User Name: </td>
-       				<td><input type="text" name="user.userName" id="user.userName"/></td>
+       				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span></td>
        			</tr>
        			<tr>
@@ -138,13 +137,11 @@
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgRole">*</span></td>
        			</tr>
        			<input type="hidden" name="user.userId" value=""/>
-       			<input type="hidden" name="user.createdBy" value="${sessionScope.userSession.user.userId }"/>
        		</table>
-       		</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="modifyUserRole()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyRoleButton">Modify</button>
       </div>
     </div>
   </div>
@@ -158,11 +155,10 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Status</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="addUserAction" method="post" theme="simple" id="submitForm">
        		<table border=1 align="center">
        			<tr>
        				<td>User Name: </td>
-       				<td><input type="text" name="user.userName" id="user.userName"/></td>
+       				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span></td>
        			</tr>
        			<tr>
@@ -171,11 +167,10 @@
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgStatus">*</span></td>
        			</tr>
        		</table>
-       		</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="addUser()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyStatusButton">Modify</button>
       </div>
     </div>
   </div>
@@ -189,11 +184,10 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Password</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="modifyOwnPasswordAction" method="post" theme="simple" id="submitForm">
 		        	<table border=0 align="center">
 		        		<tr>
-		        			<td>Old Password: </td>
-		        			<td><input type="password" name="oldPassword" id="oldPassword" placeholder="Old Password"/></td>
+		        			<td>Username: </td>
+		        			<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
 		        			<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger">*</span></td>
 		        		</tr>
 		        		<tr>
@@ -207,13 +201,11 @@
 		        			<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger">*</span></td>
 		        		</tr>
 		        		<input type="hidden" name="user.userId" value=""/>
-		        		<input type="hidden" name="user.createdBy" value="${sessionScope.userSession.user.userId }"/>
 		        	</table>
-		        	</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="addUser()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyPasswordButton">Modify</button>
       </div>
     </div>
   </div>
@@ -260,13 +252,13 @@
 	           			<td>${query.createdBy }</td>
 	           			<td>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'c') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyRoleModal" onclick="setValues('role','${query.userId }','${query.userName }','${query.rank }');">Role</a> |
+	           					<a href="#" data-toggle="modal" data-target="#modifyRoleModal" class="mr" id="mr-${query.userId}-${query.userName}-${query.rank}">Role</a> |
 	           				</c:if>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'e') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyStatusModal" onclick="setValues('status','${query.userId }','${query.userName }','${query.status}');">Status</a> |
+	           					<a href="#" data-toggle="modal" data-target="#modifyStatusModal" class="ms" id="ms-${query.userId}-${query.userName}-${query.status}">Status</a> |
 	           				</c:if>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'd') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyPasswordModal" onclick="setValues('password','${query.userId }','${query.userName }','${query.status}','-');">Password</a>
+	           					<a href="#" data-toggle="modal" data-target="#modifyPasswordModal" class="mp" id="mp-${query.userId}-${query.userName}">Password</a>
 	           				</c:if>
 	           			</td>
 	           		</tr>
