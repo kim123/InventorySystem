@@ -61,6 +61,51 @@
 			});			
 		});
 		
+		$('.mr').click(function(e){
+			var userid = e.target.id.split("-")[1];
+			var username = e.target.id.se.target.id.split("-")[2];
+			var rank = e.target.id.se.target.id.split("-")[3];
+			
+			$('userName').val(username+' ['+rank+']');
+			$('.userId').val(userid);
+		});	
+		$('.ms').click(function(e){
+			var userid = e.target.id.split("-")[1];
+			var username = e.target.id.se.target.id.split("-")[2];
+			
+			$('userName').val(username);
+			$('.userId').val(userid);
+		});
+		$('.mp').click(function(e){
+			var userid = e.target.id.split("-")[1];
+			var username = e.target.id.se.target.id.split("-")[2];
+			
+			$('userName').val(username);
+			$('.userId').val(userid);
+		});
+		$('modifyRoleButton').click(function(e){
+			var userid = $('.userId').val();
+			var rankid = $('#user.rankId').val();
+			var dataString = 'user.userId='+userid+'&user.rankId='+rankid;
+			$.ajax({
+				type: "POST",
+				url: "",
+				data: dataString,
+				dataType: "json",
+				success: function(data){
+					alert(data.message);
+					if (data.success) {
+						$('#modifyRoleModal').hide();
+						location.reload();
+					} else {
+					
+					}
+				},
+				error: function(errorThrown){
+					alert('Error 500: '+errorThrown);
+				}
+			});
+		});
 		
 	 
 	});
