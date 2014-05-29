@@ -102,16 +102,87 @@ public class UserAction extends BaseAction{
 	
 	public String modifyPassword(){
 		setMenuActive("1");
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
 		if (StringUtils.isBlank(user.getPassword())) {
-			setMessage(Constants.CHANGE_PASSWORD_ENTER_NEW_PASSWORD);
+			try {
+				json.put("message", Constants.CHANGE_PASSWORD_ENTER_NEW_PASSWORD);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		} else {
 			user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
 			user.setCreatedBy(SessionUtility.getUser().getUserName());
 			String result = userService.modifyPassword(user);
-			setMessage(result);
+			try {
+				if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+				} else {
+					json.put(Constants.SUCCESS, false);
+				}
+				json.put("message", result);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		return SUCCESS;
+		printJsonAndCloseWriter(out, json);
+		return null;
+	}
+	
+	public String modifyRole(){
+		setMenuActive("1");
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		if (user.getRankId()==0) {
+			try {
+				json.put("message", "change.role.must.not.be.empty");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			user.setCreatedBy(SessionUtility.getUser().getUserName());
+			String result = userService.modifyRole(user);
+			try {
+				if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+				} else {
+					json.put(Constants.SUCCESS, false);
+				}
+				json.put("message", result);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		printJsonAndCloseWriter(out, json);
+		return null;
+	}
+	
+	public String modifyStatus(){
+		setMenuActive("1");
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		//if (user.getStatus()==0) {
+		////	try {
+		//		json.put("message", "change.status.must.not.be.empty");
+		//	} catch (JSONException e) {
+		//		e.printStackTrace();
+		//	}
+		//} else {
+			user.setCreatedBy(SessionUtility.getUser().getUserName());
+			String result = userService.modifyStatus(user);
+			try {
+				if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+				} else {
+					json.put(Constants.SUCCESS, false);
+				}
+				json.put("message", result);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	//	}
+		printJsonAndCloseWriter(out, json);
+		return null;
 	}
 
 }

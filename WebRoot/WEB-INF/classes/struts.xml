@@ -38,13 +38,15 @@
 			<result name="success" type="tiles">users</result>
 		</action>
 		<action name="addUserAction" class="com.is.action.UserAction" method="addUser">
-			<!-- <result name="success" type="tiles">users</result> -->
 		</action>
 		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
 			<result name="success" type="tiles">users</result>
 		</action>
 		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
-			<result name="success" type="tiles">users</result>
+		</action>
+		<action name="modifyRoleAction" class="com.is.action.UserAction" method="modifyRole">
+		</action>
+		<action name="modifyStatusAction" class="com.is.action.UserAction" method="modifyStatus">
 		</action>
 		
 		<action name="accessRights" class="com.is.action.RoleAction">
@@ -56,6 +58,11 @@
 		</action>
 		<action name="modifyRankPermission" class="com.is.action.RoleAction" method="modifyRankPermission">
 		</action>
+		
+		<action name="category" class="com.is.action.CategoryAction">
+			<result name="success" type="tiles">category</result>
+		</action>
+		
 	</package>
 	
 </struts>

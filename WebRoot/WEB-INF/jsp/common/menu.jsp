@@ -9,7 +9,7 @@
 					</ul>
 					<ul class="nav nav-sidebar">
 						<li role="presentation" class="dropdown-header">OPERATION</li>
-						<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="#">Category</a></li>
+						<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="category.htm">Category</a></li>
 						<li <c:if test='${menuActive eq 4 }'>class="active"</c:if> ><a href="#">Products</a></li>
 						<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="">Inventory</a></li>
 						<li <c:if test='${menuActive eq 6 }'>class="active"</c:if> ><a href="">Duty Check-In</a></li>

@@ -61,7 +61,105 @@
 			});			
 		});
 		
-		
+		$('.mr').click(function(e){
+			var userid = e.target.id.split("-")[1]; 
+			var username = e.target.id.split("-")[2];
+			var rank = e.target.id.split("-")[3];
+			$('.userName').val(username+' ['+rank+']');
+			$('.userId').val(userid);
+		});	
+		$('.ms').click(function(e){
+			var userid = e.target.id.split("-")[1];
+			var username = e.target.id.split("-")[2];
+			
+			$('.userName').val(username);
+			$('.userId').val(userid);
+		});
+		$('.mp').click(function(e){
+			var userid = e.target.id.split("-")[1];
+			var username = e.target.id.split("-")[2];
+			
+			$('.userName').val(username);
+			$('.userId').val(userid);
+		});
+		$('#modifyRoleButton').click(function(e){
+			var userid = $('.userId').val();
+			var rankid = $('#rankId2').val();
+			var dataString = 'user.userId='+userid+'&user.rankId='+rankid;
+			$.ajax({
+				type: "POST",
+				url: "modifyRoleAction.htm",
+				data: dataString,
+				dataType: "json",
+				success: function(data){
+					alert(data.message);
+					if (data.success) {
+						$('#modifyRoleModal').hide();
+						location.reload();
+					}
+				},
+				error: function(errorThrown){
+					alert('Error 500: '+errorThrown);
+				}
+			});
+		});
+		$('#modifyStatusButton').click(function(e){
+			var userid = $('.userId').val();
+			var statusq = $('#status22').val();
+			var dataString = 'user.userId='+userid+'&user.status='+statusq;
+			$.ajax({
+				type: "POST",
+				url: "modifyStatusAction.htm",
+				data: dataString,
+				dataType: "json",
+				success: function(data){
+					alert(data.message);
+					if (data.success) {
+						$('#modifyStatusModal').hide();
+						location.reload();
+					}
+				},
+				error: function(errorThrown){
+					alert('Error 500: '+errorThrown);
+				}
+			});
+		});
+		$('#modifyPasswordButton').click(function(e){
+			var userid = $('.userId').val();
+			var password = $('#password').val(); alert(password);
+			alert(document.getElementById('confirmpassword1').value);
+			if (password=='') {
+				alert('<s:text name="enter.password" />');
+				document.getElementById('password').focus();
+				return false;
+			} else if (document.getElementById('confirmpassword1').value=='') {
+				alert('<s:text name="confirm.password" />');
+				document.getElementById('confirmpassword1').focus();
+				return false;
+			} else if (document.getElementById('confirmpassword1').value!=document.getElementById('password').value) {
+				alert('<s:text name="confirmed.password.must.be.equal" />');
+				document.getElementById('confirmpassword1').focus();
+				return false;
+			} else {
+				var dataString = 'user.userId='+userid+'&user.password='+password;
+				$.ajax({
+					type: "POST",
+					url: "modifyPasswordAction.htm",
+					data: dataString,
+					dataType: "json",
+					success: function(data){
+						alert(data.message);
+						if (data.success) {
+							$('#modifyPasswordModal').hide();
+							location.reload();
+						}
+					},
+					error: function(errorThrown){
+						alert('Error 500: '+errorThrown);
+					}
+				});
+			}
+		});
 	 
 	});
 </script>
@@ -103,7 +201,7 @@
        			</tr>
        			<tr>
        				<td>Role: </td>
-       				<td><s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="name.rankId" id="name.rankId" style="width: 155px"/></td>
+       				<td><s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="user.rankId" id="user.rankId" style="width: 155px"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgRole">*</span></td>
        			</tr>
        		</table>
@@ -125,26 +223,23 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Role</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="addUserAction" method="post" theme="simple" id="submitFormRole">
        		<table border=1 align="center">
        			<tr>
        				<td>User Name: </td>
-       				<td><input type="text" name="user.userName" id="user.userName"/></td>
+       				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span></td>
        			</tr>
        			<tr>
        				<td>Role: </td>
-       				<td><s:select list="roles" listKey="rankId" listValue="rank" name="user.rankId" id="user.rankId"/></td>
+       				<td><s:select list="roles" listKey="rankId" listValue="rank" name="user.rankId" id="rankId2" theme="simple"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgRole">*</span></td>
        			</tr>
-       			<input type="hidden" name="user.userId" value=""/>
-       			<input type="hidden" name="user.createdBy" value="${sessionScope.userSession.user.userId }"/>
+       			<input type="hidden" name="user.userId" class="userId" value=""/>
        		</table>
-       		</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="modifyUserRole()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyRoleButton">Modify</button>
       </div>
     </div>
   </div>
@@ -158,24 +253,23 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Status</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="addUserAction" method="post" theme="simple" id="submitForm">
        		<table border=1 align="center">
        			<tr>
        				<td>User Name: </td>
-       				<td><input type="text" name="user.userName" id="user.userName"/></td>
+       				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span></td>
        			</tr>
        			<tr>
        				<td>Status: </td>
-       				<td><s:select list="userStatuses" listKey="code" listValue="description" name="user.status" id="user.status"/><td>
+       				<td><s:select list="userStatuses" listKey="code" listValue="description" name="user.status" id="status22" theme="simple"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgStatus">*</span></td>
        			</tr>
+       			<input type="hidden" name="user.userId" class="userId" value=""/>
        		</table>
-       		</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="addUser()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyStatusButton">Modify</button>
       </div>
     </div>
   </div>
@@ -189,11 +283,10 @@
         <h4 class="modal-title" id="myModalLabel">Modify User Password</h4>
       </div>
       <div class="modal-body">
-      		<s:form action="modifyOwnPasswordAction" method="post" theme="simple" id="submitForm">
 		        	<table border=0 align="center">
 		        		<tr>
-		        			<td>Old Password: </td>
-		        			<td><input type="password" name="oldPassword" id="oldPassword" placeholder="Old Password"/></td>
+		        			<td>Username: </td>
+		        			<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
 		        			<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger">*</span></td>
 		        		</tr>
 		        		<tr>
@@ -203,17 +296,15 @@
 		        		</tr>
 		        		<tr>
 		        			<td>Confirm Password: </td>
-		        			<td><input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password"/></td>
+		        			<td><input type="password" name="confirmpassword" id="confirmpassword1" placeholder="Confirm Password"/></td>
 		        			<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger">*</span></td>
 		        		</tr>
-		        		<input type="hidden" name="user.userId" value=""/>
-		        		<input type="hidden" name="user.createdBy" value="${sessionScope.userSession.user.userId }"/>
+		        		<input type="hidden" name="user.userId" class="userId" value=""/>
 		        	</table>
-		        	</s:form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onClick="addUser()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modifyPasswordButton">Modify</button>
       </div>
     </div>
   </div>
@@ -260,13 +351,13 @@
 	           			<td>${query.createdBy }</td>
 	           			<td>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'c') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyRoleModal" onclick="setValues('role','${query.userId }','${query.userName }','${query.rank }');">Role</a> |
+	           					<a href="#" data-toggle="modal" data-target="#modifyRoleModal" class="mr" id="mr-${query.userId}-${query.userName}-${query.rank}">Role</a> |
 	           				</c:if>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'e') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyStatusModal" onclick="setValues('status','${query.userId }','${query.userName }','${query.status}');">Status</a> |
+	           					<a href="#" data-toggle="modal" data-target="#modifyStatusModal" class="ms" id="ms-${query.userId}-${query.userName}-${query.status}">Status</a> |
 	           				</c:if>
 	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'd') }">
-	           					<a href="#" data-toggle="modal" data-target="#modifyPasswordModal" onclick="setValues('password','${query.userId }','${query.userName }','${query.status}','-');">Password</a>
+	           					<a href="#" data-toggle="modal" data-target="#modifyPasswordModal" class="mp" id="mp-${query.userId}-${query.userName}">Password</a>
 	           				</c:if>
 	           			</td>
 	           		</tr>

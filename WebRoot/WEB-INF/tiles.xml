@@ -17,4 +17,7 @@
  	<definition name="roles" extends="template">
  		<put-attribute name="content" value="/WEB-INF/jsp/secured/roles.jsp" />
  	</definition>
+ 	<definition name="category" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/category.jsp" />
+ 	</definition>
 </tiles-definitions>

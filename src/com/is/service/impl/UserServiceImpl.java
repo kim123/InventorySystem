@@ -81,9 +81,19 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		return result;
 	}
 
-	public String modifyRole(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+	public String modifyRole(User user) {
+		String hql = "CALL ModifyRole(:userid, :rankid, :updatedby)";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("userid", user.getUserId());
+		query.setParameter("rankid", user.getRankId());
+		query.setParameter("updatedby", user.getCreatedBy());
+		LoggingUtility.log(getClass(), "Modify Role: Params["+user.getUserId()+","+user.getRankId()+","+user.getCreatedBy()+"]");
+		
+		List<?> list = query.list();
+		String result = (String) list.get(0);
+
+		LoggingUtility.log(getClass(), "Modify Role Attempt Result: "+result);
+		return result;
 	}
 	
 	public String modifyOwnPassword(User user, String oldPassword){
@@ -119,18 +129,56 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 
 	public String modifyStatus(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "CALL ModifyStatus(:userId, :status, :updatedBy)";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("userId", user.getUserId());
+		query.setParameter("status", user.getStatus());
+		query.setParameter("updatedBy", user.getCreatedBy());
+		LoggingUtility.log(getClass(), "Modify Status: Params["+user.getUserId()+","+user.getStatus()+","+user.getCreatedBy()+"]");
+		
+		List<?> list = query.list();
+		String result = (String) list.get(0);
+
+		LoggingUtility.log(getClass(), "Modify Status Attempt Result: "+result);
+		return result;
 	}
 
 	public User getUser(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
+												.append("FROM user u ")
+												.append("JOIN rank r on r.rank_id=u.rank_id ")
+												.append("WHERE u.user_id = :userId ");
+		Query query = getSession().createSQLQuery(hql.toString());
+		query.setParameter("userId", userId);
+		Object[] object = (Object[]) query.list().get(0);
+		User user2 = new User();
+		user2.setUserId((int) object[0]);
+		user2.setUserName((String) object[1]);
+		user2.setFullName((String) object[2]);
+		user2.setStatus((int) object[4]);
+		user2.setCreatedDate((Timestamp) object[5]);
+		user2.setCreatedBy((String) object[6]);
+		
+		return user2;
 	}
 
 	public User getUser(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
+												.append("FROM user u ")
+												.append("JOIN rank r on r.rank_id=u.rank_id ")
+												.append("WHERE u.user_name collate utf8_bin = :userName ");
+		Query query = getSession().createSQLQuery(hql.toString());
+		query.setParameter("userName", userName);
+		Object[] object = (Object[]) query.list().get(0);
+		User user2 = new User();
+		user2.setUserId((int) object[0]);
+		user2.setUserName((String) object[1]);
+		user2.setFullName((String) object[2]);
+		user2.setStatus((int) object[4]);
+		user2.setCreatedDate((Timestamp) object[5]);
+		user2.setCreatedBy((String) object[6]);
+		
+		return user2;
 	}
 	
 	public Page viewUsers() {
