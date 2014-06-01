@@ -62,6 +62,8 @@
 		<action name="category" class="com.is.action.CategoryAction">
 			<result name="success" type="tiles">category</result>
 		</action>
+		<action name="addCategoryAction" class="com.is.action.CategoryAction" method="addCategory">
+		</action>
 		
 	</package>
 	

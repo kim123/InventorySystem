@@ -40,10 +40,12 @@
 			}
 			
 			function onKeyEnter(e){
-				e.which = e.which || e.keyCode;
-			    if(e.which == 13) {
-			    	submitForm();
-			    }
+				if (window.event) {
+					e = window.event;
+				}
+				if (e.keyCode==13) {
+					submitForm();
+				}
 			}
 			
 		</script>
@@ -91,7 +93,7 @@
 									<b><s:text name="user.name" />:&nbsp;&nbsp;</b>
 								</td>
 								<td>
-									<input type="text" id="user.userName" name="user.userName" maxlength="20" placeholder="Enter user name" onkeypress="onKeyEnter();"/>
+									<input type="text" id="user.userName" name="user.userName" maxlength="20" placeholder="Enter user name" onkeypress="onKeyEnter(event);"/>
 								</td>
 							</tr>
 							<tr><td colspan="2">&nbsp;</td></tr>
@@ -100,7 +102,7 @@
 									<b><s:text name="password" />:&nbsp;&nbsp;</b>
 								</td>
 								<td>
-									<input type="password" id="user.password" name="user.password" maxlength="20" placeholder="Enter password" onkeypress="onKeyEnter();"/>
+									<input type="password" id="user.password" name="user.password" maxlength="20" placeholder="Enter password" onkeypress="onKeyEnter(event);"/>
 								</td>
 							</tr>
 							<tr><td colspan="2">&nbsp;</td></tr>

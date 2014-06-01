@@ -313,9 +313,11 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 	<h2 class="page-header">Users</h2>
+	<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A1') }">
 	<button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
 	 	Add User
 	</button>
+	</c:if>
 	<br/><br/>
 	<h4 class="sub-header">User List</h4>
 	<div class="table-responsive">
@@ -333,6 +335,7 @@
                 </tr>
            </thead>		
            <tbody>
+           		<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A2') }">
            		<c:forEach items="${page.contents}" var="query">
            			<tr>
 	           			<td>${query.userId }</td>
@@ -350,18 +353,24 @@
 	           			<td><fmt:formatDate type="both" value="${query.createdDate}" /></td>
 	           			<td>${query.createdBy }</td>
 	           			<td>
-	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'c') }">
+	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A3') }">
 	           					<a href="#" data-toggle="modal" data-target="#modifyRoleModal" class="mr" id="mr-${query.userId}-${query.userName}-${query.rank}">Role</a> |
 	           				</c:if>
-	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'e') }">
+	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A5') }">
 	           					<a href="#" data-toggle="modal" data-target="#modifyStatusModal" class="ms" id="ms-${query.userId}-${query.userName}-${query.status}">Status</a> |
 	           				</c:if>
-	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'd') }">
+	           				<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A4') }">
 	           					<a href="#" data-toggle="modal" data-target="#modifyPasswordModal" class="mp" id="mp-${query.userId}-${query.userName}">Password</a>
 	           				</c:if>
 	           			</td>
 	           		</tr>
            		</c:forEach>
+           		</c:if>
+           		<c:if test="${!(fn:contains(sessionScope.userSession.role.permission, 'B3')) }">
+           			<tr>
+						<th colspan="8">No access rights to proceed</th>
+					</tr>
+           		</c:if>
            		<tr>
            			<td colspan="8"></td>
            		</tr>

@@ -4,13 +4,21 @@
 				<div class="col-sm-3 col-md-2 sidebar">
 					<ul class="nav nav-sidebar">
 						<li role="presentation" class="dropdown-header">ADMIN</li>
-						<li <c:if test='${menuActive eq 1 }'>class="active"</c:if> ><a href="users.htm">Users</a></li>
-						<li <c:if test='${menuActive eq 2 }'>class="active"</c:if> ><a href="accessRights.htm">Access Rights</a></li>
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'A') }">
+							<li <c:if test='${menuActive eq 1 }'>class="active"</c:if> ><a href="users.htm">Users</a></li>
+						</c:if>
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'B') }">
+							<li <c:if test='${menuActive eq 2 }'>class="active"</c:if> ><a href="accessRights.htm">Access Rights</a></li>
+						</c:if>
 					</ul>
 					<ul class="nav nav-sidebar">
 						<li role="presentation" class="dropdown-header">OPERATION</li>
-						<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="category.htm">Category</a></li>
-						<li <c:if test='${menuActive eq 4 }'>class="active"</c:if> ><a href="#">Products</a></li>
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'C') }">
+							<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="category.htm">Category</a></li>
+						</c:if>
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'D') }">
+							<li <c:if test='${menuActive eq 4 }'>class="active"</c:if> ><a href="#">Products</a></li>
+						</c:if>
 						<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="">Inventory</a></li>
 						<li <c:if test='${menuActive eq 6 }'>class="active"</c:if> ><a href="">Duty Check-In</a></li>
 						<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="">Stocks on Hand</a></li>

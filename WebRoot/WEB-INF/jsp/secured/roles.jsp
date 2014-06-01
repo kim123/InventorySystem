@@ -4,7 +4,7 @@
 $(document).ready(function(){
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
-		for (var i = 1; i < 9; i++) {
+		for (var i = 1; i < 15; i++) {
 			document.getElementById(i).checked=false;
 		}
 		if (rankid!='') {
@@ -16,11 +16,12 @@ $(document).ready(function(){
 				dataType: "json",
 				success: function(data){
 					if (data.success) {
-						var permission = data.permission;
-						for (var i = 1; i < 9; i++) {
+						var permission = data.permission; 
+						for (var i = 1; i < 15; i++) {
 							var checkBox = document.getElementById(i).value; 
-							for (var s = 0; s < permission.length; s++) {
-								var strChar = permission.charAt(s);
+							var splitPermission = permission.split(",");
+							for (var s = 0; s < splitPermission.length; s++) {
+								var strChar = splitPermission[s];
 								if (checkBox==strChar) {
 									document.getElementById(i).checked=true;
 								}
@@ -42,9 +43,9 @@ $(document).ready(function(){
 	$('#submitButton').click(function(e){
 		var permission = "";
 		
-		for (var i=1; i < 9; i++) {
+		for (var i=1; i < 15; i++) {
 			if (document.getElementById(i).checked) {
-				permission = permission+document.getElementById(i).value;
+				permission = permission+document.getElementById(i).value+",";
 			}
 		}
 		var rankid = document.getElementById('name.rankId').value;
@@ -131,9 +132,11 @@ $(document).ready(function(){
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 	<h2 class="page-header">Access Rights</h2>
+	<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'B3') }">
 	<button class="btn btn-primary" data-toggle="modal" data-target="#addRoleModal">
 	 	Add Role
 	</button>
+	</c:if>
 	<br/><br/>
 	<h4 class="sub-header">Roles</h4>
 	<div class="row placeholders">
@@ -141,35 +144,51 @@ $(document).ready(function(){
 			<%-- <s:form action="modifyAccessRights" name="submitForm" id="submitForm" method="post" theme="simple"> --%>
 			<h5>Role: <s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="name.rankId" id="name.rankId" style="width: 155px"/></h5>
 			<br/>
-			<table border="0" style="width:450px">
+			<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'B1') }">
+			<table border="0" style="width:1000px">
 				<tr>
 					<td align="left">USER</td>
 					<td align="left">ROLE</td>
+					<td align="left">CATEGORY</td>
+					<td align="left">PRODUCT</td>
 				</tr>
 				<tr>
-					<td align="left"><input type="checkbox" name="1" id="1" value="a" />Add User</td>
-					<td align="left"><input type="checkbox" name="6" id="2" value="f" />View Roles</td>
+					<td align="left"><input type="checkbox" name="1" id="1" value="A1" />Add User</td>
+					<td align="left"><input type="checkbox" name="6" id="2" value="B1" />View Roles</td>
+					<td align="left"><input type="checkbox" name="6" id="3" value="C1" />View Category</td>
+					<td align="left"><input type="checkbox" name="6" id="4" value="D1" />View Products</td>
 				</tr>
 				<tr>
-					<td align="left"><input type="checkbox" name="2" id="3" value="b" />View User List</td>
-					<td align="left"><input type="checkbox" name="7" id="4" value="g" />Set Access Rights</td>
+					<td align="left"><input type="checkbox" name="2" id="5" value="A2" />View User List</td>
+					<td align="left"><input type="checkbox" name="7" id="6" value="B2" />Set Access Rights</td>
+					<td align="left"><input type="checkbox" name="6" id="7" value="C2" />Add Category</td>
+					<td align="left"><input type="checkbox" name="6" id="8" value="D2" />Add Products (Prices)</td>
 				</tr>
 				<tr>
-					<td align="left"><input type="checkbox" name="3" id="5" value="c" />Modify Role</td>
-					<td align="left"><input type="checkbox" name="8" id="6" value="h" />Add Role</td>
-				</tr>
-				<tr>
-					<td align="left"><input type="checkbox" name="4" id="7" value="d" />Modify Password</td>
+					<td align="left"><input type="checkbox" name="3" id="9" value="A3" />Modify Role</td>
+					<td align="left"><input type="checkbox" name="8" id="10" value="B3" />Add Role</td>
 					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="6" id="11" value="D3" />Modify Price</td>
 				</tr>
 				<tr>
-					<td align="left"><input type="checkbox" name="5" id="8" value="e" />Modify Status</td>
+					<td align="left"><input type="checkbox" name="4" id="12" value="A4" />Modify Password</td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="6" id="13" value="D4" />Archive Product</td>
+				</tr>
+				<tr>
+					<td align="left"><input type="checkbox" name="5" id="14" value="A5" />Modify Status</td>
+					<td align="left"></td>
+					<td align="left"></td>
 					<td align="left"></td>
 				</tr>
 			</table>
 			<br/>
 				<button type="button" class="btn btn-default" id="cancelButton">Cancel</button>
+			</c:if>
+			<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'B2') }">	
         		<button type="button" class="btn btn-primary" id="submitButton">Submit</button>
+        	</c:if>
 			<%-- </s:form> --%>
 		</div>
 	</div>
