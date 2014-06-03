@@ -40,6 +40,7 @@ $(document).ready(function(){
         <h4 class="modal-title" id="myModalLabel">Add Category</h4>
       </div>
       <div class="modal-body">
+      		NOTE: Category name will be final. It cannot be modified once you submit the form.
        		<table border=0 align="center">
        			<tr>
        				<td>Category: </td>
