@@ -2,9 +2,10 @@
 <%@include file="../common/taglib.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
+	var roleCheckBoxesLength = 18;
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
-		for (var i = 1; i < 15; i++) {
+		for (var i = 1; i < roleCheckBoxesLength; i++) {
 			document.getElementById(i).checked=false;
 		}
 		if (rankid!='') {
@@ -17,7 +18,7 @@ $(document).ready(function(){
 				success: function(data){
 					if (data.success) {
 						var permission = data.permission; 
-						for (var i = 1; i < 15; i++) {
+						for (var i = 1; i < roleCheckBoxesLength; i++) {
 							var checkBox = document.getElementById(i).value; 
 							var splitPermission = permission.split(",");
 							for (var s = 0; s < splitPermission.length; s++) {
@@ -43,7 +44,7 @@ $(document).ready(function(){
 	$('#submitButton').click(function(e){
 		var permission = "";
 		
-		for (var i=1; i < 15; i++) {
+		for (var i=1; i < roleCheckBoxesLength; i++) {
 			if (document.getElementById(i).checked) {
 				permission = permission+document.getElementById(i).value+",";
 			}
@@ -97,9 +98,6 @@ $(document).ready(function(){
 			}
 		});		
 	});
-	
-	
-
 });
 </script>
 
@@ -151,33 +149,39 @@ $(document).ready(function(){
 					<td align="left">ROLE</td>
 					<td align="left">CATEGORY</td>
 					<td align="left">PRODUCT</td>
+					<td align="left">EMPLOYEE</td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="1" id="1" value="A1" />Add User</td>
 					<td align="left"><input type="checkbox" name="6" id="2" value="B1" />View Roles</td>
 					<td align="left"><input type="checkbox" name="6" id="3" value="C1" />View Category</td>
 					<td align="left"><input type="checkbox" name="6" id="4" value="D1" />View Products</td>
+					<td align="left"><input type="checkbox" name="6" id="15" value="E1" />Duty Check In</td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="2" id="5" value="A2" />View User List</td>
 					<td align="left"><input type="checkbox" name="7" id="6" value="B2" />Set Access Rights</td>
 					<td align="left"><input type="checkbox" name="6" id="7" value="C2" />Add Category</td>
 					<td align="left"><input type="checkbox" name="6" id="8" value="D2" />Add Products (Prices)</td>
+					<td align="left"><input type="checkbox" name="6" id="16" value="E2" />Provide Daily Journal</td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="3" id="9" value="A3" />Modify Role</td>
 					<td align="left"><input type="checkbox" name="8" id="10" value="B3" />Add Role</td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="6" id="11" value="D3" />Modify Price</td>
+					<td align="left"><input type="checkbox" name="6" id="17" value="E3" />Duty Check Out</td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="4" id="12" value="A4" />Modify Password</td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="6" id="13" value="D4" />Archive Product</td>
+					<td align="left"></td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="5" id="14" value="A5" />Modify Status</td>
+					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"></td>
