@@ -2,7 +2,7 @@
 <%@include file="../common/taglib.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
-	var roleCheckBoxesLength = 18;
+	var roleCheckBoxesLength = 28;
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
 		for (var i = 1; i < roleCheckBoxesLength; i++) {
@@ -185,6 +185,72 @@ $(document).ready(function(){
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"></td>
+				</tr>
+				<tr>
+					<td colspan="5"></td>
+				</tr>
+				<tr>
+					<td align="left">INVENTORY</td>
+					<td align="left">E-LOAD</td>
+					<td align="left">STOCKS ON HAND</td>
+					<td align="left">DAILY SALES & EXPENSES</td>
+					<td align="left">REPORTS</td>
+				</tr>
+				<tr>
+					<td align="left"><input type="checkbox" name="4" id="18" value="F1" />View Inventory</td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="19" value="J1" />Daily Sales & Expenses</td>
+				</tr>
+				<tr>
+					<td align="left"><input type="checkbox" name="4" id="20" value="F2" />Add Stocks</td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="21" value="J2" />Weekly Sales & Expenses</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="22" value="J3" />Monthly Sales & Expenses</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="23" value="J4" />Yearly Sales & Expenses</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="24" value="J5" />Inventory</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="25" value="J6" />E-LOAD Revenue</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="26" value="J7" />Sales Revenue (Top High Sales)</td>
+				</tr>
+				<tr>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="27" value="J8" />Sales Revenue (Top Low Sales)</td>
 				</tr>
 			</table>
 			<br/>
