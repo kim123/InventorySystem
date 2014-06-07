@@ -198,16 +198,16 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="4" id="18" value="F1" />View Inventory</td>
-					<td align="left"></td>
-					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="28" value="G1" />Add E-Load Daily Sales</td>
+					<td align="left"><input type="checkbox" name="4" id="29" value="H1" />Update On-Hand Products</td>
+					<td align="left"><input type="checkbox" name="4" id="30" value="I1" />Add Daily Product Sales</td>
 					<td align="left"><input type="checkbox" name="4" id="19" value="J1" />Daily Sales & Expenses</td>
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="4" id="20" value="F2" />Add Stocks</td>
+					<td align="left"><input type="checkbox" name="4" id="31" value="G2" />Add Daily Balances</td>
 					<td align="left"></td>
-					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="32" value="I2" />Add Other Expenses</td>
 					<td align="left"><input type="checkbox" name="4" id="21" value="J2" />Weekly Sales & Expenses</td>
 				</tr>
 				<tr>
