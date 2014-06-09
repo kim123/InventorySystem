@@ -40,11 +40,11 @@ $(document).ready(function(){
         <h4 class="modal-title" id="myModalLabel">Add Category</h4>
       </div>
       <div class="modal-body">
-      		NOTE: Category name will be final. It cannot be modified once you submit the form.
+      		NOTE: Category name will be final. It cannot be modified once you submit the form.<br/><br/>
        		<table border=0 align="center">
        			<tr>
        				<td>Category: </td>
-       				<td><input type="text" name="category.name" id="category.name"/></td>
+       				<td><input type="text" name="category.name" id="category.name" placeholder="Enter category name"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span></td>
        			</tr>
        		</table>
@@ -86,6 +86,11 @@ $(document).ready(function(){
 						<td>${query.createdBy }</td>
 					</tr>
 				</c:forEach>
+				<c:if test="${empty page.contents }">
+					<tr>
+						<td colspan="4">No records</td>
+					</tr>
+				</c:if>
 				</c:if>
 				<c:if test="${!(fn:contains(sessionScope.userSession.role.permission, 'C1')) }">
 					<tr>

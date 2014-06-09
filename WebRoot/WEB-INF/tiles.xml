@@ -20,4 +20,7 @@
  	<definition name="category" extends="template">
  		<put-attribute name="content" value="/WEB-INF/jsp/secured/category.jsp" />
  	</definition>
+ 	<definition name="product" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/products.jsp" />
+ 	</definition>
 </tiles-definitions>

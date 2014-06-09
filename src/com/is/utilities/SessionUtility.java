@@ -17,12 +17,20 @@ public class SessionUtility {
 	
 	public static User getUser(){
 		LoginDetail loginDetail = (LoginDetail) ServletActionContext.getRequest().getSession().getAttribute(Constants.USER_SESSION);
-		return loginDetail.getUser();
+		if (loginDetail==null) {
+			return null;
+		} else {
+			return loginDetail.getUser();
+		}
 	}
 	
 	public static Role getRole(){
 		LoginDetail loginDetail = (LoginDetail) ServletActionContext.getRequest().getSession().getAttribute(Constants.USER_SESSION);
-		return loginDetail.getRole();
+		if (loginDetail==null) {
+			return null;
+		} else {
+			return loginDetail.getRole();
+		}
 	}
 	
 	public static void invalidateUserSession(){

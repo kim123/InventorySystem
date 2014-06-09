@@ -7,11 +7,19 @@
 	<constant name="struts.action.extension" value="htm" />
 	<constant name="struts.custom.i18n.resources" value="messages"/>
 	<package name="main" namespace="/" extends="struts-default,tiles-default">
-		<!-- 
-		
-		 -->
+		<interceptors>
+			<interceptor name="userInterceptor" class="com.is.security.interceptor.UserInterceptor"></interceptor>
+			<interceptor-stack name="security">
+				<interceptor-ref name="userInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- <default-interceptor-ref name="security"></default-interceptor-ref> -->
 		 <global-results>
-		 	<result name="login" type="tiles">login</result>
+		 	<result name="login" type="redirectAction">
+		 		<param name="actionName">login</param>
+            	<param name="namespace">/</param>
+		 	</result>
 			<result name="home" type="tiles">home</result>
 			<result name="error">/WEB-INF/error.jsp</result>	 	
 		 </global-results>
@@ -63,6 +71,16 @@
 			<result name="success" type="tiles">category</result>
 		</action>
 		<action name="addCategoryAction" class="com.is.action.CategoryAction" method="addCategory">
+		</action>
+		
+		<action name="product" class="com.is.action.ProductPriceAction">
+			<result name="success" type="tiles">product</result>
+		</action>
+		<action name="addProductPriceAction" class="com.is.action.ProductPriceAction" method="addProductPrice">
+		</action>
+		<action name="archiveProductAction" class="com.is.action.ProductPriceAction" method="archiveproduct">
+		</action>
+		<action name="modifyPricesAction" class="com.is.action.ProductPriceAction" method="modifyPrices">
 		</action>
 		
 	</package>

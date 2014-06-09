@@ -15,13 +15,19 @@ import com.is.model.Page;
 import com.is.model.ProductPriceList;
 import com.is.service.interfaze.ProductPriceService;
 import com.is.utilities.LoggingUtility;
+import com.is.utilities.PageUtility;
 
 public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductPriceService{ 
 
 	public Page viewProductsAndPrices(Map<String, Object> constraints) {
 		Page page = new Page();
+		page.setPageSize((Integer)constraints.get(PAGE_SIZE));
 		page.setContents(getProductPriceList(constraints));
 		page.setTotalRecords(getTotalProducts(constraints));
+		if (page.getContents().size() < page.getTotalRecords()) {
+			PageUtility.computeNumberOfPages(page);
+			PageUtility.setDefaultIndexes(page);
+		}
 		return page;
 	}
 	
@@ -29,19 +35,16 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		List<ProductPriceList> prodList = new ArrayList<ProductPriceList>();
 		String hql = getProductPriceQuery(constraints);
 		Query query = getSession().createSQLQuery(hql);
-		if (hql.contains("productname")) {
-			query.setParameter("productname", (String)constraints.get(PRODUCT_NAME));
+		if (hql.contains("varcategory")) {
+			query.setParameter("varcategory", (String)constraints.get(CATEGORY));
 		}
-		if (hql.contains("category")) {
-			query.setParameter("category", (String)constraints.get(CATEGORY));
-		}
-		if (hql.contains("history")) {
-			query.setParameter("history", (Integer)constraints.get(HISTORY));
+		if (hql.contains("varhistory")) {
+			query.setParameter("varhistory", (String)constraints.get(HISTORY));
 		}
 		query.setFirstResult((Integer)constraints.get(PAGE_NUM));
 		query.setMaxResults((Integer)constraints.get(PAGE_SIZE));
 		LoggingUtility.log(getClass(), "Get ProductPrice List: Params["+Arrays.asList(constraints.values().toArray())+"]");
-		LoggingUtility.log(getClass(), "Get ProductPrice List Query["+query.getQueryString()+"]");
+		LoggingUtility.log(getClass(), "Get ProductPrice List: Query["+query.getQueryString()+"]");
 		
 		List<?> list = query.list();
 		Iterator<?> iter = list.iterator();
@@ -68,19 +71,18 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 	private Integer getTotalProducts(Map<String, Object> constraints){
 		String hql = "SELECT count(1) as totalRecord from("+getProductPriceQuery(constraints)+") a";
 		Query query = getSession().createSQLQuery(hql);
-		if (hql.contains("productname")) {
-			query.setParameter("productname", (String)constraints.get(PRODUCT_NAME));
+		if (hql.contains("varcategory")) {
+			query.setParameter("varcategory", (String)constraints.get(CATEGORY));
 		}
-		if (hql.contains("category")) {
-			query.setParameter("category", (String)constraints.get(CATEGORY));
+		if (hql.contains("varhistory")) {
+			query.setParameter("varhistory", (String)constraints.get(HISTORY));
 		}
-		if (hql.contains("history")) {
-			query.setParameter("history", (Integer)constraints.get(HISTORY));
-		}
-		query.setFirstResult((Integer)constraints.get(PAGE_NUM));
-		query.setMaxResults((Integer)constraints.get(PAGE_SIZE));
-	
+		//query.setFirstResult((Integer)constraints.get(PAGE_NUM));
+		//query.setMaxResults((Integer)constraints.get(PAGE_SIZE));
+		LoggingUtility.log(getClass(), "Get ProductPrice Total: Query["+query.getQueryString()+"]");
 		BigInteger totalRecord = (BigInteger) query.list().get(0);
+		LoggingUtility.log(getClass(), "Get ProductPrice List: Total["+totalRecord.intValue()+"]");
+		
 		return totalRecord.intValue();
 	}
 	
@@ -93,13 +95,13 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		hql.append("where 1=1 ");
 		
 		if (constraints.containsKey(PRODUCT_NAME)) {
-			hql.append(" AND p.product_name=:productname ");
+			hql.append(" AND p.product_name LIKE '%"+(String) constraints.get(PRODUCT_NAME)+"%' ");
 		}
 		if (constraints.containsKey(CATEGORY)) {
-			hql.append(" AND c.name=:category ");
+			hql.append(" AND c.category_id=:varcategory ");
 		}
 		if (constraints.containsKey(HISTORY)) {
-			hql.append(" AND p.is_history=:history ");
+			hql.append(" AND p.is_history=:varhistory ");
 		}
 		if (constraints.containsKey(RETAIL_PRICE)) {
 			hql.append(" AND r.retail_price ").append((String)constraints.get(OPERATOR_RETAIL_PRICE))

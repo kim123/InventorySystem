@@ -46,6 +46,15 @@
 			function testing(){
 				document.getElement('oldPassword').focus();
 			}
+			
+			function onKeyEnter(e){
+				if (window.event) {
+					e = window.event;
+				}
+				if (e.keyCode==13) {
+					document.getElementById('searchForm').submit();
+				}
+			}
 		</script>
 	</head>
 	<body onLoad="promptMessage();">

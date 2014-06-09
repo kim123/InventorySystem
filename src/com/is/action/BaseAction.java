@@ -17,7 +17,40 @@ public class BaseAction extends ActionSupport{
 	private int startingResult;
 	private int maxResults;
 	protected Page page;
+	protected int pageNum;
 	
+	public int getPageNum() {
+		//if (pageNum==0) {
+		//	this.pageNum = 0;
+		//} 
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		//if (pageNum==0) {
+		//	this.pageNum = 1;
+		//} else {
+			this.pageNum = pageNum;
+		//}
+	}
+
+	protected int pageSize;
+	
+	public int getPageSize() {
+		if (pageSize==0) {
+			this.pageSize = 20;
+		} 
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		if (pageSize==0) {
+			this.pageSize = 20;
+		} else {
+			this.pageSize = pageSize;
+		}
+	}
+
 	public Page getPage() {
 		return page;
 	}
