@@ -23,4 +23,10 @@
  	<definition name="product" extends="template">
  		<put-attribute name="content" value="/WEB-INF/jsp/secured/products.jsp" />
  	</definition>
+ 	<definition name="checkin" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/checkIn.jsp" />
+ 	</definition>
+ 	<definition name="checkout" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/checkOut.jsp" />
+ 	</definition>
 </tiles-definitions>

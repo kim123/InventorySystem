@@ -14,12 +14,10 @@
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		<!-- <default-interceptor-ref name="security"></default-interceptor-ref> -->
+		<default-interceptor-ref name="security"></default-interceptor-ref>
 		 <global-results>
-		 	<result name="login" type="redirectAction">
-		 		<param name="actionName">login</param>
-            	<param name="namespace">/</param>
-		 	</result>
+		 	<result name="loginuser" type="tiles">login</result>
+		 	<result name="checkInEmployee" type="tiles">checkin</result>
 			<result name="home" type="tiles">home</result>
 			<result name="error">/WEB-INF/error.jsp</result>	 	
 		 </global-results>
@@ -48,7 +46,9 @@
 		<action name="addUserAction" class="com.is.action.UserAction" method="addUser">
 		</action>
 		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
-			<result name="success" type="tiles">users</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">home</param>
+			</result>
 		</action>
 		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
 		</action>
@@ -81,6 +81,31 @@
 		<action name="archiveProductAction" class="com.is.action.ProductPriceAction" method="archiveproduct">
 		</action>
 		<action name="modifyPricesAction" class="com.is.action.ProductPriceAction" method="modifyPrices">
+		</action>
+		
+		<!-- <interceptors>
+			<interceptor name="employeeInterceptor" class="com.is.security.interceptor.EmployeeInterceptor"></interceptor>
+			<interceptor-stack name="employeeStack">
+				<interceptor-ref name="security"></interceptor-ref>
+				<interceptor-ref name="employeeInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="security"></default-interceptor-ref> -->
+		
+		<action name="checkIn" class="com.is.action.EmployeeAction" method="checkInPage">
+			<result name="success" type="tiles">checkin</result>
+		</action>
+		<action name="doCheckIn" class="com.is.action.EmployeeAction" method="checkIn">
+		</action>
+		<action name="checkOut" class="com.is.action.EmployeeAction" method="checkOutPage">
+			<result name="success" type="tiles">checkout</result>
+		</action>
+		<action name="doCheckOut" class="com.is.action.EmployeeAction" method="checkOut">
+			<result name="success" type="redirectAction">
+				<param name="actionName">checkOut</param>
+            	<param name="namespace">/</param>
+			</result>
+			<result name="input" type="tiles">checkout</result>
 		</action>
 		
 	</package>

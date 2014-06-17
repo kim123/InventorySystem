@@ -1,7 +1,9 @@
 package com.is.security.interceptor;
 
-import com.is.model.User;
+import com.is.action.LoginAction;
+import com.is.model.LoginDetail;
 import com.is.utilities.Constants;
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
@@ -16,15 +18,17 @@ public class UserInterceptor implements Interceptor{
 	}
 
 	public String intercept(ActionInvocation invocation) throws Exception {
-
-		User user = (User) invocation.getInvocationContext().getSession().get(Constants.USER_SESSION);
-		if (user==null) {
-			return "login";
+		Action action = (Action) invocation.getAction();
+		if (action instanceof LoginAction) {
+			return invocation.invoke();
 		}
-		
-		return invocation.invoke();
+		LoginDetail loginDetail = (LoginDetail) invocation.getInvocationContext().getSession().get(Constants.USER_SESSION);
+		if (loginDetail==null) {
+			return "loginuser";
+		} else {
+			return invocation.invoke();
+		}
+
 	}
-	
-	
 
 }

@@ -2,39 +2,7 @@
 <%@include file="../common/taglib.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	$('.decimalInput').keypress(function(e){
-		var keyCode = e.which;
-		//190 is the key code of decimal if you dont want decimals remove this condition keyCode != 190
-        if (keyCode != 8 && keyCode != 9 && keyCode != 13 && keyCode != 37 && keyCode != 38 && keyCode != 39 && 
-        		keyCode != 40 && keyCode != 46 && keyCode != 110 && keyCode != 190) {
-            if (keyCode < 48) {
-                e.preventDefault();
-            } else if (keyCode > 57 && keyCode < 96) {
-                e.preventDefault();
-            } else if (keyCode > 105) {
-                e.preventDefault();
-            }
-        }
-	});
-	
-	function onKeyDownNumbersDecimalOnly(e){
-		alert(e);
-		 /* var keyCode = e.which; // Capture the event
-			alert(keyCode);
-	        //190 is the key code of decimal if you dont want decimals remove this condition keyCode != 190
-	        if (keyCode != 8 && keyCode != 9 && keyCode != 13 && keyCode != 37 && keyCode != 38 && keyCode != 39 && 
-	        		keyCode != 40 && keyCode != 46 && keyCode != 110 && keyCode != 190) {
-	            if (keyCode < 48) {
-	                e.preventDefault();
-	            } else if (keyCode > 57 && keyCode < 96) {
-	                e.preventDefault();
-	            } else if (keyCode > 105) {
-	                e.preventDefault();
-	            }
-	        } */
-	}
-	
+
 	$('#addProductButton').click(function(e){
 		var prodName = $('#productName').val();
 		var category = $('#category').val();
@@ -177,26 +145,19 @@ $(document).ready(function(){
 	});
 	
 	$('#searchCriteriaForm').click(function(){
-		
 		document.getElementById('searchForm').submit();
 	});
 	
-	function submitFormBasedOnPageNum(pageResult, pageNumber){
-		alert("pageResult: "+pageResult+", pageNumber: "+pageNumber);
-		$('#pageNumberForm').val(pageNumber);
+	$('.paginateForm').click(function(e){
+		var pageResult = e.target.id.split("-")[1];
+		var pageSize = e.target.id.split("-")[2];
+		var pageType = e.target.id.split("-")[3];
 		$('#pageResultForm').val(pageResult);
-	}
-	
-	function displayPreviousPageNumbers(beginIndex){
-		alert("beginIndex"+beginIndex);
-		$('#page.beginIndex').val(beginIndex);
-		$('#page.endIndex').val(pageResult);
-	}
-	
-	function displayMorePafeNumbers(endIndex){
-		alert("endIndex"+endIndex);
-		$('#page.endIndex').val(endIndex);
-	}
+		$('#pageSize').val(pageSize);
+		$('#pageType').val(pageType);
+		document.getElementById('searchForm').submit();
+		
+	});
 	
 });
 </script>
@@ -325,7 +286,7 @@ $(document).ready(function(){
 	<br/><br/>
 	<h4 class="sub-header">Product List</h4>
 	<div class="table-responsive">
-		<s:form action="/product.htm" name="searchForm" id="searchForm" method="post" >
+		<form action="product.htm" name="searchForm" id="searchForm" method="post" >
 		<table border="0" >
 			<tr>
 				<td style="width:300px;">Product Name: <input type="text" name="productPrice.productName" id="productPrice.productName" /></td>
@@ -356,19 +317,17 @@ $(document).ready(function(){
 				<td></td>
 			</tr>
 		</table>
-			<%-- <input type="hidden" name="pageNum" id="pageNumberForm" value="" />
-			<input type="hidden" name="page.pageResult" id="pageResultForm" value="" />
-			<input type="hidden" name="page.beginIndex" id="page.beginIndex" value="" />
-			<input type="hidden" name="page.endIndex" id="page.endIndex" value="" />
-			<c:if test="${not empty page.pages }">
-				<input type="hidden" name="page.pages" value="${page.pages }" />
-			</c:if> --%>
-		</s:form>
+			<c:if test="${not empty page.parameters }">
+				<input type="hidden" name="page.parameters" id="params" value="${page.parameters }" />
+			</c:if>
+			<input type="hidden" name="page.pageResult" id="pageResultForm" />
+			<input type="hidden" name="pageType" id="pageType" />
+		</form>
 		<br/>
 	</div>
 	<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'D1') }">
 	<div class="table-responsive" style="width:1100px; overflow: auto;">
-		<table border=1 class="table table-striped" style="width:1300px;">
+		<table border=0 class="table table-striped" style="width:1300px;">
 			<thead>
 				<tr>
 					<th style="width:10%;">Product</th>
@@ -420,25 +379,16 @@ $(document).ready(function(){
 						<td colspan="11" align="center">No records</td>
 					</tr>
 				</c:if>
-					<c:set var="pageNumber" value="${page.pageNumber }" />
 					<tr>
-						<td colspan="11" align="center">&nbsp;<c:out value="${page.pageNumber }" /></td>
-					</tr>
-					<tr>
-						<td class="pagination" colspan="1" >Total: <c:out value="${page.totalRecords }" /></td>
-						<td colspan="10" align="left" >  
-							<ul class="pagination">
-								<c:if test="${page.beginIndex >= 5}">
-									<li><a href="displayPreviousPageNumbers('${page.beginIndex }')"><span>&laquo;</span></a></li>
-								</c:if>
-								<c:forEach items="${page.pages }" var="pageResult" begin="${page.beginIndex }" end="${page.endIndex }">
-									<li <c:if test="${pageNumber==page.pageNumber }" >class="active" </c:if> ><a href="#" onclick="submitFormBasedOnPageNum('${pageResult}','${pageNumber }')"><c:out value="${pageNumber }" /> <c:if test="${pageNumber==page.pageNumber }" ><span class="sr-only">(current)</span></c:if></a></li>
-									<c:set var="pageNumber" value="${pageNumber+1 }" />
-								</c:forEach>
-								<c:if test="${(page.pagesLength-1)==page.endIndex && page.endIndex <= 5 }">
-									<li><a href="displayMorePafeNumbers('${page.endIndex }')"><span>&raquo;</span></a></li>
-								</c:if>
-							</ul>
+						<td colspan="11" >
+							<b>Total Records:</b> <c:out value="${page.totalSizeOfContents }" /> of <c:out value="${page.totalRecords }" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<c:if test="${page.pageResult!=0 }">
+								<a href="#" class="paginateForm" id="prev-${page.pageResult }-${page.pageSize }-previous" >&laquo;</a>
+							</c:if>
+							<c:set var="ctrTotal" value="${page.pageResult+page.pageSize }" />
+							<c:if test="${ctrTotal < page.totalRecords }">
+								<a href="#" class="paginateForm" id="next-${page.pageResult }-${page.pageSize }-next" >&raquo;</a>
+							</c:if>
 						</td>
 					</tr>
 				</c:if>

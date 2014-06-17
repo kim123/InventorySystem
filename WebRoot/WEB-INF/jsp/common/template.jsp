@@ -12,7 +12,7 @@
 		<link href="<c:url value='/js/bootstrap-3.1.1-dist/css/bootstrap.min.css'/>" rel="stylesheet"/>
 		<!-- Custom styles for this template -->
 		<link href="<c:url value='/css/dashboard.css' />" rel="stylesheet"/>
-		<script type="text/javascript">
+		<script type="text/javascript">			
 			function promptMessage(){
 				<c:if test="${not empty message}" >
 					alert("<s:text name='%{getText(message)}' />");
@@ -55,6 +55,21 @@
 					document.getElementById('searchForm').submit();
 				}
 			}
+			
+			$('.decimalInput').keypress(function(e){
+				var keyCode = e.which;
+				//190 is the key code of decimal if you dont want decimals remove this condition keyCode != 190
+		        if (keyCode != 8 && keyCode != 9 && keyCode != 13 && keyCode != 37 && keyCode != 38 && keyCode != 39 && 
+		        		keyCode != 40 && keyCode != 46 && keyCode != 110 && keyCode != 190) {
+		            if (keyCode < 48) {
+		                e.preventDefault();
+		            } else if (keyCode > 57 && keyCode < 96) {
+		                e.preventDefault();
+		            } else if (keyCode > 105) {
+		                e.preventDefault();
+		            }
+		        }
+			});
 		</script>
 	</head>
 	<body onLoad="promptMessage();">
@@ -71,6 +86,8 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
+						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<li><a><fmt:formatDate type="date" value="${now}" /></a></li>
 						<li><a href="#" data-toggle="modal" data-target="#myModal" onclick="testing()">${sessionScope.userSession.user.userName } (${sessionScope.userSession.role.rank })</a></li>
 						<li><a href="logout.htm">Logout</a></li>
 					</ul>
@@ -129,6 +146,5 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		
 	</body>
 </html>

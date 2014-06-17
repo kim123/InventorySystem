@@ -5,15 +5,12 @@ import java.util.List;
 public class Page {
 	
 	private List<?> contents;
-	private int[] pages;
-	private int pagesLength;
+	private int totalSizeOfContents;
 	private int totalRecords;
-	private int beginIndex;
-	private int endIndex;
-	private int pageNumber;
 	private int pageResult;
+	private int pageNum;
 	private int pageSize;
-	private String query;
+	private List<String> parameters;
 
 	public List<?> getContents() {
 		return contents;
@@ -27,35 +24,11 @@ public class Page {
 	public void setTotalRecords(int totalRecords) {
 		this.totalRecords = totalRecords;
 	}
-	public int getBeginIndex() {
-		return beginIndex;
-	}
-	public void setBeginIndex(int beginIndex) {
-		this.beginIndex = beginIndex;
-	}
-	public int getEndIndex() {
-		return endIndex;
-	}
-	public void setEndIndex(int endIndex) {
-		this.endIndex = endIndex;
-	}
-	public int getPageNumber() {
-		return pageNumber;
-	}
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
-	}
 	public int getPageResult() {
 		return pageResult;
 	}
 	public void setPageResult(int pageResult) {
 		this.pageResult = pageResult;
-	}
-	public int[] getPages() {
-		return pages;
-	}
-	public void setPages(int[] pages) {
-		this.pages = pages;
 	}
 	public int getPageSize() {
 		return pageSize;
@@ -63,17 +36,23 @@ public class Page {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	public String getQuery() {
-		return query;
+	public List<String> getParameters() {
+		return parameters;
 	}
-	public void setQuery(String query) {
-		this.query = query;
+	public void setParameters(List<String> parameters) {
+		this.parameters = parameters;
 	}
-	public int getPagesLength() {
-		return pagesLength;
+	public int getPageNum() {
+		return pageNum;
 	}
-	public void setPagesLength(int pagesLength) {
-		this.pagesLength = pagesLength;
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+	public int getTotalSizeOfContents() {
+		return totalSizeOfContents;
+	}
+	public void setTotalSizeOfContents(int totalSizeOfContents) {
+		this.totalSizeOfContents = totalSizeOfContents;
 	}
 	
 	

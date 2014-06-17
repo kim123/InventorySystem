@@ -1,6 +1,7 @@
 package com.is.action;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,31 +93,79 @@ public class ProductPriceAction extends BaseAction{
 		setMenuActive("4");
 		
 		Map<String, Object> constraints = new HashMap<String, Object>();
-		constraints.put(ProductPriceService.PAGE_NUM, getPageNum());
 		constraints.put(ProductPriceService.PAGE_SIZE, getPageSize());
 		if (productPrice!=null) {
-			if (isHistory.length()!=0) {
-				constraints.put(ProductPriceService.HISTORY, isHistory);
+			if (page!=null) {
+				int pageResult = page.getPageResult();
+				int ctrTotal = 0;
+				if (StringUtils.isNotEmpty(pageType)) {
+					if (pageType.equals(Constants.PAGE_TYPE_PREVIOUS)) {
+						ctrTotal = pageResult-getPageSize();
+					} else if (pageType.equals(Constants.PAGE_TYPE_NEXT)) {
+						ctrTotal = pageResult+getPageSize();
+					}
+				}
+				constraints.put(ProductPriceService.PAGE_NUM, ctrTotal); 
+				if (page.getParameters()!=null) {
+					for (String s : page.getParameters()) {
+						if (s.contains(ProductPriceService.CATEGORY)) {
+							constraints.put(ProductPriceService.CATEGORY, s.indexOf("-")+1);
+						}
+						if (s.contains(ProductPriceService.HISTORY)) {
+							constraints.put(ProductPriceService.HISTORY, s.indexOf("-")+1);
+						}
+						if (s.contains(ProductPriceService.PRODUCT_NAME)) {
+							constraints.put(ProductPriceService.PRODUCT_NAME, s.indexOf("-")+1);
+						}
+						if (s.contains(ProductPriceService.RETAIL_PRICE)) {
+							constraints.put(ProductPriceService.RETAIL_PRICE, new BigDecimal(s.indexOf("-")+1));
+						}
+						if (s.contains(ProductPriceService.OPERATOR_RETAIL_PRICE)) {
+							constraints.put(ProductPriceService.OPERATOR_RETAIL_PRICE, s.indexOf("-")+1);
+						}
+						if (s.contains(ProductPriceService.SELLING_MAX_PRICE)) {
+							constraints.put(ProductPriceService.SELLING_MAX_PRICE, new BigDecimal(s.indexOf("-")+1));
+						}
+						if (s.contains(ProductPriceService.OPERATOR_SELLING_MAX)) {
+							constraints.put(ProductPriceService.OPERATOR_SELLING_MAX, s.indexOf("-")+1);
+						}
+						if (s.contains(ProductPriceService.OPERATOR_SELLING_MIN)) {
+							constraints.put(ProductPriceService.OPERATOR_SELLING_MIN, new BigDecimal(s.indexOf("-")+1));
+						}
+						if (s.contains(ProductPriceService.OPERATOR_SELLING_MIN)) {
+							constraints.put(ProductPriceService.OPERATOR_SELLING_MIN, s.indexOf("-")+1);
+						}
+					}
+					
+				} else {
+					if (isHistory.length()!=0) {
+						constraints.put(ProductPriceService.HISTORY, isHistory);
+					}
+					if (StringUtils.isNotEmpty(productPrice.getProductName())) {
+						constraints.put(ProductPriceService.PRODUCT_NAME, productPrice.getProductName());
+					}
+					if (StringUtils.isNotEmpty(productPrice.getCategory())) {
+						constraints.put(ProductPriceService.CATEGORY, productPrice.getCategory());
+					}
+					if (productPrice.getRetailPrice()!=null && StringUtils.isNotEmpty(retailPriceOperator)) {
+						constraints.put(ProductPriceService.OPERATOR_RETAIL_PRICE, retailPriceOperator);
+						constraints.put(ProductPriceService.RETAIL_PRICE, productPrice.getRetailPrice());
+					}
+					if (productPrice.getMaxSellingPrice()!=null && StringUtils.isNotEmpty(maxSellingPriceOperator)) {
+						constraints.put(ProductPriceService.OPERATOR_SELLING_MAX, maxSellingPriceOperator);
+						constraints.put(ProductPriceService.SELLING_MAX_PRICE, productPrice.getMaxSellingPrice());
+					}
+					if (productPrice.getMinSellingPrice()!=null && StringUtils.isNotEmpty(minSellingPriceOperator)) {
+						constraints.put(ProductPriceService.OPERATOR_SELLING_MIN, minSellingPriceOperator);
+						constraints.put(ProductPriceService.SELLING_MIN_PRICE, productPrice.getMinSellingPrice());
+					}
+				}
+			} else {
+				constraints.put(ProductPriceService.PAGE_NUM, 0); 
 			}
-			if (StringUtils.isNotEmpty(productPrice.getProductName())) {
-				constraints.put(ProductPriceService.PRODUCT_NAME, productPrice.getProductName());
-			}
-			if (StringUtils.isNotEmpty(productPrice.getCategory())) {
-				constraints.put(ProductPriceService.CATEGORY, productPrice.getCategory());
-			}
-			if (productPrice.getRetailPrice()!=null && StringUtils.isNotEmpty(retailPriceOperator)) {
-				constraints.put(ProductPriceService.OPERATOR_RETAIL_PRICE, retailPriceOperator);
-				constraints.put(ProductPriceService.RETAIL_PRICE, productPrice.getRetailPrice());
-			}
-			if (productPrice.getMaxSellingPrice()!=null && StringUtils.isNotEmpty(maxSellingPriceOperator)) {
-				constraints.put(ProductPriceService.OPERATOR_SELLING_MAX, maxSellingPriceOperator);
-				constraints.put(ProductPriceService.SELLING_MAX_PRICE, productPrice.getMaxSellingPrice());
-			}
-			if (productPrice.getMinSellingPrice()!=null && StringUtils.isNotEmpty(minSellingPriceOperator)) {
-				constraints.put(ProductPriceService.OPERATOR_SELLING_MIN, minSellingPriceOperator);
-				constraints.put(ProductPriceService.SELLING_MIN_PRICE, productPrice.getMinSellingPrice());
-			}
-		} 
+		} else {
+			constraints.put(ProductPriceService.PAGE_NUM, 0);
+		}
 		
 		page = productService.viewProductsAndPrices(constraints);
 		

@@ -4,7 +4,7 @@ import com.is.model.Page;
 
 public class PageUtility {
 	
-	public static void computeNumberOfPages(Page page){
+	/*public static void computeNumberOfPages(Page page){
 		int totalRecords = page.getTotalRecords();
 		int pageSize = page.getPageSize();
 		int quotient = totalRecords / pageSize;
@@ -30,6 +30,6 @@ public class PageUtility {
 		page.setBeginIndex(0);
 		page.setEndIndex(4);
 		page.setPageNumber(1);
-	}
+	}*/
 
 }

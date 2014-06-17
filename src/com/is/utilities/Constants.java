@@ -4,6 +4,7 @@ public class Constants {
 	
 	public static final String USER_SESSION = "userSession";
 	public static final String HIBERNATE_SESSION = "hibernateSession";
+	public static final String EMPLOYEE_ON_DUTY_SESSION = "onDutySession";
 	public static final String SUCCESS = "success";
 	
 	public static final String LOGIN_FAILED_ENTER_USERNAME = "enter.username";
@@ -15,6 +16,8 @@ public class Constants {
 	public static final String CHANGE_PASSWORD_ENTER_NEW_PASSWORD = "new.password.must.not.be.empty";
 	public static final String CHANGE_PASSWORD_ENTER_OLD_PASSWORD = "old.password.must.not.be.empty";
 	
+	public static final String PAGE_TYPE_PREVIOUS = "previous";
+	public static final String PAGE_TYPE_NEXT = "next";
 	
 
 }

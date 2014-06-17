@@ -15,7 +15,6 @@ import com.is.model.Page;
 import com.is.model.ProductPriceList;
 import com.is.service.interfaze.ProductPriceService;
 import com.is.utilities.LoggingUtility;
-import com.is.utilities.PageUtility;
 
 public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductPriceService{ 
 
@@ -23,12 +22,41 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		Page page = new Page();
 		page.setPageSize((Integer)constraints.get(PAGE_SIZE));
 		page.setContents(getProductPriceList(constraints));
+		page.setTotalSizeOfContents(page.getContents().size());
 		page.setTotalRecords(getTotalProducts(constraints));
 		if (page.getContents().size() < page.getTotalRecords()) {
-			PageUtility.computeNumberOfPages(page);
-			PageUtility.setDefaultIndexes(page);
+			page.setPageResult((Integer)constraints.get(PAGE_NUM));
+			setPageParameters(constraints, page);
+		} else {
+			page.setParameters(null);
+			page.setPageResult(0);
 		}
 		return page;
+	}
+	
+	private void setPageParameters(Map<String, Object> constraints, Page page){
+		List<String> pageParams = new ArrayList<String>();
+		if (constraints.containsKey(PRODUCT_NAME)) {
+			pageParams.add(PRODUCT_NAME+"-"+(String) constraints.get(PRODUCT_NAME));
+		}
+		if (constraints.containsKey(CATEGORY)) {
+			pageParams.add(CATEGORY+"-"+(String) constraints.get(CATEGORY));
+		}
+		if (constraints.containsKey(HISTORY)) {
+			pageParams.add(HISTORY+"-"+(String) constraints.get(HISTORY));
+		}
+		if (constraints.containsKey(RETAIL_PRICE)) {
+			pageParams.add(OPERATOR_RETAIL_PRICE+"-"+(String)constraints.get(OPERATOR_RETAIL_PRICE));
+			pageParams.add(RETAIL_PRICE+"-"+((BigDecimal)constraints.get(RETAIL_PRICE)).toPlainString());
+		}
+		if (constraints.containsKey(SELLING_MAX_PRICE)) {
+			pageParams.add(OPERATOR_SELLING_MAX+"-"+(String)constraints.get(OPERATOR_SELLING_MAX));
+			pageParams.add(SELLING_MAX_PRICE+"-"+((BigDecimal)constraints.get(SELLING_MAX_PRICE)).toPlainString());
+		}
+		if (constraints.containsKey(SELLING_MIN_PRICE)) {
+			pageParams.add(OPERATOR_SELLING_MIN+"-"+(String)constraints.get(OPERATOR_SELLING_MIN));
+			pageParams.add(SELLING_MIN_PRICE+"-"+((BigDecimal)constraints.get(SELLING_MIN_PRICE)).toPlainString());
+		}
 	}
 	
 	private List<?> getProductPriceList(Map<String, Object> constraints){
@@ -186,9 +214,13 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		query.setParameter("retailprice", productPrice.getRetailPrice());
 		query.setParameter("sellingmaxprice", productPrice.getMaxSellingPrice());
 		query.setParameter("sellingMinPrice", productPrice.getMinSellingPrice());
+		LoggingUtility.log(getClass(), "Add Product: Params["+productPrice.getProductName()+","+productPrice.getCategory()+
+															","+productPrice.getProductCreatedBy()+","+productPrice.getRetailPrice()+
+															","+productPrice.getMaxSellingPrice()+","+productPrice.getMinSellingPrice()+"]");
 		
 		List<?> list = query.list();
 		String result = (String) list.get(0);
+		LoggingUtility.log(getClass(), "Add Product Attempt Result: "+result);
 		
 		return result;
 	}
@@ -201,9 +233,13 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		query.setParameter("sellingmaxprice", productPrice.getMaxSellingPrice());
 		query.setParameter("sellingMinPrice", productPrice.getMinSellingPrice());
 		query.setParameter("updatedby", productPrice.getPriceCreatedBy());
-
+		LoggingUtility.log(getClass(), "Update Prices: Params["+productPrice.getProductId()+","+productPrice.getRetailPrice()+
+																","+productPrice.getMaxSellingPrice()+","+productPrice.getMinSellingPrice()+
+																","+productPrice.getPriceCreatedBy()+"]");
+		
 		List<?> list = query.list();
 		String result = (String) list.get(0);
+		LoggingUtility.log(getClass(), "Update Prices Attempt Result: "+result);
 		
 		return result;
 	}
@@ -214,11 +250,13 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		query.setParameter("productid", productPrice.getProductId());
 		query.setParameter("status", productPrice.getIsHistory());
 		query.setParameter("updatedby", productPrice.getProductCreatedBy());	
+		LoggingUtility.log(getClass(), "Archive Product: Params["+productPrice.getProductId()+","+productPrice.getIsHistory()+","+productPrice.getProductCreatedBy()+"]");
 		
 		List<?> list = query.list();
 		String result = (String) list.get(0);
+		LoggingUtility.log(getClass(), "Archive Product Attempt Result: "+result);
 		
 		return result;
 	}
-
+	
 }
