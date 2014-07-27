@@ -14,6 +14,7 @@ import com.is.model.EmployeeOnDuty;
 import com.is.service.interfaze.EmployeeService;
 import com.is.utilities.Constants;
 import com.is.utilities.DateUtility;
+import com.is.utilities.LoggingUtility;
 import com.is.utilities.SessionUtility;
 
 public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeService{
@@ -101,6 +102,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 		query.setParameter("userid", userId);
 		query.setParameter("currentdate", DateUtility.getSimpleCurrentDateStr());
 		
+		LoggingUtility.log(getClass(), "Check In Detail Query["+hql.toString()+"]");
+		LoggingUtility.log(getClass(), "Check In Detail Params["+userId+", "+DateUtility.getSimpleCurrentDateStr()+"]");
+		
 		List<?> list = query.list();
 		Iterator<?> iter = list.iterator();
 		CheckInDetail checkInDetail = null;
@@ -116,6 +120,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl implements EmployeeServ
 		
 		if (checkInDetail!=null) {
 			setEmployeeOnDutySession(userId);
+		} else {
+			checkInDetail = new CheckInDetail();
+			checkInDetail.setOnDutyStatus(1);
 		}
 		
 		return checkInDetail;

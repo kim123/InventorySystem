@@ -57,18 +57,12 @@
 			}
 			
 			$('.decimalInput').keypress(function(e){
-				var keyCode = e.which;
-				//190 is the key code of decimal if you dont want decimals remove this condition keyCode != 190
-		        if (keyCode != 8 && keyCode != 9 && keyCode != 13 && keyCode != 37 && keyCode != 38 && keyCode != 39 && 
-		        		keyCode != 40 && keyCode != 46 && keyCode != 110 && keyCode != 190) {
-		            if (keyCode < 48) {
-		                e.preventDefault();
-		            } else if (keyCode > 57 && keyCode < 96) {
-		                e.preventDefault();
-		            } else if (keyCode > 105) {
-		                e.preventDefault();
-		            }
-		        }
+				var charCode = (e.which) ? e.which : event.keyCode;
+		        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
+		                (charCode < 48 || charCode > 57))
+		            return false;
+	
+		        return true;
 			});
 		</script>
 	</head>

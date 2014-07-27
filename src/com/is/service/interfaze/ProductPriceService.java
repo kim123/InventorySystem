@@ -1,5 +1,6 @@
 package com.is.service.interfaze;
 
+import java.util.List;
 import java.util.Map;
 
 import com.is.model.Page;
@@ -25,5 +26,7 @@ public interface ProductPriceService {
 	String addProductPrice(ProductPriceList productPrice);
 	String updatePrices(ProductPriceList productPrice);
 	String archiveProduct(ProductPriceList productPrice);
+	List<ProductPriceList> productPriceList(int categoryId);
+	List<ProductPriceList> productPriceList();
 
 }

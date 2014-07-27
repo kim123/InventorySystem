@@ -73,6 +73,15 @@ $(document).ready(function(){
 		
 	});
 	
+	$('.decimalInput').keypress(function(e){
+		//var keyCode = e.which;
+				var charCode = (e.which) ? e.which : event.keyCode;
+		        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
+		                (charCode < 48 || charCode > 57))
+		            return false;
+
+		        return true;
+	});
 });
 </script>
 

@@ -44,29 +44,32 @@
 							<li role="presentation" class="dropdown-header">OPERATION</li>
 						</c:if>
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'C') }">
-							<c:choose>
-								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
+							<%-- <c:choose>
+								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }"> --%>
 									<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="category.htm">Category</a></li>
-								</c:when>
+								<%-- </c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 3 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Category</a></li>
 								</c:otherwise>
-							</c:choose>
+							</c:choose> --%>
 						</c:if>
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'D') }">
-							<c:choose>
-								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
+							<%-- <c:choose>
+								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }"> --%>
 									<li <c:if test='${menuActive eq 4 }'>class="active"</c:if> ><a href="product.htm">Products</a></li>
-								</c:when>
+								<%-- </c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 4 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Products</a></li>
 								</c:otherwise>
-							</c:choose>
+							</c:choose> --%>
 						</c:if>
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'F') }">
 							<c:choose>
-								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="">Inventory</a></li>
+								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0'}">
+									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="inventory.htm">Inventory</a></li>
+								</c:when>
+								<c:when test="${!(fn:contains(sessionScope.userSession.role.permission, 'E'))}">
+									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="inventory.htm">Inventory</a></li>
 								</c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Inventory</a></li>
@@ -76,7 +79,7 @@
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'H') }">
 							<c:choose>
 								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="">Stocks on Hand</a></li>
+									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="stocksonhand.htm">Stocks on Hand</a></li>
 								</c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Stocks on Hand</a></li>
@@ -86,7 +89,7 @@
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'I') }">
 							<c:choose>
 								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="">Daily Sales and Expenses</a></li>
+									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="dailySalesExpenses.htm">Daily Sales and Expenses</a></li>
 								</c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Daily Sales and Expenses</a></li>

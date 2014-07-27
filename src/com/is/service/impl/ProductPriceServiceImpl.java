@@ -258,5 +258,42 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 		
 		return result;
 	}
+
+	public List<ProductPriceList> productPriceList(int categoryId) {
+		List<ProductPriceList> productPriceList = new ArrayList<ProductPriceList>();
+		String hql = "select product_id,product_name from product where category_id=:categoryid";
+		Query query = getSession().createSQLQuery(hql);
+		query.setParameter("categoryid", categoryId);
+		
+		List<?> list = query.list();
+		Iterator<?> iter = list.iterator();
+		while (iter.hasNext()) {
+			Object[] object = (Object[]) iter.next();
+			ProductPriceList ppl = new ProductPriceList();
+			ppl.setProductId((Integer)object[0]);
+			ppl.setProductName((String)object[1]);
+			productPriceList.add(ppl);
+		}
+		
+		return productPriceList;
+	}
+
+	public List<ProductPriceList> productPriceList() {
+		List<ProductPriceList> productPriceList = new ArrayList<ProductPriceList>();
+		String hql = "select product_id,product_name from product order by category_id asc";
+		Query query = getSession().createSQLQuery(hql);
+		
+		List<?> list = query.list();
+		Iterator<?> iter = list.iterator();
+		while (iter.hasNext()) {
+			Object[] object = (Object[]) iter.next();
+			ProductPriceList ppl = new ProductPriceList();
+			ppl.setProductId((Integer)object[0]);
+			ppl.setProductName((String)object[1]);
+			productPriceList.add(ppl);
+		}
+		
+		return productPriceList;
+	}
 	
 }

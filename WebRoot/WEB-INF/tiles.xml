@@ -29,4 +29,13 @@
  	<definition name="checkout" extends="template">
  		<put-attribute name="content" value="/WEB-INF/jsp/secured/checkOut.jsp" />
  	</definition>
+ 	<definition name="inventory" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/inventory.jsp" />
+ 	</definition>
+ 	<definition name="stocksonhand" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/stocksOnHand.jsp" />
+ 	</definition>
+ 	<definition name="dailySalesExpense" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/dailySalesExpenses.jsp" />
+ 	</definition>
 </tiles-definitions>

@@ -108,6 +108,25 @@
 			<result name="input" type="tiles">checkout</result>
 		</action>
 		
+		<action name="inventory" class="com.is.action.InventoryAction">
+			<result name="success" type="tiles">inventory</result>
+		</action>
+		<action name="addStocksAction" class="com.is.action.InventoryAction" method="addStocks">
+		</action>
+		<action name="getProductsBasedOnCategory" class="com.is.action.InventoryAction" method="getProductPriceList">
+		</action>
+		
+		<action name="stocksonhand" class="com.is.action.StocksOnHandAction">
+			<result name="success" type="tiles">stocksonhand</result>
+		</action>
+		<action name="addStocksOnHandAction" class="com.is.action.StocksOnHandAction" method="addStocksOnHand">
+		</action>
+		
+		<action name="dailySalesExpenses" class="com.is.action.DailySalesExpensesAction">
+			<result name="success" type="tiles">dailySalesExpense</result>
+		</action>
+
+		
 	</package>
 	
 </struts>

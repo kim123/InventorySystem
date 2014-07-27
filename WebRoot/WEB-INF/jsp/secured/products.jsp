@@ -159,6 +159,15 @@ $(document).ready(function(){
 		
 	});
 	
+	$('.decimalInput').keypress(function(e){
+		var charCode = (e.which) ? e.which : event.keyCode;
+        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
+                (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+	});
+	
 });
 </script>
 
@@ -309,7 +318,7 @@ $(document).ready(function(){
 				</td>
 			</tr>
 			<tr>
-				<td>Page Size: <input type="text" name="pageSize" id="pageSize" class="decimalInput"/>
+				<td>Page Size: <input type="text" name="pageSize" id="pageSize" class="decimalInput" size="5"/>
 				</td>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td><button class="btn btn-primary" id="searchCriteriaForm">Search</button></td>

@@ -50,7 +50,14 @@ $(document).ready(function(){
 		}
 	});
 	
-	
+	$('.decimalInput').keypress(function(e){
+		var charCode = (e.which) ? e.which : event.keyCode;
+        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
+                (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+	});
 	
 });
 
@@ -58,7 +65,7 @@ $(document).ready(function(){
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">	
 	<h2 class="page-header">DUTY CHECK-IN</h2>
-	<br/><br/>
+	<br/>
 	<c:if test="${checkInDetail.onDutyStatus eq '0' }">
 		<h4 class="sub-header">Check In Details</h4>
 	</c:if>
