@@ -8,13 +8,24 @@ import com.is.utilities.Constants;
 
 public class BaseServiceImpl {
 	
-	private Session session;
+	private static Session session;
 
 	protected Session getSession() {
-		SessionFactory sessionFactory = (SessionFactory) 
-											ServletActionContext.getServletContext().getAttribute(Constants.HIBERNATE_SESSION);
-		session = sessionFactory.openSession();
+		if (session==null) {
+			SessionFactory sessionFactory = (SessionFactory) ServletActionContext.getServletContext().getAttribute(Constants.HIBERNATE_SESSION);
+			session = sessionFactory.openSession();
+		}
 		return session;
+	}
+	
+	protected void closeSession(){
+		if (session!=null) {
+			session.close();
+		}
+	}
+	
+	protected void nullifySession(){
+		session = null;
 	}
 
 }

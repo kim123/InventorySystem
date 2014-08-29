@@ -12,15 +12,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.is.model.Category;
+import com.is.model.DailySales;
+import com.is.model.Expenses;
+import com.is.model.Page;
 import com.is.model.ProductPriceList;
+import com.is.model.StocksOnHand;
 import com.is.service.impl.CategoryServiceImpl;
 import com.is.service.impl.DailySalesExpensesServiceImpl;
 import com.is.service.impl.ProductPriceServiceImpl;
+import com.is.service.impl.StocksOnHandServiceImpl;
 import com.is.service.interfaze.CategoryService;
 import com.is.service.interfaze.DailySalesExpensesService;
 import com.is.service.interfaze.InventoryService;
 import com.is.service.interfaze.ProductPriceService;
+import com.is.service.interfaze.StocksOnHandService;
 import com.is.utilities.Constants;
+import com.is.utilities.SessionUtility;
 
 @SuppressWarnings("serial")
 public class DailySalesExpensesAction extends BaseAction{
@@ -28,6 +35,7 @@ public class DailySalesExpensesAction extends BaseAction{
 	private static DailySalesExpensesService dailySalesExpenseService;
 	private static CategoryService categoryService;
 	private static ProductPriceService productService;
+	private static StocksOnHandService stocksOnHandService;
 	
 	static {
 		if (dailySalesExpenseService==null) {
@@ -39,14 +47,53 @@ public class DailySalesExpensesAction extends BaseAction{
 		if (productService==null) {
 			productService = new ProductPriceServiceImpl();
 		}
+		if (stocksOnHandService==null) {
+			stocksOnHandService = new StocksOnHandServiceImpl();
+		}
 	}
 	
 	private String searchDate;
 	private int categoryId;
-	private String tabType; // 1=Daily Sales, 2=Expenses
+	private Page pageExpense;
+	//private String tabType; // 1=Daily Sales, 2=Expenses
+	private DailySales sales;
+	private Expenses expense;
+	private int productId;
 	
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public DailySales getSales() {
+		return sales;
+	}
+
+	public void setSales(DailySales sales) {
+		this.sales = sales;
+	}
+
+	public Expenses getExpense() {
+		return expense;
+	}
+
+	public void setExpense(Expenses expense) {
+		this.expense = expense;
+	}
+
 	public String getSearchDate() {
 		return searchDate;
+	}
+
+	public Page getPageExpense() {
+		return pageExpense;
+	}
+
+	public void setPageExpense(Page pageExpense) {
+		this.pageExpense = pageExpense;
 	}
 
 	public void setSearchDate(String searchDate) {
@@ -77,10 +124,11 @@ public class DailySalesExpensesAction extends BaseAction{
 			} else {
 				json.put(Constants.SUCCESS, true);
 				for (ProductPriceList ppl : productPriceList) {
-					selectOptions.append(";").append(ppl.getProductId()).append("/").append(ppl.getProductName());
+					selectOptions.append(";").append(ppl.getProductId()).append("/").append(ppl.getProductName()).append("/")
+												.append(ppl.getMaxSellingPrice()).append("/").append(ppl.getMinSellingPrice());
 				}
 			}			
-			json.put("options", selectOptions.toString());
+			json.put("options", selectOptions.toString());			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -92,12 +140,9 @@ public class DailySalesExpensesAction extends BaseAction{
 	public String execute(){
 		setMenuActive("8");
 		if (StringUtils.isEmpty(searchDate)) {
-			setSearchDate(getDefaultDate());
+			setSearchDate(getDefaultDate()); 
 		}
-		if (StringUtils.isEmpty(tabType)) {
-			setTabType("1");
-		}
-		
+
 		Map<String, Object> constraints = new HashMap<String, Object>();
 		constraints.put(DailySalesExpensesService.PAGE_SIZE, getPageSize());
 		
@@ -116,16 +161,91 @@ public class DailySalesExpensesAction extends BaseAction{
 			
 		} else {
 			constraints.put(InventoryService.PAGE_NUM, 0);
+			constraints.put(DailySalesExpensesService.SEARCH_DATE, searchDate);
 		}
 		
-		if (tabType.equals("1")) {
-			page = dailySalesExpenseService.viewDailySales(constraints);
-		} else {
-			page = dailySalesExpenseService.viewExpenses(constraints);
-		}
-		
-		
+		page = dailySalesExpenseService.viewDailySales(constraints);
+		pageExpense = dailySalesExpenseService.viewExpenses(constraints);
+
 		return SUCCESS;
+	}
+	
+	public String getPricesBasedOnProductName(){
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		ProductPriceList productPrice = productService.getProductPrice(productId);
+		try {
+			StringBuilder selectOptions = new StringBuilder(" ");
+			json.put(Constants.SUCCESS, true);
+			selectOptions.append(productPrice.getMaxSellingPrice()).append("/").append(productPrice.getMinSellingPrice());			
+			json.put("options", selectOptions.toString());			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);
+		return null;
+	}
+	
+	public String getAvailableStocksBasedOnProductId(){
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		StocksOnHand stocks = stocksOnHandService.getAvailableStocksBasedOnProdId(productId);
+		try {
+			StringBuilder selectOptions = new StringBuilder(" ");
+			json.put(Constants.SUCCESS, true);
+			selectOptions.append(stocks.getStocksOnHandId()).append("/").append(stocks.getQuantity());			
+			json.put("stocks", selectOptions.toString());			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);		
+		return null;
+	}
+	
+	public String addDailySales(){
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		
+		sales.setCreatedBy(SessionUtility.getUser().getUserName());
+		String result = dailySalesExpenseService.addSales(sales);
+		try {
+			if (result==null) {
+				json.put(Constants.SUCCESS, true);
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+			} else {
+				json.put(Constants.SUCCESS, false);
+			}
+			json.put("message", result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);
+		
+		return null;
+	}
+	
+	public String addExpense(){
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
+		
+		expense.setCreatedBy(SessionUtility.getUser().getUserName());
+		String result = dailySalesExpenseService.addExpense(expense);
+		try {
+			if (result==null) {
+				json.put(Constants.SUCCESS, true);
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+			} else {
+				json.put(Constants.SUCCESS, false);
+			}
+			json.put("message", result);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);
+		
+		return null;
 	}
 	
 	private String getDefaultDate(){
@@ -135,12 +255,12 @@ public class DailySalesExpensesAction extends BaseAction{
 		return sdf.format(calendar.getTime());
 	}
 
-	public String getTabType() {
+	/*public String getTabType() {
 		return tabType;
 	}
 
 	public void setTabType(String tabType) {
 		this.tabType = tabType;
-	}
+	}*/
 
 }

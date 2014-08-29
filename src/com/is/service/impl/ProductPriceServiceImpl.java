@@ -261,7 +261,8 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 
 	public List<ProductPriceList> productPriceList(int categoryId) {
 		List<ProductPriceList> productPriceList = new ArrayList<ProductPriceList>();
-		String hql = "select product_id,product_name from product where category_id=:categoryid";
+		String hql = "select p.product_id,p.product_name,r.selling_max_price,r.selling_min_price from product p "
+						+ "join price r on r.price_product_id=p.product_id where p.category_id=:categoryid";
 		Query query = getSession().createSQLQuery(hql);
 		query.setParameter("categoryid", categoryId);
 		
@@ -272,6 +273,8 @@ public class ProductPriceServiceImpl extends BaseServiceImpl implements ProductP
 			ProductPriceList ppl = new ProductPriceList();
 			ppl.setProductId((Integer)object[0]);
 			ppl.setProductName((String)object[1]);
+			ppl.setMaxSellingPrice((BigDecimal)object[2]);
+			ppl.setMinSellingPrice((BigDecimal)object[3]);
 			productPriceList.add(ppl);
 		}
 		

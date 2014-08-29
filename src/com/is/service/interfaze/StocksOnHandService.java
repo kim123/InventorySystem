@@ -17,5 +17,6 @@ public interface StocksOnHandService {
 	Page viewStocksOnHand(Map<String, Object> constraints);
 	String addStocksOnHand(StocksOnHand stocksOnHand);
 	
+	StocksOnHand getAvailableStocksBasedOnProdId(int productId);
 	
 }

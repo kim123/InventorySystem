@@ -115,7 +115,6 @@ $(document).ready(function(){
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">	
 	<h2 class="page-header">STOCKS ON HAND</h2>
-	<br/><br/>
 	<h4 class="sub-header">Stocks On Hand Logs</h4>
 	<div class="table-responsive">
 		<form action="stocksonhand.htm" name="searchForm" id="searchForm" method="post" >
@@ -148,7 +147,7 @@ $(document).ready(function(){
 						<th style="width:8%;">Category</th>
 						<th style="width:9%;">Quantity</th>
 						<th style="width:9%;">Unit Sold</th>
-						<th style="width:9%;">Unit Price</th>
+						<!-- <th style="width:9%;">Unit Price</th> -->
 						<th style="width:11%;">Total Amount</th>
 						<th style="width:11%;">Updated Date</th>
 						<th style="width:11%;">Updated By</th>
@@ -161,9 +160,16 @@ $(document).ready(function(){
 							<td>${query.productName }</td>
 							<td>${query.category }</td>
 							<td>${query.quantity }</td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>${query.unitSold }</td>
+							<td>
+								<c:if test="${empty query.unitPrice }">
+									-
+								</c:if>
+								<c:if test="${not empty query.unitPrice }">
+									<c:out value="${query.unitPrice}" />
+								</c:if>
+							</td>
+							<!-- <td></td> -->
 							<td>
 								<c:if test="${empty query.createdDate}">
 									-
@@ -211,5 +217,12 @@ $(document).ready(function(){
 				</tbody>
 			</table>
 		</div>
+	</c:if>
+	<c:if test="${!(fn:contains(sessionScope.userSession.role.permission, 'H2')) }">
+	<div class="row placeholders">
+		<div class="col-xs-6 col-sm-3 placeholder">
+			No access rights to proceed
+		</div>
+	</div>
 	</c:if>
 </div>

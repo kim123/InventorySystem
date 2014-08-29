@@ -27,7 +27,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 												.append("WHERE u.user_name collate utf8_bin = :userName ");
 		Query query = getSession().createSQLQuery(hql.toString());
 		query.setParameter("userName", user.getUserName());
-		Object[] object = (Object[]) query.list().get(0);
+		List<?> lists = query.list();
+		Object[] object = (Object[]) lists.get(0);
 		User user2 = new User();
 		user2.setUserId((int) object[0]);
 		user2.setUserName((String) object[1]);
@@ -46,7 +47,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 
 	public String login(User user) {
-		String hql = "SELECT Login(:userName, :password)";
+		String hql = "CALL Login(:userName, :password)";
 		Query query = getSession().createSQLQuery(hql);
 		query.setParameter("userName", user.getUserName());
 		query.setParameter("password", user.getPassword());
@@ -73,10 +74,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		query.setParameter("bankaccountnum", "");
 		LoggingUtility.log(getClass(), "Add User: Params["+user.getUserName()+","+user.getFullName()
 										+","+user.getPassword()+","+user.getRankId()+","+user.getCreatedBy()+"]");
-		List<?> list = query.list();
+		List<?> list = query.list(); 
 		String result = (String) list.get(0);
 
 		LoggingUtility.log(getClass(), "Add User Attempt Result: "+result);
+		nullifySession();
 		
 		return result;
 	}

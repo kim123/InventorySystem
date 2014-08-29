@@ -8,8 +8,10 @@
 		<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/bootstrap.min.js'/>"></script>
 		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/docs.min.js' />"></script>
+		<script src="<c:url value='/js/jquery-ui.js' />"></script>
 		<!-- Bootstrap core CSS -->
 		<link href="<c:url value='/js/bootstrap-3.1.1-dist/css/bootstrap.min.css'/>" rel="stylesheet"/>
+		<link href="<c:url value='/css/jquery-ui.css'/>" rel="stylesheet" />
 		<!-- Custom styles for this template -->
 		<link href="<c:url value='/css/dashboard.css' />" rel="stylesheet"/>
 		<script type="text/javascript">			

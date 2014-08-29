@@ -1,5 +1,6 @@
 package com.is.service.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -87,15 +88,42 @@ public class StocksOnHandServiceImpl extends BaseServiceImpl implements StocksOn
 			s.setProductId((Integer)object[0]);
 			s.setProductName((String)object[1]);
 			s.setCategory((String)object[2]);
+			if (((Integer)object[3])==null) {
+				s.setStocksOnHandId(0);
+			} else {
+				s.setStocksOnHandId((Integer)object[3]);
+			}
 			s.setQuantity(((BigInteger)object[5]).intValue());
 			s.setCreatedBy((String)object[7]);
 			s.setCreatedDate((Timestamp)object[6]);
 			s.setInventoryId(((BigInteger)object[8]).intValue());
 			s.setAvailableQuantity(getAvailableQuantityBasedOnInventory(s.getInventoryId()));
+			s = setUnitSoldAndPrice(s);
 			list.add(s);
 		}
 				
 		return list;
+	}
+	
+	private StocksOnHand setUnitSoldAndPrice(StocksOnHand stocksOnHand){
+		StringBuilder sql = new StringBuilder("select sum(d.quantity_sold) quantitySold, sum(a.recordAmount) totalAmount ");
+		sql.append("from daily_sales d ");
+		sql.append("join (select daily_sales_id,(quantity_sold*amount) recordAmount from daily_sales ");
+		sql.append("where daily_on_hand_id=:dailyonhandid ");
+		sql.append(") a on a.daily_sales_id=d.daily_sales_id ");
+		sql.append("group by daily_on_hand_id ");
+		
+		Query query = getSession().createSQLQuery(sql.toString());
+		query.setParameter("dailyonhandid", stocksOnHand.getStocksOnHandId());
+		
+		List<?> tempList = query.list();
+		Iterator<?> iter = tempList.iterator();
+		while (iter.hasNext()) {
+			Object[] object = (Object[]) iter.next();
+			stocksOnHand.setUnitSold(((BigDecimal)object[0]).intValue());
+			stocksOnHand.setUnitPrice((BigDecimal)object[1]);
+		}
+		return stocksOnHand;
 	}
 	
 	private Integer getAvailableQuantityBasedOnInventory(int inventoryId){
@@ -154,6 +182,34 @@ public class StocksOnHandServiceImpl extends BaseServiceImpl implements StocksOn
 		LoggingUtility.log(getClass(), "Add Stocks on Hand Attempt Result: "+result);
 		
 		return result;
+	}
+
+	public StocksOnHand getAvailableStocksBasedOnProdId(int productId) {
+		StringBuilder sql = new StringBuilder("select daily_on_hand_id,on_hand_product_id,(CASE s.ending_quantity IS NULL WHEN TRUE THEN 0 ELSE s.ending_quantity END) quantity ");
+		sql.append("from product p  ");
+		sql.append("join ( ");
+		sql.append("	select daily_on_hand_id,on_hand_product_id,ending_quantity from ( ");
+		sql.append("		select daily_on_hand_id,on_hand_product_id,ending_quantity ");
+		sql.append("			from daily_on_hand_products ");
+		sql.append("			where on_hand_product_id=:productid ");
+		sql.append("		order by created_date desc ");
+		sql.append("	)a group by on_hand_product_id ");
+		sql.append(") s on s.on_hand_product_id=p.product_id ");
+		
+		Query query = getSession().createSQLQuery(sql.toString());
+		query.setParameter("productid", productId);
+		
+		List<?> tempList = query.list();
+		Iterator<?> iter = tempList.iterator();
+		StocksOnHand s = new StocksOnHand();
+		while (iter.hasNext()) {
+			Object[] object = (Object[]) iter.next();
+			s.setStocksOnHandId((Integer)object[0]);
+			s.setProductId((Integer)object[1]);
+			s.setQuantity(((BigInteger)object[2]).intValue());
+		}
+		
+		return s;
 	}
 
 

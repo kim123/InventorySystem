@@ -35,9 +35,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 	
 	public List<Expenses> getExpenseList(Map<String, Object> constraints) {
 		List<Expenses> expenseList = new ArrayList<Expenses>();
-		String sql = getExpensesQuery();
+		String sql = getExpensesQuery(constraints);
 		Query query = getSession().createSQLQuery(sql);
-		query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		if (sql.toString().contains("searchDate")) {
+			query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		}
 		
 		query.setFirstResult((Integer)constraints.get(PAGE_NUM));
 		query.setMaxResults((Integer)constraints.get(PAGE_SIZE));
@@ -61,9 +63,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 	}
 	
 	private Integer getTotalExpenseRecords(Map<String, Object> constraints){
-		String hql = "SELECT count(1) as totalRecord from("+getDailySalesQuery()+") a";
+		String hql = "SELECT count(1) as totalRecord from("+getExpensesQuery(constraints)+") a";
 		Query query = getSession().createSQLQuery(hql);
-		query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		if (hql.toString().contains("searchDate")) {
+			query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		}
 		LoggingUtility.log(getClass(), "Get Expense Total: Query["+query.getQueryString()+"]");
 		BigInteger totalRecord = (BigInteger) query.list().get(0);
 		LoggingUtility.log(getClass(), "Get Expense List: Total["+totalRecord.intValue()+"]");
@@ -71,8 +75,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 		return totalRecord.intValue();	
 	}
 	
-	private String getExpensesQuery(){
-		String sql = "select name,amount,created_date,created_by from other_expenses where date(created_date)=:searchDate";
+	private String getExpensesQuery(Map<String, Object> constraints){
+		String sql = "select name,amount,created_date,created_by from other_expenses ";
+		if (constraints.containsKey(SEARCH_DATE)) {
+			sql = sql.concat("where date(created_date)=:searchDate ");
+		}
 		
 		return sql;
 	}
@@ -110,9 +117,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 	
 	public List<DailySales> getDailySalesList(Map<String, Object> constraints) {
 		List<DailySales> dailySalesList = new ArrayList<DailySales>();
-		String sql = getDailySalesQuery();
+		String sql = getDailySalesQuery(constraints);
 		Query query = getSession().createSQLQuery(sql);
-		query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		if (sql.toString().contains("searchDate")) {
+			query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		}
 		
 		query.setFirstResult((Integer)constraints.get(PAGE_NUM));
 		query.setMaxResults((Integer)constraints.get(PAGE_SIZE));
@@ -128,10 +137,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 			ds.setDailySalesId((Integer)object[0]);
 			ds.setProductName((String)object[1]);
 			ds.setCategory((String)object[2]);
-			ds.setBeforeQuantity(((BigInteger)object[3]).intValue());
-			ds.setUnitSold(((BigInteger)object[4]).intValue());
+			ds.setBeforeQuantity(((Integer)object[3]).intValue());
+			ds.setUnitSold(((Integer)object[4]).intValue());
 			ds.setUnitPrice((BigDecimal)object[5]);
-			ds.setAfterQuantity(((BigDecimal)object[6]).intValue());
+			ds.setTotalAmount(ds.getUnitPrice().multiply(new BigDecimal(ds.getUnitSold())));
+			ds.setAfterQuantity(((Integer)object[6]).intValue());
 			ds.setCreatedDate((Timestamp)object[7]);
 			ds.setCreatedBy((String)object[8]);
 			dailySalesList.add(ds);
@@ -141,9 +151,11 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 	}
 	
 	private Integer getTotalDailySales(Map<String, Object> constraints){
-		String hql = "SELECT count(1) as totalRecord from("+getDailySalesQuery()+") a";
+		String hql = "SELECT count(1) as totalRecord from("+getDailySalesQuery(constraints)+") a";
 		Query query = getSession().createSQLQuery(hql);
-		query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		if (hql.toString().contains("searchDate")) {
+			query.setParameter("searchDate", (String)constraints.get(SEARCH_DATE));
+		}
 		LoggingUtility.log(getClass(), "Get Daily Sales Total: Query["+query.getQueryString()+"]");
 		BigInteger totalRecord = (BigInteger) query.list().get(0);
 		LoggingUtility.log(getClass(), "Get Daily Sales List: Total["+totalRecord.intValue()+"]");
@@ -151,14 +163,16 @@ public class DailySalesExpensesServiceImpl extends BaseServiceImpl implements Da
 		return totalRecord.intValue();		
 	}
 	
-	private String getDailySalesQuery(){
+	private String getDailySalesQuery(Map<String, Object> constraints){
 		StringBuilder sql = new StringBuilder();
 		sql.append("select d.daily_sales_id,p.product_name,c.name category,d.before_quantity_sold,d.quantity_sold, ");
 		sql.append("	d.amount,d.after_quantity_sold,d.created_date,d.created_by ");
 		sql.append("from daily_sales d ");
 		sql.append("join product p on p.product_id=d.daily_sales_product_id ");
 		sql.append("join category c on c.category_id=p.category_id ");
-		sql.append("where date(d.created_date)=:searchDate");
+		if (constraints.containsKey(SEARCH_DATE)) {
+			sql.append("where date(d.created_date)=:searchDate");
+		}
 		
 		return sql.toString();
 	}

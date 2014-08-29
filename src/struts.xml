@@ -125,6 +125,14 @@
 		<action name="dailySalesExpenses" class="com.is.action.DailySalesExpensesAction">
 			<result name="success" type="tiles">dailySalesExpense</result>
 		</action>
+		<action name="addDailySalesAction" class="com.is.action.DailySalesExpensesAction" method="addDailySales">
+		</action>
+		<action name="getAvailableStocksBasedOnProductId" class="com.is.action.DailySalesExpensesAction" method="getAvailableStocksBasedOnProductId">
+		</action>
+		<action name="getPricesBasedOnProductName" class="com.is.action.DailySalesExpensesAction" method="getPricesBasedOnProductName">
+		</action>
+		<action name="addExpensesAction" class="com.is.action.DailySalesExpensesAction" method="addExpense">
+		</action>
 
 		
 	</package>

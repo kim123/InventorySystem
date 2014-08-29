@@ -2,7 +2,7 @@
 <%@include file="../common/taglib.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
-	var roleCheckBoxesLength = 34;
+	var roleCheckBoxesLength = 35;
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
 		for (var i = 1; i < roleCheckBoxesLength; i++) {
@@ -214,7 +214,7 @@ $(document).ready(function(){
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="4" id="34" value="I3" />View Daily Sales & Expenses</td>
 					<td align="left"><input type="checkbox" name="4" id="27" value="J3" />Monthly Sales & Expenses</td>
 				</tr>
 				<tr>

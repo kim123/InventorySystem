@@ -1,5 +1,6 @@
 package com.is.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,12 +13,26 @@ public class StocksOnHand {
 	private String productName;
 	private String category;
 	private int quantity;
+	private int unitSold;
+	private BigDecimal unitPrice;
 	private int totalQuantity;
 	private int endingQuantity;
 	private Timestamp createdDate;
 	private String createdBy;
 	private List<StocksOnHand> dailyPreviousStocksOnHand; // same date previous stocks on hand
 	
+	public int getUnitSold() {
+		return unitSold;
+	}
+	public void setUnitSold(int unitSold) {
+		this.unitSold = unitSold;
+	}
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
 	public int getAvailableQuantity() {
 		return availableQuantity;
 	}
