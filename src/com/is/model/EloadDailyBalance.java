@@ -23,7 +23,14 @@ public class EloadDailyBalance {
 	private BigDecimal actualSoldOutSmart;
 	private BigDecimal actualSoldOutGlobe;
 	private BigDecimal actualSoldOutSun;
+	private Timestamp updatedDate;
 	
+	public Timestamp getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(Timestamp updatedDate) {
+		this.updatedDate = updatedDate;
+	}
 	public int getEloadDailyBalanceId() {
 		return eloadDailyBalanceId;
 	}

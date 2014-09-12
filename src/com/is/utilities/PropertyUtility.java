@@ -9,8 +9,10 @@ public class PropertyUtility{
 	private static Properties property;
   
 	static {
-		property = new Properties();
-		InputStream is = PropertyUtility.class.getClassLoader().getResourceAsStream("config.properties");
+		if (property==null) {
+			property = new Properties();
+		}		
+		InputStream is = PropertyUtility.class.getClassLoader().getResourceAsStream("systemConfig.properties");
 		try {
 			property.load(is);
 			is.close();

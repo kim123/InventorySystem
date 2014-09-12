@@ -1,5 +1,7 @@
 package com.is.utilities;
 
+import java.math.BigDecimal;
+
 public class NumberUtility{
 
 	public static boolean isValidNumberDecimal(String given){
@@ -16,6 +18,14 @@ public class NumberUtility{
 			isValidNumber = false;
 		}
 		return isValidNumber;
+	}
+	
+	public static BigDecimal setBigDecimal(BigDecimal givenNumber){
+		BigDecimal number = BigDecimal.ZERO;
+		if (givenNumber!=null) {
+			number = givenNumber;
+		}
+		return number;
 	}
   
 }

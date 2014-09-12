@@ -119,7 +119,7 @@ public class EmployeeAction extends BaseAction{
 		PrintWriter out = getPrintWriter();
 		JSONObject json = new JSONObject();
 		Map<String,Object> params = new HashMap<String, Object>();
-		params.put(EmployeeService.USER_ID, SessionUtility.getUser().getUserId());
+		params.put(EmployeeService.USER_ID, SessionUtility.getUser().getUserName());
 		params.put(EmployeeService.STARTING_CASH, startingCash);
 		params.put(EmployeeService.STARTING_GLOBE_ELOAD, startingGlobeEload);
 		params.put(EmployeeService.STARTING_SMART_ELOAD, startingSmartEload);
