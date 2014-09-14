@@ -1,8 +1,6 @@
 package com.is.action;
 
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +25,7 @@ import com.is.service.interfaze.InventoryService;
 import com.is.service.interfaze.ProductPriceService;
 import com.is.service.interfaze.StocksOnHandService;
 import com.is.utilities.Constants;
+import com.is.utilities.DateUtility;
 import com.is.utilities.SessionUtility;
 
 @SuppressWarnings("serial")
@@ -140,7 +139,7 @@ public class DailySalesExpensesAction extends BaseAction{
 	public String execute(){
 		setMenuActive("8");
 		if (StringUtils.isEmpty(searchDate)) {
-			setSearchDate(getDefaultDate()); 
+			setSearchDate(DateUtility.getSimpleCurrentDateStr()); 
 		}
 
 		Map<String, Object> constraints = new HashMap<String, Object>();
@@ -247,13 +246,7 @@ public class DailySalesExpensesAction extends BaseAction{
 		
 		return null;
 	}
-	
-	private String getDefaultDate(){
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		return sdf.format(calendar.getTime());
-	}
+
 
 	/*public String getTabType() {
 		return tabType;
