@@ -13,6 +13,7 @@ public class EloadDailySales{
     private String updatedBy;
     private BigDecimal price;
     private Integer priceId;
+    private BigDecimal subTotal;
     
 	public Integer getEloadDailySalesId() {
 		return eloadDailySalesId;
@@ -61,6 +62,12 @@ public class EloadDailySales{
 	}
 	public void setPriceId(Integer priceId) {
 		this.priceId = priceId;
+	}
+	public BigDecimal getSubTotal() {
+		return subTotal;
+	}
+	public void setSubTotal(BigDecimal subTotal) {
+		this.subTotal = subTotal;
 	}
     
     

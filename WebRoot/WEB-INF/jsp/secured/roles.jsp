@@ -2,7 +2,7 @@
 <%@include file="../common/taglib.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
-	var roleCheckBoxesLength = 35;
+	var roleCheckBoxesLength = 40;
 	$("select").change(function(){
 		var rankid = document.getElementById('name.rankId').value;
 		for (var i = 1; i < roleCheckBoxesLength; i++) {
@@ -205,42 +205,42 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td align="left"><input type="checkbox" name="4" id="23" value="F2" />Add Stocks</td>
-					<td align="left"><input type="checkbox" name="4" id="24" value="G2" />Add Daily Balances</td>
+					<td align="left"><input type="checkbox" name="4" id="24" value="G2" />View E-Load Daily Sales Logs</td>
 					<td align="left"><input type="checkbox" name="4" id="33" value="H2" />View Stocks On Hand</td>
 					<td align="left"><input type="checkbox" name="4" id="25" value="I2" />Add Other Expenses</td>
 					<td align="left"><input type="checkbox" name="4" id="26" value="J2" />Weekly Sales & Expenses</td>
 				</tr>
 				<tr>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="35" id="35" value="G3" />Update E-Load Daily Balances</td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="4" id="34" value="I3" />View Daily Sales & Expenses</td>
 					<td align="left"><input type="checkbox" name="4" id="27" value="J3" />Monthly Sales & Expenses</td>
 				</tr>
 				<tr>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="36" id="36" value="G4" />View E-Load Daily Balances Logs</td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="4" id="28" value="J4" />Yearly Sales & Expenses</td>
 				</tr>
 				<tr>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="37" id="37" value="G5" />Configure E-LOAD Prices</td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="4" id="29" value="J5" />Inventory</td>
 				</tr>
 				<tr>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="38" id="38" value="G6" />View E-Load Prices</td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="4" id="30" value="J6" />E-LOAD Revenue</td>
 				</tr>
 				<tr>
 					<td align="left"></td>
-					<td align="left"></td>
+					<td align="left"><input type="checkbox" name="39" id="39" value="G7" />Update E-Load Price Status</td>
 					<td align="left"></td>
 					<td align="left"></td>
 					<td align="left"><input type="checkbox" name="4" id="31" value="J7" />Sales Revenue (Top High Sales)</td>

@@ -13,6 +13,14 @@ public class EloadPrices {
 	private int enableStatus;
 	private String updatedBy;
 	private Timestamp updatedDate;
+	private String eloadName;
+	
+	public String getEloadName() {
+		return eloadName;
+	}
+	public void setEloadName(String eloadName) {
+		this.eloadName = eloadName;
+	}
 	public int getPriceId() {
 		return priceId;
 	}

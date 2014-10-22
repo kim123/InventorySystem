@@ -1,10 +1,8 @@
 package com.is.service.interfaze;
 
 import java.util.List;
-import java.util.Map;
 
 import com.is.model.EloadDailyBalance;
-import com.is.model.EloadDailySales;
 import com.is.model.EloadPrices;
 import com.is.model.Page;
 
@@ -22,17 +20,19 @@ public interface ELoadDailyService {
 	final int ENABLED_PRICE_LIST_TYPE = 0;
 	final int COMPLETE_PRICE_LIST_TYPE = 1;
 	
-	Page viewEloadDailyBalanceLogs(Map<String, Object> constraints);
-	List<EloadDailyBalance> getEloadDailyBalanceList(Map<String, Object> constraints);
-	String updateEloadDailyBalance(EloadDailyBalance eloadDailyBalance);
+	Page viewEloadDailyBalanceLogs(String searchDate);
+	List<EloadDailyBalance> getEloadDailyBalanceList(String searchDate);
+	String updateEloadDailyBalance(String eloadType, EloadDailyBalance eloadDailyBalance);
 	
 	Page viewEloadDailySalesSmart(String searchDate, int type);
 	Page viewEloadDailySalesGlobe(String searchDate, int type);
 	Page viewEloadDailySalesSun(String searchDate, int type);
 	
-	String addEloadDailySales(String eloadId, EloadDailySales[] eloadDailySalesArray, String createdBy);
+	String addEloadDailySales(String eloadId, int priceId, int quantity, String createdBy);
 	
-	Page viewEloadPrices(int pageNum, int pageSize, String eload);
+	List<EloadPrices> getEloadProductIds();
+	Page viewEloadPrices(String eload, Double price, String priceOperator, Double retailPrice, String retailOperator, 
+							Double markupPrice, String markupOperator, String enableStatus);
 	
 	String addEloadPrice(EloadPrices eloadPrice);
 	String updateEloadPrice(EloadPrices eloadPrice);

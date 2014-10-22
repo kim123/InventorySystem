@@ -26,10 +26,10 @@
 						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'E3') }">
 							<c:choose>
 								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="checkOut.htm">Duty Check-Out</a></li>
+									<li <c:if test='${menuActive eq 20 }'>class="active"</c:if> ><a href="checkOut.htm">Duty Check-Out</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before checking out.');">Duty Check-Out</a></li>
+									<li <c:if test='${menuActive eq 20 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before checking out.');">Duty Check-Out</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -96,23 +96,33 @@
 								</c:otherwise>
 							</c:choose>
 						</c:if>
-						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'G2') }">
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'G') }">
 							<c:choose>
 								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="">E-Load Balances</a></li>
+									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="eloadDailyBalance.htm">E-Load Daily Balances</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Balances</a></li>
+									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Daily Balances</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
-						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'G1') }">
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'G') }">
 							<c:choose>
 								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
-									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="">E-Load Daily Sales</a></li>
+									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="eloadDailySales.htm">E-Load Daily Sales</a></li>
 								</c:when>
 								<c:otherwise>
 									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Daily Sales</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+						<c:if test="${fn:contains(sessionScope.userSession.role.permission, 'G') }">
+							<c:choose>
+								<c:when test="${sessionScope.onDutySession.onDutyStatus eq '0' }">
+									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="eloadPrices.htm">E-Load Prices</a></li>
+								</c:when>
+								<c:otherwise>
+									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Prices</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>

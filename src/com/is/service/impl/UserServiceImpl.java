@@ -146,7 +146,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 	}
 
 	public User getUser(int userId) {
-		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
+		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.status,u.created_date,u.created_by ")
 												.append("FROM user u ")
 												.append("JOIN rank r on r.rank_id=u.rank_id ")
 												.append("WHERE u.user_id = :userId ");
@@ -157,15 +157,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		user2.setUserId((int) object[0]);
 		user2.setUserName((String) object[1]);
 		user2.setFullName((String) object[2]);
-		user2.setStatus((int) object[4]);
-		user2.setCreatedDate((Timestamp) object[5]);
-		user2.setCreatedBy((String) object[6]);
+		user2.setStatus((int) object[3]);
+		user2.setCreatedDate((Timestamp) object[4]);
+		user2.setCreatedBy((String) object[5]);
 		
 		return user2;
 	}
 
 	public User getUser(String userName) {
-		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
+		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.status,u.created_date,u.created_by ")
 												.append("FROM user u ")
 												.append("JOIN rank r on r.rank_id=u.rank_id ")
 												.append("WHERE u.user_name collate utf8_bin = :userName ");
@@ -176,9 +176,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		user2.setUserId((int) object[0]);
 		user2.setUserName((String) object[1]);
 		user2.setFullName((String) object[2]);
-		user2.setStatus((int) object[4]);
-		user2.setCreatedDate((Timestamp) object[5]);
-		user2.setCreatedBy((String) object[6]);
+		user2.setStatus((int) object[3]);
+		user2.setCreatedDate((Timestamp) object[4]);
+		user2.setCreatedBy((String) object[5]);
 		
 		return user2;
 	}

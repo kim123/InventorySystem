@@ -23,13 +23,28 @@ public class EloadDailyBalance {
 	private BigDecimal actualSoldOutSmart;
 	private BigDecimal actualSoldOutGlobe;
 	private BigDecimal actualSoldOutSun;
-	private Timestamp updatedDate;
+	private Timestamp updatedDateSmart;
+	private Timestamp updatedDateGlobe;
+	private Timestamp updatedDateSun;
+	private BigDecimal additionalBalance;
 	
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
+	public Timestamp getUpdatedDateSmart() {
+		return updatedDateSmart;
 	}
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
+	public void setUpdatedDateSmart(Timestamp updatedDateSmart) {
+		this.updatedDateSmart = updatedDateSmart;
+	}
+	public Timestamp getUpdatedDateGlobe() {
+		return updatedDateGlobe;
+	}
+	public void setUpdatedDateGlobe(Timestamp updatedDateGlobe) {
+		this.updatedDateGlobe = updatedDateGlobe;
+	}
+	public Timestamp getUpdatedDateSun() {
+		return updatedDateSun;
+	}
+	public void setUpdatedDateSun(Timestamp updatedDateSun) {
+		this.updatedDateSun = updatedDateSun;
 	}
 	public int getEloadDailyBalanceId() {
 		return eloadDailyBalanceId;
@@ -138,6 +153,12 @@ public class EloadDailyBalance {
 	}
 	public void setActualSoldOutSun(BigDecimal actualSoldOutSun) {
 		this.actualSoldOutSun = actualSoldOutSun;
+	}
+	public BigDecimal getAdditionalBalance() {
+		return additionalBalance;
+	}
+	public void setAdditionalBalance(BigDecimal additionalBalance) {
+		this.additionalBalance = additionalBalance;
 	}
 	
 	

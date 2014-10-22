@@ -38,4 +38,13 @@
  	<definition name="dailySalesExpense" extends="template">
  		<put-attribute name="content" value="/WEB-INF/jsp/secured/dailySalesExpenses.jsp" />
  	</definition>
+ 	<definition name="eloadDailyBalance" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/eloadDailyBalance.jsp" />
+ 	</definition>
+ 	<definition name="eloadDailySales" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/eloadDailySales.jsp" />
+ 	</definition>
+ 	<definition name="eloadPrices" extends="template">
+ 		<put-attribute name="content" value="/WEB-INF/jsp/secured/eloadPrices.jsp" />
+ 	</definition>
 </tiles-definitions>

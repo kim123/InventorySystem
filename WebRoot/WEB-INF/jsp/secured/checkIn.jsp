@@ -101,7 +101,7 @@ $(document).ready(function(){
 			</c:if>
 			<c:if test="${checkInDetail.onDutyStatus eq '1' }">
 				
-				<table border=0 style="width:390px">
+				<table border=0 style="width:410px">
 					<tr>
 						<td align="right">Starting Cash: </td>
 						<td>&nbsp;&nbsp;Php&nbsp;<input type="text" name="startingCash" id="startingCash" class="decimalInput" placeholder="Numbers/Decimal only"/></td>

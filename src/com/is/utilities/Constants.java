@@ -19,8 +19,8 @@ public class Constants {
 	public static final String PAGE_TYPE_PREVIOUS = "previous";
 	public static final String PAGE_TYPE_NEXT = "next";
 	
-	public static final String ELOAD_GLOBE_PRODUCT_ID = PropertyUtility.getPropertyValue("eload.price.smart");
-	public static final String ELOAD_SMART_PRODUCT_ID = PropertyUtility.getPropertyValue("eload.price.globe");
+	public static final String ELOAD_GLOBE_PRODUCT_ID = PropertyUtility.getPropertyValue("eload.price.globe");
+	public static final String ELOAD_SMART_PRODUCT_ID = PropertyUtility.getPropertyValue("eload.price.smart");
 	public static final String ELOAD_SUN_PRODUCT_ID = PropertyUtility.getPropertyValue("eload.price.sun");
 	
 
