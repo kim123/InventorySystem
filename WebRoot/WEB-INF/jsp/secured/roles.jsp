@@ -72,7 +72,7 @@ $(document).ready(function(){
 	
 	$('#addRoleButton').click(function(e){
 		if (document.getElementById('role.rank').value=='') {
-			alert('Enter role name');
+			displayModalAlert('#modalMessage','Enter role name');
 			document.getElementById('role.rank').focus();
 			return false;
 		}
@@ -86,15 +86,15 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-	           		 alert(data.message);
-	           		 $("#addRoleModal").hide();
+	           		 /* alert(data.message);
+	           		 $("#addRoleModal").hide(); */
 	           		 location.reload();
 	           	 } else {
-	           		 alert(data.message);
+	           		displayModalAlert('#modalMessage',data.message);
 	           	 }
 			},
 			error: function(errorThrown){
-				alert("Error occurred in server: "+errorThrown);
+				displayModalAlert('#modalMessage',"Error occurred in server: "+errorThrown);
 			}
 		});		
 	});
@@ -108,6 +108,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add Role</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
       		<s:form action="addRoleAction" method="post" theme="simple" id="submitFormRole">
        		<table border=0 align="center">

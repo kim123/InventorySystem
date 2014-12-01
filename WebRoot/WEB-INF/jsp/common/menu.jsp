@@ -29,7 +29,7 @@
 									<li <c:if test='${menuActive eq 20 }'>class="active"</c:if> ><a href="checkOut.htm">Duty Check-Out</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 20 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before checking out.');">Duty Check-Out</a></li>
+									<li <c:if test='${menuActive eq 20 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before checking out.');">Duty Check-Out</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -72,7 +72,7 @@
 									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="inventory.htm">Inventory</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Inventory</a></li>
+									<li <c:if test='${menuActive eq 5 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">Inventory</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -82,7 +82,7 @@
 									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="stocksonhand.htm">Stocks on Hand</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Stocks on Hand</a></li>
+									<li <c:if test='${menuActive eq 7 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">Stocks on Hand</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -92,7 +92,7 @@
 									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="dailySalesExpenses.htm">Daily Sales and Expenses</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">Daily Sales and Expenses</a></li>
+									<li <c:if test='${menuActive eq 8 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">Daily Sales and Expenses</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -102,7 +102,7 @@
 									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="eloadDailyBalance.htm">E-Load Daily Balances</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Daily Balances</a></li>
+									<li <c:if test='${menuActive eq 9 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">E-Load Daily Balances</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -112,7 +112,7 @@
 									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="eloadDailySales.htm">E-Load Daily Sales</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Daily Sales</a></li>
+									<li <c:if test='${menuActive eq 10 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">E-Load Daily Sales</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
@@ -122,7 +122,7 @@
 									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="eloadPrices.htm">E-Load Prices</a></li>
 								</c:when>
 								<c:otherwise>
-									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="#" onclick="alert('You need to check in first before proceeding.');">E-Load Prices</a></li>
+									<li <c:if test='${menuActive eq 11 }'>class="active"</c:if> ><a href="#" onclick="displayAlert('You need to check in first before proceeding.');">E-Load Prices</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>

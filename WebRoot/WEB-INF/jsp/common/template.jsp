@@ -9,6 +9,7 @@
 		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/bootstrap.min.js'/>"></script>
 		<script src="<c:url value='/js/bootstrap-3.1.1-dist/js/docs.min.js' />"></script>
 		<script src="<c:url value='/js/jquery-ui.js' />"></script>
+		<script src="<c:url value='/js/confirm-bootstrap.js' />"></script>
 		<!-- Bootstrap core CSS -->
 		<link href="<c:url value='/js/bootstrap-3.1.1-dist/css/bootstrap.min.css'/>" rel="stylesheet"/>
 		<link href="<c:url value='/css/jquery-ui.css'/>" rel="stylesheet" />
@@ -17,32 +18,84 @@
 		<script type="text/javascript">			
 			function promptMessage(){
 				<c:if test="${not empty message}" >
-					alert("<s:text name='%{getText(message)}' />");
+					<c:if test="${message eq 'Success'}" >
+						displayAlertSuccess();
+					</c:if>
+					<c:if test="${message ne 'Success'}" >
+						displayAlert("<c:out value='${message}' />");
+					</c:if>
 				</c:if>
 			}
 			
+			function displayAlert(message){
+				$('#systemMessage').html(message);
+				$('.alert-autocloseable-danger').show();
+				$('.alert-autocloseable-danger').delay(5000).fadeOut( "slow", function() {
+					// Animation complete.
+					//$('#autoclosable-btn-danger').prop("disabled", false);
+				});
+			}
+			
+			function displayAlertSuccess(){
+				$('.alert-autocloseable-success').show();
+				$('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+					// Animation complete.
+					//$('#autoclosable-btn-danger').prop("disabled", false);
+				});
+			}
+			
+			function displayModalAlert(id, message){
+				$(id).html(message);
+				$('.modalsOnly').show();
+				$('.modalsOnly').delay(5000).fadeOut( "slow", function() {
+				});
+			}
+
 			function modifyPassword(){
-				if (document.getElementById('oldPassword').value=='') {
+				var oldPassword = document.getElementById('oldPassword').value;
+				var password = document.getElementById('password').value;
+				var confirmpassword = document.getElementById('confirmpassword').value;
+				var userid = document.getElementById('user.userId').value;
+				
+				if (oldPassword=='') {
 					alert('<s:text name="enter.old.password" />');
 					document.getElementById('oldPassword').focus();
 					return false;
 				}
-				if (document.getElementById('password').value=='') {
+				if (password=='') {
 					alert('<s:text name="enter.new.password" />');
 					document.getElementById('password').focus();
 					return false;
 				}
-				if (document.getElementById('confirmpassword').value=='') {
+				if (confirmpassword=='') {
 					alert('<s:text name="confirm.password" />');
 					document.getElementById('confirmpassword').focus();
 					return false;
 				}
-				if (document.getElementById('confirmpassword').value!=document.getElementById('password').value) {
+				if (confirmpassword!=password) {
 					alert('<s:text name="confirmed.password.must.be.equal" />');
 					document.getElementById('confirmpassword').focus();
 					return false;
 				}
-				document.getElementById('submitForm').submit();
+				
+				var dataString = 'user.userId='+userid+'&oldPassword='+oldPassword+'&user.password='+password;
+				$.ajax({
+					type: "POST",
+					url: "modifyOwnPasswordAction.htm",
+					data: dataString,
+					dataType: "json",
+					success: function(data){
+						if (data.success) {
+							alert('success');
+			           		location.reload();
+						} else {
+							alert(data.message);
+						}
+					},
+					error: function(errorThrown){
+						alert("ERROR 500: "+errorThrown);
+					}
+				});	
 			}
 			
 			function testing(){
@@ -57,15 +110,7 @@
 					document.getElementById('searchForm').submit();
 				}
 			}
-			
-			$('.decimalInput').keypress(function(e){
-				var charCode = (e.which) ? e.which : event.keyCode;
-		        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
-		                (charCode < 48 || charCode > 57))
-		            return false;
-	
-		        return true;
-			});
+
 		</script>
 	</head>
 	<body onLoad="promptMessage();">
@@ -78,7 +123,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					  </button>
-					<a class="navbar-brand" href="#">JFI Inventory System</a>
+					<a class="navbar-brand" href="home.htm">JFI Inventory System</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
@@ -93,6 +138,17 @@
 
 		<div class="container-fluid">
 			<div class="row">
+				<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger" style="display:none">
+						<span id="systemMessage"></span>
+					</div>
+				</div>
+				<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-success alert-autocloseable-success" style="display:none">
+						Success!
+					</div>
+				</div>
+				
 				<tiles:insertAttribute name="menu" />
 				
 				<!-- START Divider -->
@@ -110,7 +166,7 @@
 		        <h4 class="modal-title" id="myModalLabel">Change Password</h4>
 		      </div>
 		      <div class="modal-body">
-		      		<s:form action="modifyOwnPasswordAction" method="post" theme="simple" id="submitForm">
+		      		<%-- <s:form action="modifyOwnPasswordAction" method="post" theme="simple" id="submitForm"> --%>
 		        	<table border=0 align="center">
 		        		<tr>
 		        			<td>Old Password: </td>
@@ -127,9 +183,9 @@
 		        			<td><input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password"/></td>
 		        			<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger">*</span></td>
 		        		</tr>
-		        		<input type="hidden" name="user.userId" value="${sessionScope.userSession.user.userId }"/>
+		        		<input type="hidden" name="user.userId" id="user.userId" value="${sessionScope.userSession.user.userId }"/>
 		        	</table>
-		        	</s:form>
+		        	<%-- </s:form> --%>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

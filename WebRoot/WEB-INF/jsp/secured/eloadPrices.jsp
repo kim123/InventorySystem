@@ -24,19 +24,19 @@ $(document).ready(function(){
 		
 		if (productId=='') {
 			document.getElementById('productId').focus();
-			alert('E-LOAD Product must not be empty');
+			displayModalAlert('#modalMessage','E-LOAD Product must not be empty');
 			return false;
 		} else if (eloadPrice=='') {
 			document.getElementById('eloadPrice').focus();
-			alert('E-LOAD Price must not be empty');
+			displayModalAlert('#modalMessage','E-LOAD Price must not be empty');
 			return false;
 		} else if (retailPrice=='') {
 			document.getElementById('retailPrice').focus();
-			alert('Retail Price must not be empty');
+			displayModalAlert('#modalMessage','Retail Price must not be empty');
 			return false;
 		} else if (markupPrice=='') {
 			document.getElementById('markupPrice').focus();
-			alert('Mark-Up Price must not be empty');
+			displayModalAlert('#modalMessage','Mark-Up Price must not be empty');
 			return false;
 		}
 		
@@ -48,14 +48,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert('success');
+					//alert('success');
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("ERROR 500: "+errorThrown);
+				displayModalAlert('#modalMessage',"ERROR 500: "+errorThrown);
 			}
 		});	
 		
@@ -72,14 +72,14 @@ function toggleStatus(status, priceid) {
 		dataType: "json",
 		success: function(data){
 			if (data.success) {
-				alert('success');
+				//alert('success');
            		location.reload();
 			} else {
-				alert(data.message);
+				displayAlert(data.message);
 			}
 		},
 		error: function(errorThrown){
-			alert("ERROR 500: "+errorThrown);
+			displayAlert("ERROR 500: "+errorThrown);
 		}
 	});	
 }
@@ -93,6 +93,11 @@ function toggleStatus(status, priceid) {
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add E-LOAD Price</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>

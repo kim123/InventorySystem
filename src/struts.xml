@@ -46,9 +46,6 @@
 		<action name="addUserAction" class="com.is.action.UserAction" method="addUser">
 		</action>
 		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
-			<result name="success" type="redirectAction">
-				<param name="actionName">home</param>
-			</result>
 		</action>
 		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
 		</action>
@@ -144,11 +141,10 @@
 			<result name="success" type="tiles">eloadDailySales</result>
 		</action>
 		<action name="addEloadDailySales" class="com.is.action.EloadDailyAction" method="addEloadDailySales">
-			<result name="success" type="redirectAction">
-				<param name="actionName">eloadDailySales</param>
-            	<param name="namespace">/</param>
+			<result name="success" type="tiles">eloadDailySales
+				<!-- <param name="actionName">eloadDailySales</param>
+            	<param name="namespace">/</param> -->
 			</result>
-			<result name="input" type="tiles">eloadDailySales</result>
 		</action>
 		
 		<action name="eloadPrices" class="com.is.action.EloadDailyAction" method="searchEloadPrice">

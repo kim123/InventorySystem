@@ -5,32 +5,32 @@
 	$(document).ready(function(){
 		$('#addUserButton').click(function(e){
 			if (document.getElementById('user.userName').value=='') {
-				alert('<s:text name="enter.username" />');
+				displayModalAlert('#modalMessage','<s:text name="enter.username" />');
 				document.getElementById('user.userName').focus();
 				return false;
 			}
 			if (document.getElementById('user.password').value=='') {
-				alert('<s:text name="enter.password" />');
+				displayModalAlert('#modalMessage','<s:text name="enter.password" />');
 				document.getElementById('user.password').focus();
 				return false;
 			}
 			if (document.getElementById('confirmpassword').value=='') {
-				alert('<s:text name="confirm.password" />');
+				displayModalAlert('#modalMessage','<s:text name="confirm.password" />');
 				document.getElementById('confirmpassword').focus();
 				return false;
 			}
 			if (document.getElementById('confirmpassword').value!=document.getElementById('user.password').value) {
-				alert('<s:text name="confirmed.password.must.be.equal" />');
+				displayModalAlert('#modalMessage','<s:text name="confirmed.password.must.be.equal" />');
 				document.getElementById('confirmpassword').focus();
 				return false;
 			}
 			if (document.getElementById('user.status').value=='') {
-				alert('<s:text name="choose.status.for.user" />');
+				displayModalAlert('#modalMessage','<s:text name="choose.status.for.user" />');
 				document.getElementById('user.status').focus();
 				return false;
 			}
 			if (document.getElementById('user.rankId').value=='') {
-				alert('<s:text name="choose.role.for.user" />');
+				displayModalAlert('#modalMessage','<s:text name="choose.role.for.user" />');
 				document.getElementById('user.rankId').focus();
 				return false;
 			}
@@ -48,15 +48,15 @@
 	             dataType: "json",
 	             success: function(data){
 	            	 if (data.success) {
-	            		 alert(data.message);
-	            		 $("#addUserModal").hide();
+	            		 //alert(data.message);
+	            		// $("#addUserModal").hide();
 	            		 location.reload();
 	            	 } else {
-	            		 alert(data.message);
+	            		 displayModalAlert('#modalMessage',data.message);
 	            	 }
 	             },
 	             error: function(errorThrown){
-	            	 alert("Error occurred in server: "+errorThrown);
+	            	 displayModalAlert('#modalMessage',"Error occurred in server: "+errorThrown);
 	             }
 			});			
 		});
@@ -92,14 +92,16 @@
 				data: dataString,
 				dataType: "json",
 				success: function(data){
-					alert(data.message);
-					if (data.success) {
-						$('#modifyRoleModal').hide();
-						location.reload();
-					}
+					 if (data.success) {
+	            		 //alert(data.message);
+	            		// $("#addUserModal").hide();
+	            		 location.reload();
+	            	 } else {
+	            		 displayModalAlert('#modalMessage',data.message);
+	            	 }
 				},
 				error: function(errorThrown){
-					alert('Error 500: '+errorThrown);
+					displayModalAlert('#modalMessage2','Error 500: '+errorThrown);
 				}
 			});
 		});
@@ -113,31 +115,33 @@
 				data: dataString,
 				dataType: "json",
 				success: function(data){
-					alert(data.message);
-					if (data.success) {
-						$('#modifyStatusModal').hide();
-						location.reload();
-					}
+					 if (data.success) {
+	            		 //alert(data.message);
+	            		// $("#addUserModal").hide();
+	            		 location.reload();
+	            	 } else {
+	            		 displayModalAlert('#modalMessage',data.message);
+	            	 }
 				},
 				error: function(errorThrown){
-					alert('Error 500: '+errorThrown);
+					displayModalAlert('#modalMessage3','Error 500: '+errorThrown);
 				}
 			});
 		});
 		$('#modifyPasswordButton').click(function(e){
 			var userid = $('.userId').val();
-			var password = $('#password').val(); alert(password);
-			alert(document.getElementById('confirmpassword1').value);
+			var password = $('#password').val(); 
+			//alert(document.getElementById('confirmpassword1').value);
 			if (password=='') {
-				alert('<s:text name="enter.password" />');
+				displayModalAlert('#modalMessage4','<s:text name="enter.password" />');
 				document.getElementById('password').focus();
 				return false;
 			} else if (document.getElementById('confirmpassword1').value=='') {
-				alert('<s:text name="confirm.password" />');
+				displayModalAlert('#modalMessage4','<s:text name="confirm.password" />');
 				document.getElementById('confirmpassword1').focus();
 				return false;
 			} else if (document.getElementById('confirmpassword1').value!=document.getElementById('password').value) {
-				alert('<s:text name="confirmed.password.must.be.equal" />');
+				displayModalAlert('#modalMessage4','<s:text name="confirmed.password.must.be.equal" />');
 				document.getElementById('confirmpassword1').focus();
 				return false;
 			} else {
@@ -148,14 +152,16 @@
 					data: dataString,
 					dataType: "json",
 					success: function(data){
-						alert(data.message);
-						if (data.success) {
-							$('#modifyPasswordModal').hide();
-							location.reload();
-						}
+						 if (data.success) {
+		            		 //alert(data.message);
+		            		// $("#addUserModal").hide();
+		            		 location.reload();
+		            	 } else {
+		            		 displayModalAlert('#modalMessage',data.message);
+		            	 }
 					},
 					error: function(errorThrown){
-						alert('Error 500: '+errorThrown);
+						displayModalAlert('#modalMessage4','Error 500: '+errorThrown);
 					}
 				});
 			}
@@ -171,6 +177,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add User</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
       		<s:form action="addUserAction" method="post" theme="simple" id="submitFormAddUser">
        		<table border=0 align="center">
@@ -196,12 +207,12 @@
        			</tr>
        			<tr>
        				<td>Status: </td>
-       				<td><s:select list="userStatuses" emptyOption="true" listKey="code" listValue="description" name="user.status" id="user.status" style="width: 155px"/></td>
+       				<td><s:select list="userStatuses" emptyOption="true" listKey="code" listValue="description" name="user.status" id="user.status" style="width: 174px"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgStatus">*</span></td>
        			</tr>
        			<tr>
        				<td>Role: </td>
-       				<td><s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="user.rankId" id="user.rankId" style="width: 155px"/></td>
+       				<td><s:select list="roles" emptyOption="true" listKey="rankId" listValue="rank" name="user.rankId" id="user.rankId" style="width: 174px"/></td>
        				<td>&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgRole">*</span></td>
        			</tr>
        		</table>
@@ -222,8 +233,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Modify User Role</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage2"></span>
+					</div>
+				</div>
       <div class="modal-body">
-       		<table border=1 align="center">
+       		<table border=0 align="center">
        			<tr>
        				<td>User Name: </td>
        				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
@@ -252,8 +268,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Modify User Status</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage3"></span>
+					</div>
+				</div>
       <div class="modal-body">
-       		<table border=1 align="center">
+       		<table border=0 align="center">
        			<tr>
        				<td>User Name: </td>
        				<td><input type="text" name="user.userName" id="user.userName" class="userName" value="" disabled/></td>
@@ -282,6 +303,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Modify User Password</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage4"></span>
+					</div>
+				</div>
       <div class="modal-body">
 		        	<table border=0 align="center">
 		        		<tr>

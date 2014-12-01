@@ -53,7 +53,7 @@ public class CategoryAction extends BaseAction{
 		JSONObject json = new JSONObject();
 		if (StringUtils.isBlank(category.getCategoryName())) {
 			try {
-				json.put("message", "category.name.must.not.be.empty");
+				json.put("message", getText("category.name.must.not.be.empty"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -62,11 +62,12 @@ public class CategoryAction extends BaseAction{
 			String result = categoryService.addCategory(category);
 			try {
 				if (result.equals(Constants.SUCCESS)) {
+					json.put("message", getText(result));
 					json.put(Constants.SUCCESS, true);
 				} else {
 					json.put(Constants.SUCCESS, false);
+					json.put("message", result);
 				} 
-				json.put("message", result);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

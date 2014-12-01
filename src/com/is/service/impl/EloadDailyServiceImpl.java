@@ -17,8 +17,10 @@ import com.is.model.EloadPrices;
 import com.is.model.Page;
 import com.is.service.interfaze.ELoadDailyService;
 import com.is.utilities.Constants;
+import com.is.utilities.DateUtility;
 import com.is.utilities.LoggingUtility;
 import com.is.utilities.NumberUtility;
+import com.is.utilities.SessionUtility;
 import com.is.utilities.UserUtility;
 
 public class EloadDailyServiceImpl extends BaseServiceImpl implements ELoadDailyService{
@@ -352,10 +354,31 @@ public class EloadDailyServiceImpl extends BaseServiceImpl implements ELoadDaily
 		return eloadProductIds;
 	}
 	
-	public static void main(String[]args){
-		double d = 13.00;
-		int i = 0;
-		System.out.println(new BigDecimal(d*i).setScale(2, RoundingMode.CEILING));
+	public EloadDailyBalance getEloadDailyBalance(){
+		EloadDailyBalance eloadDailyBalance = new EloadDailyBalance();
+		eloadDailyBalance.setEndingBalanceSmart(BigDecimal.ZERO);
+		eloadDailyBalance.setEndingBalanceGlobe(BigDecimal.ZERO);
+		eloadDailyBalance.setEndingBalanceSun(BigDecimal.ZERO);
+		
+		StringBuilder sql = new StringBuilder("SELECT ending_balance_smart,ending_balance_globe,ending_balance_sun from eload_daily_balances ")
+												.append(" where date(created_date)=:createdDate and created_by=:createdBy ");
+		Query query = getSession().createSQLQuery(sql.toString());
+		query.setParameter("createdDate", DateUtility.getSimpleCurrentDateStr());
+		query.setParameter("createdBy", SessionUtility.getEmployeeOnDuty().getUserId());
+		
+		LoggingUtility.log(getClass(), "getEloadDailyBalance: Params["+DateUtility.getSimpleCurrentDateStr()+", "+SessionUtility.getEmployeeOnDuty().getUserId()+"]");
+		
+		List<?> tempList = query.list();
+		Iterator<?> iter = tempList.iterator();
+		while (iter.hasNext()) {
+			Object[] o = (Object[]) iter.next();
+			eloadDailyBalance.setEndingBalanceSmart(NumberUtility.setBigDecimal((BigDecimal)o[0]));
+			eloadDailyBalance.setEndingBalanceGlobe(NumberUtility.setBigDecimal((BigDecimal)o[1]));
+			eloadDailyBalance.setEndingBalanceSun(NumberUtility.setBigDecimal((BigDecimal)o[2]));
+		}
+		
+		return eloadDailyBalance;
+		
 	}
 
 }

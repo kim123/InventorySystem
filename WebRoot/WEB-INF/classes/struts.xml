@@ -46,9 +46,6 @@
 		<action name="addUserAction" class="com.is.action.UserAction" method="addUser">
 		</action>
 		<action name="modifyOwnPasswordAction" class="com.is.action.UserAction" method="modifyOwnPassword">
-			<result name="success" type="redirectAction">
-				<param name="actionName">home</param>
-			</result>
 		</action>
 		<action name="modifyPasswordAction" class="com.is.action.UserAction" method="modifyPassword">
 		</action>
@@ -134,6 +131,29 @@
 		<action name="addExpensesAction" class="com.is.action.DailySalesExpensesAction" method="addExpense">
 		</action>
 
+		<action name="eloadDailyBalance" class="com.is.action.EloadDailyAction" method="searchEloadDailyBalances">
+			<result name="success" type="tiles">eloadDailyBalance</result>
+		</action>
+		<action name="updateEloadAdditionalBalance" class="com.is.action.EloadDailyAction" method="updateEloadAdditionalBalance">
+		</action>
+		
+		<action name="eloadDailySales" class="com.is.action.EloadDailyAction" method="searchEloadDailySales">
+			<result name="success" type="tiles">eloadDailySales</result>
+		</action>
+		<action name="addEloadDailySales" class="com.is.action.EloadDailyAction" method="addEloadDailySales">
+			<result name="success" type="tiles">eloadDailySales
+				<!-- <param name="actionName">eloadDailySales</param>
+            	<param name="namespace">/</param> -->
+			</result>
+		</action>
+		
+		<action name="eloadPrices" class="com.is.action.EloadDailyAction" method="searchEloadPrice">
+			<result name="success" type="tiles">eloadPrices</result>
+		</action>
+		<action name="addEloadPrice" class="com.is.action.EloadDailyAction" method="addEloadPrice">
+		</action>
+		<action name="updateEloadPrice" class="com.is.action.EloadDailyAction" method="updateEloadPrice">
+		</action>
 		
 	</package>
 	

@@ -10,7 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.is.model.CheckInDetail;
+import com.is.model.EloadDailyBalance;
+import com.is.service.impl.EloadDailyServiceImpl;
 import com.is.service.impl.EmployeeServiceImpl;
+import com.is.service.interfaze.ELoadDailyService;
 import com.is.service.interfaze.EmployeeService;
 import com.is.utilities.Constants;
 import com.is.utilities.SessionUtility;
@@ -19,10 +22,14 @@ import com.is.utilities.SessionUtility;
 public class EmployeeAction extends BaseAction{
 	
 	private static EmployeeService employeeService;
+	private static ELoadDailyService eloadDailyService;
 	
 	static {
 		if (employeeService==null) {
 			employeeService = new EmployeeServiceImpl();
+		}
+		if (eloadDailyService==null) {
+			eloadDailyService = new EloadDailyServiceImpl();
 		}
 	}
 	
@@ -38,7 +45,14 @@ public class EmployeeAction extends BaseAction{
 	private BigDecimal endingBalanceGlobe;
 	private BigDecimal endingBalanceSmart;
 	private BigDecimal endingBalanceSun;
+	private EloadDailyBalance eloadDailyBalance;
 	
+	public EloadDailyBalance getEloadDailyBalance() {
+		return eloadDailyBalance;
+	}
+	public void setEloadDailyBalance(EloadDailyBalance eloadDailyBalance) {
+		this.eloadDailyBalance = eloadDailyBalance;
+	}
 	public BigDecimal getTotalCash() {
 		return totalCash;
 	}
@@ -126,12 +140,16 @@ public class EmployeeAction extends BaseAction{
 		params.put(EmployeeService.STARTING_SUN_ELOAD, startingSunEload);
 		String result = employeeService.checkIn(params);
 		try {
-			if (result.equals(Constants.SUCCESS)) {
+			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -144,6 +162,10 @@ public class EmployeeAction extends BaseAction{
 		setMenuActive("20");
 		checkOutDate = employeeService.getCheckOutDate(SessionUtility.getUser().getUserId());
 		journalEntry = employeeService.getJournalEntry(SessionUtility.getUser().getUserId());
+		eloadDailyBalance = eloadDailyService.getEloadDailyBalance();
+		endingBalanceSmart = eloadDailyBalance.getEndingBalanceSmart();
+		endingBalanceGlobe = eloadDailyBalance.getEndingBalanceGlobe();
+		endingBalanceSun = eloadDailyBalance.getEndingBalanceSun();
 				
 		return SUCCESS;
 	}
@@ -165,12 +187,16 @@ public class EmployeeAction extends BaseAction{
 		
 		String result = employeeService.checkOut(params);
 		try {
-			if (result.equals(Constants.SUCCESS)) {
+			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

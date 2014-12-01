@@ -21,14 +21,14 @@ $(document).ready(function(){
 	});
 	
 	$('.decimalInput').keyup(function(e){
-		var ctr = e.target.id.split("-")[1];
+		/* var ctr = e.target.id.split("-")[1];
 		var eload = e.target.id.split("-")[2];
 		var idd = "#id-"+ctr+"-"+eload;
 		
 		var tempquantityvalue = $(idd).val();
 		//alert("tanginang value:"+tempquantityvalue+",fuck test: "+isNaN(tempquantityvalue));
 		if (tempquantityvalue=='') {
-			
+			alert('testinhhh');
 		} else if (isNaN(tempquantityvalue)) {
 			
 		} else {
@@ -50,7 +50,13 @@ $(document).ready(function(){
 			}
 		}
 		
-		
+		 */
+		var charCode = (e.which) ? e.which : event.keyCode;
+        if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
+                (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
 		
 	});
 	
@@ -94,7 +100,7 @@ $(document).ready(function(){
 	    						<tr>
 	    							<td style="font-weight:bold; text-align:center;">Price</td>
 	    							<td style="font-weight:bold; text-align:center;">Quantity</td>
-	    							<td style="font-weight:bold; text-align:center;">SubTotal</td>
+	    							<!-- <td style="font-weight:bold; text-align:center;">SubTotal</td> -->
 	    						</tr>
 	    						<c:set var="ctr" value="1" />
 	    						<c:forEach items="${pageEloadSalesSmart.contents }" var="query">
@@ -102,18 +108,18 @@ $(document).ready(function(){
 		    							<td style="text-align:center;"><span id="price${ctr }">${query.price }</span></td>
 		    							<td style="text-align:center;">
 		    								<c:if test="${priceListType eq '0' }">
-		    									<c:if test="${query.total ne '0'}">
+		    									<c:if test="${query.total ne '0.00'}">
 		    										${query.quantity }
 		    									</c:if>
-		    									<c:if test="${query.total eq '0'}">
-		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-smart"/>
+		    									<c:if test="${query.total eq '0.00'}">
+		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-smart" value="0"/>
 		    									</c:if>
 		    								</c:if>
 		    								<c:if test="${priceListType eq '1' }">
 		    									${query.quantity }
 		    								</c:if>
 		    							</td>
-		    							<td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td>
+		    							<%-- <td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td> --%>
 		    						</tr>
 		    						<c:set var="ctr" value="${ctr+1 }" />
 		    					</c:forEach>
@@ -131,25 +137,25 @@ $(document).ready(function(){
 	    						<tr>
 	    							<td style="font-weight:bold; text-align:center;">Price</td>
 	    							<td style="font-weight:bold; text-align:center;">Quantity</td>
-	    							<td style="font-weight:bold; text-align:center;">SubTotal</td>
+	    							<!-- <td style="font-weight:bold; text-align:center;">SubTotal</td> -->
 	    						</tr>
 	    						<c:forEach items="${pageEloadSalesGlobe.contents }" var="query">
 		    						<tr>
 		    							<td style="text-align:center;"><span id="price${ctr }">${query.price }</span></td>
 		    							<td style="text-align:center;">
 		    								<c:if test="${priceListType eq '0' }">
-		    									<c:if test="${query.total ne '0'}">
+		    									<c:if test="${query.total ne '0.00'}">
 		    										${query.quantity }
 		    									</c:if>
-		    									<c:if test="${query.total eq '0'}">
-		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-smart"/>
+		    									<c:if test="${query.total eq '0.00'}">
+		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-globe" value="0"/>
 		    									</c:if>
 		    								</c:if>
 		    								<c:if test="${priceListType eq '1' }">
 		    									${query.quantity }
 		    								</c:if>
 		    							</td>
-		    							<td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td>
+		    							<%-- <td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td> --%>
 		    						</tr>
 		    						<c:set var="ctr" value="${ctr+1 }" />
 		    					</c:forEach>
@@ -167,25 +173,25 @@ $(document).ready(function(){
 	    						<tr>
 	    							<td style="font-weight:bold; text-align:center;">Price</td>
 	    							<td style="font-weight:bold; text-align:center;">Quantity</td>
-	    							<td style="font-weight:bold; text-align:center;">SubTotal</td>
+	    							<!-- <td style="font-weight:bold; text-align:center;">SubTotal</td> -->
 	    						</tr>
 	    						<c:forEach items="${pageEloadSalesSun.contents }" var="query">
 		    						<tr>
 		    							<td style="text-align:center;"><span id="price${ctr }">${query.price }</span></td> 
 		    							<td style="text-align:center;">
 		    								<c:if test="${priceListType eq '0' }">
-		    									<c:if test="${query.total ne '0'}">
+		    									<c:if test="${query.total ne '0.00'}">
 		    										${query.quantity }
 		    									</c:if>
-		    									<c:if test="${query.total eq '0'}">
-		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-smart"/>
+		    									<c:if test="${query.total eq '0.00'}">
+		    										<input type="text"  style="width:100px" name="quantity${ctr }" class="decimalInput" placeholder="Numbers only" id="id-${ctr }-sun" value="0"/>
 		    									</c:if>
 		    								</c:if>
 		    								<c:if test="${priceListType eq '1' }">
 		    									${query.quantity }
 		    								</c:if>
 		    							</td>
-		    							<td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td>
+		    							<%-- <td style="text-align:center;"><span id="subTotal${ctr }">${query.total }</span></td> --%>
 		    						</tr>
 		    						<c:set var="ctr" value="${ctr+1 }" />
 		    					</c:forEach>
@@ -211,9 +217,9 @@ $(document).ready(function(){
 	    			<td colspan="3">Updated Date: <span id="updatedDate"><fmt:formatDate type="both" value="${updatedDate}" /></span></td>
 	    		</tr>
 	    		<c:if test="${priceListType eq '0' }">
-	    		<tr>
-	    			<td colspan="3" style="text-align:center;"><button type="button" class="btn btn-primary" id="addEloadSalesButton">Submit</button></td>
-	    		</tr>
+		    		<tr>
+		    			<td colspan="3" style="text-align:center;"><button type="button" class="btn btn-primary" id="addEloadSalesButton">Submit</button></td>
+		    		</tr>
 	    		</c:if>
 	    	</table>
 	    	</s:form>

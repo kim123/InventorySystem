@@ -34,7 +34,7 @@ $(document).ready(function(){
 				}
 			},
 			error: function(errorThrown){
-				alert("ERROR 500: "+errorThrown);
+				displayModalAlert('#modalMessage2',"ERROR 500: "+errorThrown);
 			}
 		});
 	});
@@ -60,7 +60,7 @@ $(document).ready(function(){
 					}
 				},
 				error: function(errorThrown){
-					alert("ERROR 500: "+errorThrown);
+					displayModalAlert('#modalMessage2',"ERROR 500: "+errorThrown);
 				}
 			});
 			
@@ -84,7 +84,7 @@ $(document).ready(function(){
 					}
 				},
 				error: function(errorThrown){
-					alert("ERROR 500: "+errorThrown);
+					displayModalAlert('#modalMessage2',"ERROR 500: "+errorThrown);
 				}
 			});
 		} 
@@ -95,14 +95,14 @@ $(document).ready(function(){
 		var unitSold = $('#unitSold').val();
 		if (unitSold=='') {
 			document.getElementById('unitSold').focus();
-			alert('Unit Sold must not be empty.');
+			displayModalAlert('#modalMessage2','Unit Sold must not be empty.');
 			return false;
 		}
 		
 		var available = $('#available').val();
 		if (unitSold > available) {
 			document.getElementById('unitSold').focus();
-			alert('Unit Sold must not be greater than the Available Stocks.');
+			displayModalAlert('#modalMessage2','Unit Sold must not be greater than the Available Stocks.');
 			return false;
 		}
 	});
@@ -117,23 +117,23 @@ $(document).ready(function(){
 		
 		if (categoryId=='') {
 			document.getElementById('categoryIdAdd').focus();
-			alert('Category must not be empty');
+			displayModalAlert('#modalMessage2','Category must not be empty');
 			return false;
 		} else if (productId=='') {
 			document.getElementById('productIdAdd').focus();
-			alert('Product must not be empty');
+			displayModalAlert('#modalMessage2','Product must not be empty');
 			return false;
 		} else if (unitSold=='') {
 			document.getElementById('unitSold').focus();
-			alert('Unit Sold must not be empty');
+			displayModalAlert('#modalMessage2','Unit Sold must not be empty');
 			return false;
 		} else if (unitSold > available) {
 			document.getElementById('unitSold').focus();
-			alert('Unit Sold must not be greater than the Available Stocks.');
+			displayModalAlert('#modalMessage2','Unit Sold must not be greater than the Available Stocks.');
 			return false;
 		} else if (unitPriceChoose=='') {
 			document.getElementById('unitPriceChoose').focus();
-			alert('Unit Price must not be empty');
+			displayModalAlert('#modalMessage2','Unit Price must not be empty');
 			return false;
 		}
 
@@ -146,14 +146,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert('success');
+					//alert('success');
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage2',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("ERROR 500: "+errorThrown);
+				displayModalAlert('#modalMessage2',"ERROR 500: "+errorThrown);
 			}
 		});		
 		
@@ -165,11 +165,11 @@ $(document).ready(function(){
 		
 		if (expensename=='') {
 			document.getElementById('expensename').focus();
-			alert('Expense must not be empty');
+			displayModalAlert('#modalMessage','Expense must not be empty');
 			return false;
 		} else if (amountexpense=='') {
 			document.getElementById('amountexpense').focus();
-			alert('Amount must not be empty');
+			displayModalAlert('#modalMessage','Amount must not be empty');
 			return false;
 		}
 		
@@ -181,14 +181,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert('success');
+					//alert('success');
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("ERROR 500: "+errorThrown);
+				displayModalAlert('#modalMessage',"ERROR 500: "+errorThrown);
 			}
 		});	
 		
@@ -224,6 +224,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add Expense</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>
@@ -254,6 +259,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add Daily Sales</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage2"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>

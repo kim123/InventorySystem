@@ -5,7 +5,7 @@ $(document).ready(function(){
 	$('#addCategoryButton').click(function(e){
 		var category = document.getElementById('category.name').value;
 		if (category=='') {
-			alert('category.name.must.not.empty');
+			displayModalAlert('#modalMessage','category.name.must.not.empty');
 			document.getElementById('category.name').focus();
 			return false;
 		}
@@ -17,14 +17,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert(data.message);
+					//alert(data.message);
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("Error occurred in server: "+errorThrown);
+				displayModalAlert('#modalMessage',"Error occurred in server: "+errorThrown);
 			}
 		});
 		
@@ -39,6 +39,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add Category</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
       		NOTE: Category name will be final. It cannot be modified once you submit the form.<br/><br/>
        		<table border=0 align="center">

@@ -11,23 +11,26 @@ $(document).ready(function(){
 		
 		if (startingCash=='') {
 			document.getElementById('startingCash').focus();
-			alert('Starting cash must not be empty');
+			//alert('Starting cash must not be empty');
+			displayAlert('Starting cash must not be empty.');
 			return false;
 		} else if (startingGlobeEload=='') {
 			document.getElementById('startingGlobeEload').focus();
-			alert('Starting Globe E-LOAD must not be empty');
+			displayAlert('Starting Globe E-LOAD must not be empty');
 			return false;
 		} else if (startingSmartEload=='') {
 			document.getElementById('startingSmartEload').focus();
-			alert('Starting Smart E-LOAD must not be empty');
+			displayAlert('Starting Smart E-LOAD must not be empty');
 			return false;
 		} else if (startingSunEload=='') {
 			document.getElementById('startingSunEload').focus();
-			alert('Starting Sun E-LOAD must not be empty');
+			displayAlert('Starting Sun E-LOAD must not be empty');
 			return false;
 		}
 		
-		var confirmSubmit = confirm('Checking in the starting cash is final. No more modification. Do you want to continue?');
+		$('#continueModal').modal('show');
+		
+		/* var confirmSubmit = confirm('Checking in the starting cash is final. No more modification. Do you want to continue?');
 		if (confirmSubmit==true) {
 			var dataString = 'startingCash='+startingCash+'&startingGlobeEload='+startingGlobeEload+'&startingSmartEload='+startingSmartEload+'&startingSunEload='+startingSunEload;
 			$.ajax({
@@ -37,19 +40,46 @@ $(document).ready(function(){
 				dataType: "json",
 				success: function(data){
 					if (data.success) {
-						alert(data.message);
+						displayAlertSuccess();
 		           		location.reload();
 					} else {
-						alert(data.message);
+						displayAlert(data.message);
 					}
 				},
 				error: function(errorThrown){
-					alert("Error 500: "+errorThrown);
+					displayAlert("Error 500: "+errorThrown);
 				}
 			});
-		}
+		} */
 	});
 	
+	$('#continueConfirmButton').click(function(e){
+		var startingCash = $('#startingCash').val();
+		var startingGlobeEload = $('#startingGlobeEload').val();
+		var startingSmartEload = $('#startingSmartEload').val();
+		var startingSunEload = $('#startingSunEload').val();
+		
+		var dataString = 'startingCash='+startingCash+'&startingGlobeEload='+startingGlobeEload+'&startingSmartEload='+startingSmartEload+'&startingSunEload='+startingSunEload;
+		$.ajax({
+			type: "POST",
+			url: "doCheckIn.htm",
+			data: dataString,
+			dataType: "json",
+			success: function(data){
+				if (data.success) {
+					//displayAlertSuccess();
+	           		location.reload();
+				} else {
+					displayAlert(data.message);
+				}
+			},
+			error: function(errorThrown){
+				displayAlert("Error 500: "+errorThrown);
+			}
+		});
+	});
+	
+
 	$('.decimalInput').keypress(function(e){
 		var charCode = (e.which) ? e.which : event.keyCode;
         if (charCode != 45 && (charCode != 46 || $(this).val().indexOf('.') != -1) && 
@@ -62,6 +92,24 @@ $(document).ready(function(){
 });
 
 </script>
+
+<div class="modal fade" id="continueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Continue to Check In</h4>
+      </div>
+      <div class="modal-body">
+      		Checking in the starting cash is final. No more modification. Do you want to continue?<br/><br/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" id="continueConfirmButton">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">	
 	<h2 class="page-header">DUTY CHECK-IN</h2>

@@ -11,19 +11,19 @@ $(document).ready(function(){
 		var minsellingprice = $('#minsellingprice').val();
 		
 		if (prodName=='') {
-			alert('Enter product name');
+			displayModalAlert('#modalMessage','Enter product name');
 			document.getElementById('productName').focus();
 			return false;
 		} else if (category=='') {
-			alert('Choose category for '+prodName);
+			displayModalAlert('#modalMessage','Choose category for '+prodName);
 			document.getElementById('category').focus();
 			return false;
 		} else if (retailprice=='') {
-			alert('Enter retail price');
+			displayModalAlert('#modalMessage','Enter retail price');
 			document.getElementById('retailprice').focus();
 			return false;
 		} else if (maxsellingprice=='') {
-			alert('Enter maximum retail price');
+			displayModalAlert('#modalMessage','Enter maximum retail price');
 			document.getElementById('maxsellingprice').focus();
 			return false;
 		}
@@ -42,14 +42,13 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert(data.message);
-	           		location.reload();
+					location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("Error 500: "+errorThrown);
+				displayModalAlert('#modalMessage',"Error 500: "+errorThrown);
 			}
 		});
 	});
@@ -80,7 +79,7 @@ $(document).ready(function(){
 		var historystatus = $('#isHistoryArchive').val();
 		var productId = $('.productIdArchive').val();
 		if (historystatus=='') {
-			alert('Archived status must not be empty.');
+			displayModalAlert('#modalMessage2','Archived status must not be empty.');
 			document.getElementById('productIdArchive').focus();
 			return false;
 		}
@@ -92,14 +91,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert(data.message);
+					//alert(data.message);
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage2',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("Error 500: "+errorThrown);
+				displayModalAlert('#modalMessage2',"Error 500: "+errorThrown);
 			}
 		});
 	});
@@ -111,11 +110,11 @@ $(document).ready(function(){
 		var minsellingprice = $('#minsellingpriceArchive').val();
 		
 		if (retailprice=='') {
-			alert('Enter retail price');
+			displayModalAlert('#modalMessage3','Enter retail price');
 			document.getElementById('retailpriceArchive').focus();
 			return false;
 		} else if (maxsellingprice=='') {
-			alert('Enter maximum retail price');
+			displayModalAlert('#modalMessage3','Enter maximum retail price');
 			document.getElementById('maxsellingpriceArchive').focus();
 			return false;
 		}
@@ -132,14 +131,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert(data.message);
+					//alert(data.message);
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage3',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("Error 500: "+errorThrown);
+				displayModalAlert('#modalMessage3',"Error 500: "+errorThrown);
 			}
 		});
 	});
@@ -178,6 +177,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Add Product (Prices)</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>
@@ -222,6 +226,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Archive Product</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage2"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>
@@ -252,6 +261,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Update Prices</h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage3"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>
@@ -299,16 +313,14 @@ $(document).ready(function(){
 		<table border="0" >
 			<tr>
 				<td style="width:300px;">Product Name: <input type="text" name="productPrice.productName" id="productPrice.productName" /></td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td>Category: <s:select list="categories" emptyOption="true" listKey="categoryId" listValue="categoryName" name="productPrice.category" id="productPrice.category" theme="simple" /></td>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-				<td>Archived: <s:select list="products" emptyOption="true" listKey="code" listValue="description" name="isHistory" id="productPrice.isHistory" theme="simple" /></td>
+				<td>Status: <s:select list="products" emptyOption="true" listKey="code" listValue="description" name="isHistory" id="productPrice.isHistory" theme="simple" /></td>
 			</tr>
 			<tr>
-				<td>Retail Price: <s:select list="operatorsRetailPrice" emptyOption="true" listKey="operator" listValue="operator" name="retailPriceOperator" id="retailPriceOperator" theme="simple" />
+				<td style="width:350px;">Retail Price: <s:select list="operatorsRetailPrice" emptyOption="true" listKey="operator" listValue="operator" name="retailPriceOperator" id="retailPriceOperator" theme="simple" />
 					<input type="text" name="productPrice.retailPrice" id="productPrice.retailPrice" class="decimalInput"/>
 				</td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td>Maximum Selling Price <s:select list="operatorsMaxSellingPrice" emptyOption="true" listKey="operator" listValue="operator" name="maxSellingPriceOperator" id="maxSellingPriceOperator" theme="simple" />
 					<input type="text" name="productPrice.maxSellingPrice" id="productPrice.maxSellingPrice" class="decimalInput" />
 				</td>
@@ -320,7 +332,6 @@ $(document).ready(function(){
 			<tr>
 				<td>Page Size: <input type="text" name="pageSize" id="pageSize" class="decimalInput" size="5"/>
 				</td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				<td><button class="btn btn-primary" id="searchCriteriaForm">Search</button></td>
 				<td></td>
 				<td></td>

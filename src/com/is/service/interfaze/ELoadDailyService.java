@@ -36,5 +36,7 @@ public interface ELoadDailyService {
 	
 	String addEloadPrice(EloadPrices eloadPrice);
 	String updateEloadPrice(EloadPrices eloadPrice);
+	
+	EloadDailyBalance getEloadDailyBalance();
 
 }

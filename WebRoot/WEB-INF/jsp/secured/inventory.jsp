@@ -65,7 +65,7 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert('success');
+					alert("<s:text name='message' />");
 	           		location.reload();
 				} else {
 					alert(data.message);

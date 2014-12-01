@@ -57,12 +57,16 @@ public class RoleAction extends BaseAction{
 		role.setCreatedBy(SessionUtility.getUser().getUserName());
 		String result = roleService.addRole(role);
 		try {
-			if (result.equals(Constants.SUCCESS)) {
+			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -92,12 +96,16 @@ public class RoleAction extends BaseAction{
 		role.setCreatedBy(SessionUtility.getUser().getUserName());
 		String result = roleService.modifyRolePermission(role);
 		try {
-			if (result.equals(Constants.SUCCESS)) {
+			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

@@ -23,7 +23,7 @@ $(document).ready(function(){
 		
 		if (additional=='') {
 			document.getElementById('additional').focus();
-			alert('Additional Balance field must not be empty');
+			displayModalAlert('#modalMessage','Additional Balance field must not be empty');
 			return false;
 		}
 		var dataString = 'additionalBalance='+additional+'&balanceId='+eloadBalanceId+'&eloadType='+eloadTypeLabel;
@@ -34,14 +34,14 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				if (data.success) {
-					alert('success');
+					//alert('success');
 	           		location.reload();
 				} else {
-					alert(data.message);
+					displayModalAlert('#modalMessage',data.message);
 				}
 			},
 			error: function(errorThrown){
-				alert("ERROR 500: "+errorThrown);
+				displayModalAlert('#modalMessage',"ERROR 500: "+errorThrown);
 			}
 		});		
 	});
@@ -67,6 +67,11 @@ $(document).ready(function(){
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Update Additional Balance for <span class="eloadTypeLabel"></span></h4>
       </div>
+      			<div class="panel-body" align="center" style="padding: 0px !important;">
+					<div class="alert alert-danger alert-autocloseable-danger modalsOnly" style="display:none;">
+						<span id="modalMessage"></span>
+					</div>
+				</div>
       <div class="modal-body">
        		<table border=0 align="center">
        			<tr>

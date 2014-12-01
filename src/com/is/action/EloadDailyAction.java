@@ -145,12 +145,14 @@ public class EloadDailyAction extends BaseAction{
 		try {
 			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
 			} else if (result.equals(Constants.SUCCESS)) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -209,50 +211,69 @@ public class EloadDailyAction extends BaseAction{
 		List<EloadDailySales> temp2 = (List<EloadDailySales>) pageEloadSalesGlobe.getContents();
 		List<EloadDailySales> temp3 = (List<EloadDailySales>) pageEloadSalesSun.getContents();
 
+		int ctr = 0;
 		String[] tempQuantity = new String[temp.size()];
 		for (int i = 0; i < tempQuantity.length; i++) {
 			String q = quantityArray.get(i);
-			quantityArray.remove(i);
 			tempQuantity[i] = q;
+			ctr++;
 		}
 		
+		String resultAddSmartSales = Constants.SUCCESS;
 		for (int i = 0; i < temp.size(); i++) {
-			if (StringUtils.isNotBlank(tempQuantity[i])) {
-				EloadDailySales e = temp.get(i);
-				eloadDailyService.addEloadDailySales(Constants.ELOAD_SMART_PRODUCT_ID, e.getPriceId(), Integer.parseInt(tempQuantity[i]), SessionUtility.getUser().getUserName());
+			if (tempQuantity[i]!=null) {
+				if (!tempQuantity[i].equals("0")) {
+					EloadDailySales e = temp.get(i);
+					String tempResult = eloadDailyService.addEloadDailySales(Constants.ELOAD_SMART_PRODUCT_ID, e.getPriceId(), Integer.parseInt(tempQuantity[i]), SessionUtility.getUser().getUserName());
+					if (!tempResult.equals(Constants.SUCCESS)) {
+						resultAddSmartSales = tempResult;
+					}
+				}
 			}
 		}
 		
 		
 		String[] temp2Quantity = new String[temp2.size()];
 		for (int i = 0; i < temp2Quantity.length; i++) {
-			String q = quantityArray.get(0);
-			quantityArray.remove(0);
+			String q = quantityArray.get(ctr);
 			temp2Quantity[i] = q;
+			ctr++;
 		}
 		
+		String resultAddGlobeSales = Constants.SUCCESS;
 		for (int i = 0; i < temp2.size(); i++) {
-			if (StringUtils.isNotBlank(temp2Quantity[i])) {
-				EloadDailySales e = temp2.get(i);
-				eloadDailyService.addEloadDailySales(Constants.ELOAD_GLOBE_PRODUCT_ID, e.getPriceId(), Integer.parseInt(tempQuantity[i]), SessionUtility.getUser().getUserName());
+			if (temp2Quantity[i]!=null) {
+				if (!temp2Quantity[i].equals("0")) {
+					EloadDailySales e = temp2.get(i);
+					String tempResult = eloadDailyService.addEloadDailySales(Constants.ELOAD_GLOBE_PRODUCT_ID, e.getPriceId(), Integer.parseInt(temp2Quantity[i]), SessionUtility.getUser().getUserName());
+					if (!tempResult.equals(Constants.SUCCESS)) {
+						resultAddGlobeSales = tempResult;
+					}
+				}
 			}
 		}
-
 		
 		String[] temp3Quantity = new String[temp3.size()];
 		for (int i = 0; i < temp3Quantity.length; i++) {
-			String q = quantityArray.get(0);
-			quantityArray.remove(0);
+			String q = quantityArray.get(ctr);
 			temp3Quantity[i] = q;
+			ctr++;
 		}
 		
+		String resultAddSunSales = Constants.SUCCESS;
 		for (int i = 0; i < temp3.size(); i++) {
-			if (StringUtils.isNotBlank(temp3Quantity[i])) {
-				EloadDailySales e = temp3.get(i);eloadDailyService.addEloadDailySales(Constants.ELOAD_SUN_PRODUCT_ID, e.getPriceId(), Integer.parseInt(tempQuantity[i]), SessionUtility.getUser().getUserName());
+			if (temp3Quantity[i]!=null) {
+				if (!temp3Quantity[i].equals("0")) {
+					EloadDailySales e = temp3.get(i);
+					String tempResult = eloadDailyService.addEloadDailySales(Constants.ELOAD_SUN_PRODUCT_ID, e.getPriceId(), Integer.parseInt(temp3Quantity[i]), SessionUtility.getUser().getUserName());
+					if (!tempResult.equals(Constants.SUCCESS)) {
+						resultAddSunSales = tempResult;
+					}
+				}
 			}
 		}
 
-		//setMessage("Smart Sales: "+resultAddSmartSales+". \nGlobe Sales: "+resultAddGlobeSales+". \nSun Sales: "+resultAddSunSales);
+		setMessage("Smart Sales: "+resultAddSmartSales+". Globe Sales: "+resultAddGlobeSales+". Sun Sales: "+resultAddSunSales);
 		
 		return SUCCESS;
 	}
@@ -300,12 +321,14 @@ public class EloadDailyAction extends BaseAction{
 		try {
 			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
 			} else if (result.equals(Constants.SUCCESS)) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -328,12 +351,14 @@ public class EloadDailyAction extends BaseAction{
 		try {
 			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
 			} else if (result.equals(Constants.SUCCESS)) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

@@ -118,19 +118,19 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td align="right">Ending Balance for Globe E-LOAD: </td>
-						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceGlobe" id="endingBalanceGlobe" class="decimalInput" placeholder="Numbers/Decimal only"/>
+						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceGlobe" id="endingBalanceGlobe" class="decimalInput" value="${endingBalanceGlobe }" disabled="disabled"/>
 							&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span>
 						</td>
 					</tr>
 					<tr>
 						<td align="right">Ending Balance for Smart E-LOAD: </td>
-						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceSmart" id="endingBalanceSmart" class="decimalInput" placeholder="Numbers/Decimal only"/>
+						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceSmart" id="endingBalanceSmart" class="decimalInput" value="${endingBalanceSmart }" disabled="disabled"/>
 							&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span>
 						</td>
 					</tr>
 					<tr>
 						<td align="right">Ending Balance for Sun E-LOAD: </td>
-						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceSun" id="endingBalanceSun" class="decimalInput" placeholder="Numbers/Decimal only"/>
+						<td align="left">&nbsp;&nbsp;Php&nbsp;<input type="text" name="endingBalanceSun" id="endingBalanceSun" class="decimalInput" value="${endingBalanceSun }" disabled="disabled"/>
 							&nbsp;&nbsp;&nbsp;<span class="label label-danger" id="errorMsgUser">*</span>
 						</td>
 					</tr>
@@ -151,15 +151,15 @@ $(document).ready(function(){
 			</c:if>
 			<c:if test="${not empty checkOutDate}">
 				<br/>
-				<table border=0 style="width:400px">
+				<table border=0 style="width:600px">
 					<tr>
 						<td align="right"><b>Check-Out Time:</b></td>
-						<td><fmt:formatDate type="both" value="${checkOutDate}" /></td>
+						<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate type="both" value="${checkOutDate}" /></td>
 					</tr>
 					<tr>
 						<td align="right"><b>Journal Entry:</b></td>
-						<td>
-							<c:out value="journalEntry" />
+						<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;
+							<c:out value="${journalEntry }" />
 						</td>
 					</tr>
 				</table>

@@ -13,12 +13,21 @@ import com.is.model.Page;
 import com.is.model.Role;
 import com.is.model.User;
 import com.is.model.UserList;
+import com.is.service.interfaze.EmployeeService;
 import com.is.service.interfaze.UserService;
 import com.is.utilities.Constants;
 import com.is.utilities.LoggingUtility;
 import com.is.utilities.SessionUtility;
 
 public class UserServiceImpl extends BaseServiceImpl implements UserService{
+	
+	private static EmployeeService employeeService;
+	
+	static {
+		if (employeeService==null) {
+			employeeService = new EmployeeServiceImpl();
+		}
+	}
 	
 	private void setUserSession(User user){
 		StringBuilder hql = new StringBuilder("SELECT u.user_id,u.user_name,u.full_name,u.rank_id,u.status,r.rank,r.permission ")
@@ -44,6 +53,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		loginDetail.setRole(role);
 		
 		SessionUtility.setUserSession(loginDetail);
+		
+		employeeService.getCheckInDetail((int) object[0]);
+		
 	}
 
 	public String login(User user) {
@@ -53,7 +65,12 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
 		query.setParameter("password", user.getPassword());
 		LoggingUtility.log(getClass(), "Login Attempt: User["+user.getUserName()+"] Password["+user.getPassword()+"]");
 		
-		List<?> list = query.list();
+		List<?> list = null;
+		try {
+			list = query.list();
+		} catch (Exception e) {
+			return "Connection error. Please try again.";
+		}
 		String result = (String) list.get(0);
 		if (result.equals(Constants.SUCCESS)) {
 			setUserSession(user);

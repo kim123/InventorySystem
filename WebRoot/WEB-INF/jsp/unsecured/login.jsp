@@ -13,12 +13,12 @@
 				var username = document.getElementById('user.userName').value;
 				var password = document.getElementById('user.password').value;
 				if (username=='') {
-					document.getElementById('alertUsername').style.display="";
+					displayAlert('Enter username');
 					document.getElementById('user.userName').focus();
 					return false;
 				}
 				if (password=='') {
-					document.getElementById('alertPassword').style.display="";
+					displayAlert('Enter password');
 					document.getElementById('user.password').focus();
 					return false;
 				}
@@ -35,10 +35,20 @@
 			function promptMessage(){
 				document.getElementById('user.userName').focus();
 				<c:if test="${not empty message}" >
-					alert("<s:text name='%{getText(message)}' />");
+					displayAlert("<s:text name='%{getText(message)}' />");
+					//alert("<s:text name='%{getText(message)}' />");
 				</c:if>
 			}
 			
+			function displayAlert(message){
+				$('#systemMessage').html(message);
+				$('.alert-autocloseable-danger').show();
+				$('.alert-autocloseable-danger').delay(4000).fadeOut( "slow", function() {
+					// Animation complete.
+					//$('#autoclosable-btn-danger').prop("disabled", false);
+				});
+			}
+						
 			function onKeyEnter(e){
 				if (window.event) {
 					e = window.event;
@@ -61,7 +71,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					  </button>
-					<a class="navbar-brand" href="/home.htm"><s:text name="title" /></a>
+					<a class="navbar-brand" href="home.htm"><s:text name="title" /></a>
 				</div>
 			</div>
 		</div>
@@ -76,11 +86,8 @@
 						</div>
 						<div class="panel-body" align="center">
 						<s:form action="loginAction" method="post" id="loginForm" theme="simple">
-							<div id="alertUsername" class="alert alert-danger" style="display:none">
-								<h3>Enter your user name!</h3>
-							</div>
-							<div id="alertPassword" class="alert alert-danger" style="display:none">
-								<h3>Enter your password!</h3>
+							<div class="alert alert-danger alert-autocloseable-danger" style="display:none">
+								<span id="systemMessage"></span>
 							</div>
 						<table border="0">
 							<tr>

@@ -70,12 +70,16 @@ public class UserAction extends BaseAction{
 		user.setCreatedBy(SessionUtility.getUser().getUserName());
 		String result = userService.addUser(user);
 		try {
-			if (result.equals(Constants.SUCCESS)) {
+			if (result==null) {
 				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
 			} else {
 				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
 			}
-			json.put("message", result);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -85,19 +89,31 @@ public class UserAction extends BaseAction{
 	}
 	
 	public String modifyOwnPassword(){
-		if (StringUtils.isBlank(user.getPassword())) {
-			setMessage(Constants.CHANGE_PASSWORD_ENTER_NEW_PASSWORD);
-		} else if (StringUtils.isBlank(oldPassword)){
-			setMessage(Constants.CHANGE_PASSWORD_ENTER_OLD_PASSWORD);
-		}else {
-			setOldPassword(MD5Encode.encodeMD5(oldPassword));
-			user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
-			user.setCreatedBy(SessionUtility.getUser().getUserName());
-			String result = userService.modifyOwnPassword(user, oldPassword);
-			setMessage(result);
-		}
+		PrintWriter out = getPrintWriter();
+		JSONObject json = new JSONObject();
 		
-		return SUCCESS;
+		setOldPassword(MD5Encode.encodeMD5(oldPassword));
+		user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
+		user.setCreatedBy(SessionUtility.getUser().getUserName());
+		String result = userService.modifyOwnPassword(user, oldPassword);
+		
+		try {
+			if (result==null) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(Constants.SUCCESS));
+			} else if (result.equals(Constants.SUCCESS)) {
+				json.put(Constants.SUCCESS, true);
+				json.put("message", getText(result));
+			} else {
+				json.put(Constants.SUCCESS, false);
+				json.put("message", result);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		printJsonAndCloseWriter(out, json);
+		
+		return null;
 	}
 	
 	public String modifyPassword(){
@@ -115,12 +131,16 @@ public class UserAction extends BaseAction{
 			user.setCreatedBy(SessionUtility.getUser().getUserName());
 			String result = userService.modifyPassword(user);
 			try {
-				if (result.equals(Constants.SUCCESS)) {
+				if (result==null) {
 					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(Constants.SUCCESS));
+				} else if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(result));
 				} else {
 					json.put(Constants.SUCCESS, false);
+					json.put("message", result);
 				}
-				json.put("message", result);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -143,12 +163,16 @@ public class UserAction extends BaseAction{
 			user.setCreatedBy(SessionUtility.getUser().getUserName());
 			String result = userService.modifyRole(user);
 			try {
-				if (result.equals(Constants.SUCCESS)) {
+				if (result==null) {
 					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(Constants.SUCCESS));
+				} else if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(result));
 				} else {
 					json.put(Constants.SUCCESS, false);
+					json.put("message", result);
 				}
-				json.put("message", result);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -171,12 +195,16 @@ public class UserAction extends BaseAction{
 			user.setCreatedBy(SessionUtility.getUser().getUserName());
 			String result = userService.modifyStatus(user);
 			try {
-				if (result.equals(Constants.SUCCESS)) {
+				if (result==null) {
 					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(Constants.SUCCESS));
+				} else if (result.equals(Constants.SUCCESS)) {
+					json.put(Constants.SUCCESS, true);
+					json.put("message", getText(result));
 				} else {
 					json.put(Constants.SUCCESS, false);
+					json.put("message", result);
 				}
-				json.put("message", result);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

@@ -32,10 +32,10 @@ public class LoginAction extends BaseAction{
 	
 	public String execute(){
 		if (StringUtils.isEmpty(user.getUserName())) {
-			setMessage(Constants.LOGIN_FAILED_ENTER_USERNAME);
+			setMessage(getText(Constants.LOGIN_FAILED_ENTER_USERNAME));
 			return INPUT;
 		} else if (StringUtils.isEmpty(user.getPassword())) {
-			setMessage(Constants.LOGIN_FAILED_ENTER_PASSWORD);
+			setMessage(getText(Constants.LOGIN_FAILED_ENTER_PASSWORD));
 			return INPUT;
 		}
 		user.setPassword(MD5Encode.encodeMD5(user.getPassword()));
